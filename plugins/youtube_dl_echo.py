@@ -16,7 +16,7 @@ from pyrogram import Client
 from lazybot.forcesub import handle_force_subscribe
 from database.lazy_ffmpeg import humanbytes
 from lazybot.help_uploadbot import DownLoadFile
-from database.lazy_ffmpeg import progress_for_pyrogram, humanbytes, TimeFormatter
+from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
