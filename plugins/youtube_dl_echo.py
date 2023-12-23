@@ -14,7 +14,6 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from pyrogram import filters
 from pyrogram import Client
 from lazybot.forcesub import handle_force_subscribe
-from database.lazy_ffmpeg import humanbytes
 from lazybot.help_uploadbot import DownLoadFile
 from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
 from hachoir.metadata import extractMetadata
