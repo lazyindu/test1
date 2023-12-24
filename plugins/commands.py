@@ -55,6 +55,9 @@ async def start(client, message):
             InlineKeyboardButton('🙆🏻 Help 🦾', callback_data='help'),
             InlineKeyboardButton('♥️ About ♥️', callback_data='about')
             ],[
+            InlineKeyboardButton('URL Help ', callback_data='leech_url_help'),
+            InlineKeyboardButton('open settings ', callback_data='openSettings'),
+            ],[
             InlineKeyboardButton('Watch Tutorial', url='https://youtube.com/LazyDeveloper')
             ]]
         reply_markup = InlineKeyboardMarkup(buttons)
@@ -108,6 +111,10 @@ async def start(client, message):
             InlineKeyboardButton('🙆🏻 Help 🦾', callback_data='help'),
             InlineKeyboardButton('♥️ About ♥️', callback_data='about')
         ],[
+            InlineKeyboardButton('URL Help ', callback_data='leech_url_help'),
+            InlineKeyboardButton('open settings ', callback_data='openSettings'),
+            ],
+        [
             InlineKeyboardButton('Watch Tutorial', url='https://youtube.com/LazyDeveloper')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)

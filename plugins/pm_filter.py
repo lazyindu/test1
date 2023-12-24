@@ -685,6 +685,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('🙆🏻 Help 🦾', callback_data='help'),
             InlineKeyboardButton('♥️ About ♥️', callback_data='about')
         ],[
+            InlineKeyboardButton('URL Help ', callback_data='leech_url_help'),
+            InlineKeyboardButton('open settings ', callback_data='openSettings'),
+        ],[
             InlineKeyboardButton('Watch Tutorial', url='https://youtube.com/LazyDeveloper')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
@@ -773,7 +776,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('🏠 Home', callback_data='start'),
             InlineKeyboardButton('♥️ About ♥️', callback_data='about')
             ],[
-            InlineKeyboardButton('ABOUT DEV ', callback_data='close_data')
+            InlineKeyboardButton('open settings ', callback_data='openSettings'),
+            InlineKeyboardButton('ABOUT DEV ', callback_data='about')
             ],[
             InlineKeyboardButton('🔐 Close', callback_data='close_data')
             ]]
