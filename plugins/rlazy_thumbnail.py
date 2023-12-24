@@ -61,7 +61,7 @@ async def removethumb(client, message):
     await db.set_thumbnail(message.from_user.id, file_id=None)
     await message.reply_text("**Thumbnail deleted successfully**✅️")
 
-@Client.on_message(filters.private & filters.photo & filters.command(['set_thumb', 'st']))
+@Client.on_message(filters.private & filters.photo & filters.command(['set_thumb']))
 async def addthumbs(client, message):
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
@@ -72,7 +72,7 @@ async def addthumbs(client, message):
         return
     LazyDev = await message.reply_text("Please Wait ...")
     await db.set_thumbnail(message.from_user.id, file_id=message.photo.file_id)                
-    await LazyDev.edit("**Thumbnail saved successfully**✅️")
+    await LazyDev.edit("**Thumbnail saved successfully**✅️")    
 
 @Client.on_message(filters.private & filters.command(['view_lazy_thumb','vlt']))
 async def viewthumbnail(client, message):    
@@ -114,18 +114,29 @@ async def removethumbnail(client, message):
         ])
     )
 
-@Client.on_message(filters.private & filters.photo & filters.command(['set_lazy_thumb','slt']))
-async def addthumbnail(client, message):
+@Client.on_message(filters.private & filters.photo & filters.command(['set_lazy_thumb', 'slt']))
+async def add_thumbnail(client, message):
+    replied = message.reply_to_message
+    
     if not message.from_user:
-        return await message.reply_text("I don't know about you sar :(")
+        return await message.reply_text("I don't know about you, sorry. :(")
+    
     await add_user_to_database(client, message)
+    
     if UPDATES_CHANNEL:
-      fsub = await handle_force_subscribe(client, message)
-      if fsub == 400:
-        return
+        fsub = await handle_force_subscribe(client, message)
+        if fsub == 400:
+            return
+    
     editable = await message.reply_text("**👀 Processing...**")
-    await db.set_lazy_thumbnail(message.from_user.id, thumbnail=message.photo.file_id)
-    await editable.edit("**✅ ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ sᴀᴠᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!!**")
+    
+    # Check if there is a replied message and it is a photo
+    if replied and replied.photo:
+        # Save the photo file_id as a thumbnail for the user
+        await db.set_lazy_thumbnail(message.from_user.id, thumbnail=replied.photo.file_id)
+        await editable.edit("**✅ Custom thumbnail set successfully!**")
+    else:
+        await editable.edit("**❌ Please reply to a photo to set it as a custom thumbnail.**")
 
 
 async def Gthumb01(bot, update):
