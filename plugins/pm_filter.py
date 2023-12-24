@@ -770,7 +770,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             parse_mode=enums.ParseMode.HTML
         )
 
-    elif query.startswith("leech_url_help"):
+    elif query.data == "leech_url_help":
         buttons = InlineKeyboardMarkup(
             [[
             InlineKeyboardButton('🏠 Home', callback_data='start'),
@@ -789,15 +789,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
             disable_web_page_preview=True
         )
 
-    elif query.startwith("openSettings"):
+    elif query.data == "openSettings":
         await query.answer()
         await OpenSettings(query.message)
 
-# with Love @LazyDeveloperr 💘
-# Subscribe YT @LazyDeveloperr - to learn more about this for free...
-
-
-    elif query.startwith("triggerUploadMode"):
+    elif query.data == "triggerUploadMode":
         await query.answer("Thank You LazyDeveloper")
         upload_as_doc = await db.get_upload_as_doc(query.from_user.id)
         if upload_as_doc:
@@ -805,6 +801,35 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await db.set_upload_as_doc(query.from_user.id, True)
         await OpenSettings(query.message)
+    
+    elif query.data == "showThumbnail":
+        thumbnail = await db.get_lazy_thumbnail(query.from_user.id)
+        if not thumbnail:
+            await query.answer("You didn't set any custom thumbnail!", show_alert=True)
+        else:
+            await query.answer()
+            await client.send_photo(query.message.chat.id, thumbnail, "Custom Thumbnail",
+                               reply_markup = InlineKeyboardMarkup([[
+                                                        InlineKeyboardButton("Delete Thumbnail",
+                                                        callback_data="deleteurlthumbnail")
+                               ]]))
+
+    elif query.data == "deleteurlthumbnail":
+        await db.set_lazy_thumbnail(query.from_user.id, None)
+        await query.answer("Okay, I deleted your custom thumbnail. Now I will apply default thumbnail.", show_alert=True)
+        await query.message.delete(True)
+
+    elif query.data == "setThumbnail":
+        button = InlineKeyboardMarkup(
+            [[
+                InlineKeyboardButton('Close', callback_data='close')
+            ]]
+        )
+        await query.message.edit_text(
+            text=script.TEXT,
+            reply_markup=button,
+            disable_web_page_preview=True
+        )
 
 # with Love @LazyDeveloperr 💘
 # Subscribe YT @LazyDeveloperr - to learn more about this for free...
@@ -1097,42 +1122,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-    # elif query.data == "getlazythumbnail":
-    #     buttons = [
-    #         [
-    #         InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="thdonatelazydev"),
-    #         ],
-    #         [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="lazyhome") ]
-    #         ]
-    #     reply_markup = InlineKeyboardMarkup(buttons)
-    #     await query.message.edit_text(
-    #         text=script.LZTHMB_TEXT.format(query.from_user.mention),
-    #         reply_markup=reply_markup,
-    #         parse_mode=enums.ParseMode.HTML
-    #     )
-    # elif query.data == "thdonatelazydev":
-    #     buttons = [
-    #         [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="getlazythumbnail") ]
-    #         ]
-    #     reply_markup = InlineKeyboardMarkup(buttons)
-    #     await query.message.edit_text(
-    #         text=script.DNT_TEXT.format(query.from_user.mention),
-    #         reply_markup=reply_markup,
-    #         parse_mode=enums.ParseMode.HTML
-    #     )
-    # elif query.data == "getlazylink":
-    #     buttons = [
-    #         [
-    #         InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="linkdonatelazydev"),
-    #         ],
-    #         [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="lazyhome") ]
-    #         ]
-    #     reply_markup = InlineKeyboardMarkup(buttons)
-    #     await query.message.edit_text(
-    #         text=script.LZLINK_TEXT.format(query.from_user.mention),
-    #         reply_markup=reply_markup,
-    #         parse_mode=enums.ParseMode.HTML
-    #     )
+
     elif query.data == "donatelazydev":
         buttons = [
             [ InlineKeyboardButton("⨳   Close   ⨳", callback_data="close_data") ]
@@ -1162,63 +1152,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-    # elif query.data == "reqauthgetlazythumbnail":
-    #     buttons = [
-    #         [
-    #         InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="thdonatelazydev"),
-    #         ],
-    #         [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="reqauthlazyhome") ]
-    #         ]
-    #     reply_markup = InlineKeyboardMarkup(buttons)
-    #     await query.message.edit_text(
-    #         text=script.LZTHMB_TEXT.format(query.from_user.mention),
-    #         reply_markup=reply_markup,
-    #         parse_mode=enums.ParseMode.HTML
-    #     )
-    # elif query.data == "reqauthlazyhome":
-    #     text = f"""\n⨳ *•.¸♡ L҉ΛＺ𝐲 ＭⓄｄ𝓔 ♡¸.•* ⨳\n\n**Please tell, what should i do with this file.?**\n"""
-    #     buttons = [[ InlineKeyboardButton("📝✧✧ S𝚝ar𝚝 re𝚗aᗰi𝚗g ✧✧📝", callback_data="requireauth") ],
-    #                        [ InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="cancel") ]]
-    #     reply_markup = InlineKeyboardMarkup(buttons)
-    #     await query.message.edit_text(
-    #                 text=text,
-    #                 reply_markup=reply_markup,
-    #                 parse_mode=enums.ParseMode.HTML
-    #             )
-    # elif query.data == "reqauthgetlazylink":
-    #     buttons = [
-    #         [
-    #         InlineKeyboardButton("D͢o͢n͢a͢t͢e͢ L͢a͢z͢y͢D͢e͢v͢", callback_data="linkdonatelazydev"),
-    #         ],
-    #         [ InlineKeyboardButton("<- G̳O̳ ̳B̳A̳C̳K̳  ⨳", callback_data="reqauthlazyhome") ]
-    #         ]
-    #     reply_markup = InlineKeyboardMarkup(buttons)
-    #     await query.message.edit_text(
-    #         text=script.LZLINK_TEXT.format(query.from_user.mention),
-    #         reply_markup=reply_markup,
-    #         parse_mode=enums.ParseMode.HTML
-    #     )
     elif query.data == "exit":
         await query.answer("Sorry Darling! You can't make any changes...\n\nOnly my Admin can change this setting...", show_alert = True)
         return
     elif query.data == "invalid_index_process":
         await query.answer("Hey sweetie, please send me the last media with quote from your group.\nAnd also make sure that i am admin in your beloved group...")
         return
-    # elif query.data == "already_uploaded":
-    #     if query.from_user.id not in ADMINS:
-    #         await query.answer("Sorry Darling! You can't make any changes...\n\nOnly my Admin can change this setting...", show_alert = True)
-    #         return
-    #     else:
-    #         message = message.text
-    #         chat_id = message.chat_id
-    #         extracted_line = re.search(pattern, message, re.MULTILINE)
-    #         if extracted_line:
-    #           # Send the extracted line to the other group chat
-    #             buttons = [
-    #             [ InlineKeyboardButton("⨳ ok ⨳", callback_data="cancel") ]
-    #             ]
-    #             reply_markup = InlineKeyboardMarkup(buttons)
-    #             await client.send_message(MOVIE_GROUP_ID, text=extracted_line.group(1))
+
     elif query.data == "cancel":
         try:
             await query.message.delete()
@@ -1341,36 +1281,7 @@ async def lazyurl_cb(bot , update):
         await youtube_dl_call_back(bot, update)
     elif "=" in update.data:
         await ddl_call_back(bot, update)
-    elif update.data == "showThumbnail":
-        thumbnail = await db.get_lazy_thumbnail(update.from_user.id)
-        if not thumbnail:
-            await update.answer("You didn't set any custom thumbnail!", show_alert=True)
-        else:
-            await update.answer()
-            await bot.send_photo(update.message.chat.id, thumbnail, "Custom Thumbnail",
-                               reply_markup = InlineKeyboardMarkup([[
-                                                        InlineKeyboardButton("Delete Thumbnail",
-                                                        callback_data="deleteurlthumbnail")
-                               ]]))
 
-    elif update.data == "deleteurlthumbnail":
-        await db.set_lazy_thumbnail(update.from_user.id, None)
-        await update.answer("Okay, I deleted your custom thumbnail. Now I will apply default thumbnail.", show_alert=True)
-        await update.message.delete(True)
-
-    elif update.data == "setThumbnail":
-        button = InlineKeyboardMarkup(
-            [[
-                InlineKeyboardButton('Close', callback_data='close')
-            ]]
-        )
-        await update.message.edit_text(
-            text=script.TEXT,
-            reply_markup=button,
-            disable_web_page_preview=True
-        )
-
-    await update.answer('♥️ Thank You LazyDeveloper ♥️')
 
 
 async def auto_filter(client, msg, spoll=False):
