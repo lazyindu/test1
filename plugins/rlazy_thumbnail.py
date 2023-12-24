@@ -32,28 +32,28 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, 
 from lazybot.forcesub import handle_force_subscribe
 from database.add import add_user_to_database
 
-@Client.on_message(filters.private & filters.command(['viewthumb']))
-async def viewthumb(client, message):    
-    thumb = await db.get_thumbnail(message.from_user.id)
-    if thumb:
-       await client.send_photo(
-	   chat_id=message.chat.id, 
-	   photo=thumb)
-    else:
-        await message.reply_text("😔**Sorry ! No thumbnail found...**😔") 
+# @Client.on_message(filters.private & filters.command(['viewthumb']))
+# async def viewthumb(client, message):    
+#     thumb = await db.get_thumbnail(message.from_user.id)
+#     if thumb:
+#        await client.send_photo(
+# 	   chat_id=message.chat.id, 
+# 	   photo=thumb)
+#     else:
+#         await message.reply_text("😔**Sorry ! No thumbnail found...**😔") 
 
 
-@Client.on_message(filters.private & filters.command(['delthumb']))
-async def removethumb(client, message):
-    await db.set_thumbnail(message.from_user.id, file_id=None)
-    await message.reply_text("**Thumbnail deleted successfully**✅️")
+# @Client.on_message(filters.private & filters.command(['delthumb']))
+# async def removethumb(client, message):
+#     await db.set_thumbnail(message.from_user.id, file_id=None)
+#     await message.reply_text("**Thumbnail deleted successfully**✅️")
 
 
-@Client.on_message(filters.private & filters.photo)
-async def addthumbs(client, message):
-    LazyDev = await message.reply_text("Please Wait ...")
-    await db.set_thumbnail(message.from_user.id, file_id=message.photo.file_id)                
-    await LazyDev.edit("**Thumbnail saved successfully**✅️")
+# @Client.on_message(filters.private & filters.photo)
+# async def addthumbs(client, message):
+#     LazyDev = await message.reply_text("Please Wait ...")
+#     await db.set_thumbnail(message.from_user.id, file_id=message.photo.file_id)                
+#     await LazyDev.edit("**Thumbnail saved successfully**✅️")
 
 # @Client.on_message(filters.private & filters.command(['urlthumb']))
 # async def viewlazythumb(client, message):    
@@ -77,18 +77,6 @@ async def addthumbs(client, message):
 #     await LazyDev.edit("**Thumbnail saved successfully**✅️")
 
 
-@Client.on_message(filters.private & filters.photo )
-async def photo_handler(bot: Client, event: Message):
-    if not event.from_user:
-        return await event.reply_text("I don't know about you sar :(")
-    await add_user_to_database(bot, event)
-    if UPDATES_CHANNEL:
-      fsub = await handle_force_subscribe(bot, event)
-      if fsub == 400:
-        return
-    editable = await event.reply_text("**👀 Processing...**")
-    await db.set_thumbnail(event.from_user.id, thumbnail=event.photo.file_id)
-    await editable.edit("**✅ ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ sᴀᴠᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!!**")
 
 @Client.on_message(filters.private & filters.command(["delurlthumb", "deleteurlthumbnail"]))
 async def delete_thumb_handler(bot: Client, event: Message):
@@ -129,6 +117,19 @@ async def viewthumbnail(bot, update):
         reply_to_message_id=update.message_id)
     else:
         await update.reply_text(text=f"ɴᴏ ᴛʜᴜᴍʙɴᴀɪʟ ғᴏᴜɴᴅ 🤒")
+
+@Client.on_message(filters.private & filters.photo )
+async def photo_handler(bot: Client, event: Message):
+    if not event.from_user:
+        return await event.reply_text("I don't know about you sar :(")
+    await add_user_to_database(bot, event)
+    if UPDATES_CHANNEL:
+      fsub = await handle_force_subscribe(bot, event)
+      if fsub == 400:
+        return
+    editable = await event.reply_text("**👀 Processing...**")
+    await db.set_thumbnail(event.from_user.id, thumbnail=event.photo.file_id)
+    await editable.edit("**✅ ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ sᴀᴠᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!!**")
 
 async def Gthumb01(bot, update):
     thumb_image_path = DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".jpg"
