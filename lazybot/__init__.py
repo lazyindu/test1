@@ -28,7 +28,6 @@ from pyrogram import types
 from aiohttp import web
 
 from pyrogram import Client
-from info import *
 
 class LazyPrincessXBot(Client):
     def __init__(self):

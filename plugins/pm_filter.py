@@ -27,6 +27,7 @@ from database.lazy_utils import progress_for_pyrogram, convert, humanbytes
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 import os 
+from Script import script
 import humanize
 from PIL import Image
 import time
@@ -1336,6 +1337,35 @@ async def lazyurl_cb(bot , update):
         await youtube_dl_call_back(bot, update)
     elif "=" in update.data:
         await ddl_call_back(bot, update)
+    elif update.data == "showThumbnail":
+        thumbnail = await db.get_lazy_thumbnail(update.from_user.id)
+        if not thumbnail:
+            await update.answer("You didn't set any custom thumbnail!", show_alert=True)
+        else:
+            await update.answer()
+            await bot.send_photo(update.message.chat.id, thumbnail, "Custom Thumbnail",
+                               reply_markup = InlineKeyboardMarkup([[
+                                                        InlineKeyboardButton("Delete Thumbnail",
+                                                        callback_data="deleteurlthumbnail")
+                               ]]))
+
+    elif update.data == "deleteurlthumbnail":
+        await db.set_lazy_thumbnail(update.from_user.id, None)
+        await update.answer("Okay, I deleted your custom thumbnail. Now I will apply default thumbnail.", show_alert=True)
+        await update.message.delete(True)
+
+    elif update.data == "setThumbnail":
+        button = InlineKeyboardMarkup(
+            [[
+                InlineKeyboardButton('Close', callback_data='close')
+            ]]
+        )
+        await update.message.edit_text(
+            text=script.TEXT,
+            reply_markup=button,
+            disable_web_page_preview=True
+        )
+
     await update.answer('♥️ Thank You LazyDeveloper ♥️')
 
 

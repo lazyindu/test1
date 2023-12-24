@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.DEBUG,
 logger = logging.getLogger(__name__)
 import requests, urllib.parse, filetype, os, time, shutil, tldextract, asyncio, json, math
 from PIL import Image
-from plugins.config import Config
+from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL
 import time
 from Script import script
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
@@ -26,9 +26,9 @@ from pyrogram.types import Thumbnail
 
 @Client.on_message(filters.private & filters.regex(pattern=".*http.*"))
 async def echo(bot, update):
-    if Config.LOG_CHANNEL:
+    if LOG_CHANNEL:
         try:
-            log_message = await update.forward(Config.LOG_CHANNEL)
+            log_message = await update.forward(LOG_CHANNEL)
             log_info = "Message Sender Information\n"
             log_info += "\nFirst Name: " + update.from_user.first_name
             log_info += "\nUser ID: " + str(update.from_user.id)
@@ -48,7 +48,7 @@ async def echo(bot, update):
        chat_id=update.chat.id,
        action="typing"
     )
-    if Config.UPDATES_CHANNEL:
+    if UPDATES_CHANNEL:
       fsub = await handle_force_subscribe(bot, update)
       if fsub == 400:
         return
@@ -99,14 +99,14 @@ async def echo(bot, update):
                 o = entity.offset
                 l = entity.length
                 url = url[o:o + l]
-    if Config.HTTP_PROXY != "":
+    if HTTP_PROXY != "":
         command_to_exec = [
             "yt-dlp",
             "--no-warnings",
             "--youtube-skip-dash-manifest",
             "-j",
             url,
-            "--proxy", Config.HTTP_PROXY
+            "--proxy", HTTP_PROXY
         ]
     else:
         command_to_exec = [
@@ -161,7 +161,7 @@ async def echo(bot, update):
             x_reponse, _ = x_reponse.split("\n")
         response_json = json.loads(x_reponse)
         randem = random_char(5)
-        save_ytdl_json_path = Config.DOWNLOAD_LOCATION + \
+        save_ytdl_json_path = DOWNLOAD_LOCATION + \
             "/" + str(update.from_user.id) + f'{randem}' + ".json"
         with open(save_ytdl_json_path, "w", encoding="utf8") as outfile:
             json.dump(response_json, outfile, ensure_ascii=False)

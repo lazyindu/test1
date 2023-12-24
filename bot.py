@@ -35,7 +35,6 @@ from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 from aiohttp import web
 from plugins import web_server
-from plugins.config import Config
 
 import asyncio
 from pyrogram import idle
@@ -94,8 +93,8 @@ loop = asyncio.get_event_loop()
 async def Lazy_start():
     print('\n')
     print(' Initalizing Telegram Bot ')
-    if not os.path.isdir(Config.DOWNLOAD_LOCATION):
-        os.makedirs(Config.DOWNLOAD_LOCATION)
+    if not os.path.isdir(DOWNLOAD_LOCATION):
+        os.makedirs(DOWNLOAD_LOCATION)
     bot_info = await LazyPrincessBot.get_me()
     LazyPrincessBot.username = bot_info.username
     await initialize_clients()

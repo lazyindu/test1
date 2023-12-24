@@ -2,9 +2,9 @@
 # Subscribe YT @LazyDeveloperr - to learn more about this for free...
 
 import asyncio
+from info import LOGGER
 from pyrogram import types, errors
-from plugins.config import Config
-from database.ia_filterdb import db
+from database.users_chats_db import db
 
 async def OpenSettings(m: "types.Message"):
     usr_id = m.chat.id
@@ -13,7 +13,7 @@ async def OpenSettings(m: "types.Message"):
         await m.edit("Failed to fetch your data from database!")
         return
     upload_as_doc = user_data.get("upload_as_doc", False)
-    caption = user_data.get("caption", None)
+    caption = user_data.get("lazy_caption", None)
     apply_caption = user_data.get("apply_caption", True)
     thumbnail = user_data.get("thumbnail", None)
     buttons_markup = [
@@ -40,7 +40,7 @@ async def OpenSettings(m: "types.Message"):
         await asyncio.sleep(e.x)
         await show_settings(m)
     except Exception as err:
-        Config.LOGGER.getLogger(__name__).error(err)
+        LOGGER.getLogger(__name__).error(err)
 
 # with Love @LazyDeveloperr 💘
 # Subscribe YT @LazyDeveloperr - to learn more about this for free...

@@ -12,14 +12,13 @@ import os
 import shutil
 import time
 from datetime import datetime
-
-from plugins.config import Config
+from info import *
 from Script import script
 from plugins.rlazy_thumbnail import *
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from pyrogram.types import InputMediaPhoto
 from database.lazy_utils import progress_for_pyrogram, humanbytes
-from database.ia_filterdb import db
+from database.users_chats_db import db
 from lazybot.ran_text import random_char
 
 async def youtube_dl_call_back(bot, update):
@@ -29,7 +28,7 @@ async def youtube_dl_call_back(bot, update):
     print(cb_data)
     random1 = random_char(5)
     
-    save_ytdl_json_path = Config.DOWNLOAD_LOCATION + \
+    save_ytdl_json_path = DOWNLOAD_LOCATION + \
         "/" + str(update.from_user.id) + f'{ranom}' + ".json"
     try:
         with open(save_ytdl_json_path, "r", encoding="utf8") as f:
@@ -92,7 +91,7 @@ async def youtube_dl_call_back(bot, update):
     if "fulltitle" in response_json:
         description = response_json["fulltitle"][0:1021]
         # escape Markdown and special characters
-    tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + f'{random1}'
+    tmp_directory_for_each_user = DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + f'{random1}'
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
     download_directory = tmp_directory_for_each_user + "/" + custom_file_name
@@ -101,7 +100,7 @@ async def youtube_dl_call_back(bot, update):
         command_to_exec = [
             "yt-dlp",
             "-c",
-            "--max-filesize", str(Config.TG_MAX_FILE_SIZE),
+            "--max-filesize", str(TG_MAX_FILE_SIZE),
             "--prefer-ffmpeg",
             "--extract-audio",
             "--audio-format", youtube_dl_ext,
@@ -117,15 +116,15 @@ async def youtube_dl_call_back(bot, update):
         command_to_exec = [
             "yt-dlp",
             "-c",
-            "--max-filesize", str(Config.TG_MAX_FILE_SIZE),
+            "--max-filesize", str(TG_MAX_FILE_SIZE),
             "--embed-subs",
             "-f", minus_f_format,
             "--hls-prefer-ffmpeg", youtube_dl_url,
             "-o", download_directory
         ]
-    if Config.HTTP_PROXY != "":
+    if HTTP_PROXY != "":
         command_to_exec.append("--proxy")
-        command_to_exec.append(Config.HTTP_PROXY)
+        command_to_exec.append(HTTP_PROXY)
     if youtube_dl_username is not None:
         command_to_exec.append("--username")
         command_to_exec.append(youtube_dl_username)
@@ -167,14 +166,14 @@ async def youtube_dl_call_back(bot, update):
         
         end_one = datetime.now()
         time_taken_for_download = (end_one -start).seconds
-        file_size = Config.TG_MAX_FILE_SIZE + 1
+        file_size = TG_MAX_FILE_SIZE + 1
         try:
             file_size = os.stat(download_directory).st_size
         except FileNotFoundError as exc:
             download_directory = os.path.splitext(download_directory)[0] + "." + "mkv"
             # https://stackoverflow.com/a/678242/4723940
             file_size = os.stat(download_directory).st_size
-        if file_size > Config.TG_MAX_FILE_SIZE:
+        if file_size > TG_MAX_FILE_SIZE:
             await bot.edit_message_text(
                 chat_id=update.message.chat.id,
                 text=script.RCHD_TG_API_LIMIT.format(time_taken_for_download, humanbytes(file_size)),
@@ -186,7 +185,7 @@ async def youtube_dl_call_back(bot, update):
                 download_directory,
                 tmp_directory_for_each_user,
                 is_w_f,
-                Config.DEF_WATER_MARK_FILE,
+                DEF_WATER_MARK_FILE,
                 300,
                 9
             )

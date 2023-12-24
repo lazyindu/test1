@@ -1,6 +1,13 @@
 import re
 from os import getenv, environ
+import logging
 
+logging.basicConfig(
+    format='%(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler('log.txt'),
+              logging.StreamHandler()],
+    level=logging.INFO
+)
 id_pattern = re.compile(r'^.\d+$')
 def is_enabled(value, default):
     if value.lower() in ["true", "yes", "1", "enable", "y"]:
@@ -114,9 +121,28 @@ if HAS_SSL:
     URL = "https://{}/".format(FQDN)
 else:
     URL = "http://{}/".format(FQDN)
-UPDATES_CHANNEL = str(getenv('UPDATES_CHANNEL', None))
 BANNED_CHANNELS = list(set(int(x) for x in str(getenv("BANNED_CHANNELS", "-1001987654567")).split())) 
 OWNER_USERNAME = "LazyDeveloper"
+
+
+# URL UPLOADING
+BANNED_USERS = set(int(x) for x in environ.get("BANNED_USERS", "").split())
+DOWNLOAD_LOCATION = "./DOWNLOADS"
+MAX_FILE_SIZE = 4194304000
+TG_MAX_FILE_SIZE = 4194304000
+FREE_USER_MAX_FILE_SIZE = 4194304000
+CHUNK_SIZE = int(environ.get("CHUNK_SIZE", 128))
+DEF_THUMB_NAIL_VID_S = environ.get("DEF_THUMB_NAIL_VID_S", "https://telegra.ph/file/0021415ce9c8d492ccd15.jpg")
+HTTP_PROXY = environ.get("HTTP_PROXY", "")
+OUO_IO_API_KEY = ""
+MAX_MESSAGE_LENGTH = 4096
+PROCESS_MAX_TIMEOUT = 0
+DEF_WATER_MARK_FILE = ""
+LOG_CHANNEL = int(environ.get("LOG_CHANNEL", -100))
+LOGGER = logging
+OWNER_ID = int(environ.get("OWNER_ID", ""))
+UPDATES_CHANNEL = environ.get("UPDATES_CHANNEL", "")
+BOT_USERNAME = environ.get("BOT_USERNAME", "")
 
 # Auto Delete For Group Message (Self Delete) #
 SELF_DELETE_SECONDS = int(environ.get('SELF_DELETE_SECONDS', 300))
