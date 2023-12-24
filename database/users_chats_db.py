@@ -142,7 +142,6 @@ class Database:
     async def get_all_chats(self):
         return self.grp.find({})
 
-
     async def get_db_size(self):
         return (await self.db.command("dbstats"))['dataSize']
     
@@ -155,7 +154,7 @@ class Database:
 
     async def set_apply_caption(self, id, apply_caption):
         await self.col.update_one({'id': id}, {'$set': {'apply_caption': apply_caption}})
-  
+
     async def get_apply_caption(self, id):
         user = await self.col.find_one({'id': int(id)})
         return user.get('apply_caption', True)
@@ -173,9 +172,6 @@ class Database:
     async def get_lazy_thumbnail(self, id):
         user = await self.col.find_one({'id': int(id)})
         return user.get('thumbnail', None)
-
-    async def set_lazy_caption(self, id, caption):
-        await self.col.update_one({'id': id}, {'$set': {'lazy_caption': caption}})
 
     async def get_lazy_caption(self, id):
         user = await self.col.find_one({'id': int(id)})

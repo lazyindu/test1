@@ -822,6 +822,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "setThumbnail":
         button = InlineKeyboardMarkup(
             [[
+                InlineKeyboardButton('Back', callback_data='openSettings'),
                 InlineKeyboardButton('Close', callback_data='close')
             ]]
         )
