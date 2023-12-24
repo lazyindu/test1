@@ -77,7 +77,7 @@ async def addthumbs(client, message):
 #     await LazyDev.edit("**Thumbnail saved successfully**✅️")
 
 
-@Client.on_message(filters.private & filters.photo & ~filters.edited)
+@Client.on_message(filters.private & filters.photo )
 async def photo_handler(bot: Client, event: Message):
     if not event.from_user:
         return await event.reply_text("I don't know about you sar :(")
@@ -90,7 +90,7 @@ async def photo_handler(bot: Client, event: Message):
     await db.set_thumbnail(event.from_user.id, thumbnail=event.photo.file_id)
     await editable.edit("**✅ ᴄᴜsᴛᴏᴍ ᴛʜᴜᴍʙɴᴀɪʟ sᴀᴠᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!!**")
 
-@Client.on_message(filters.private & filters.command(["delurlthumb", "deleteurlthumbnail"]) & ~filters.edited)
+@Client.on_message(filters.private & filters.command(["delurlthumb", "deleteurlthumbnail"]))
 async def delete_thumb_handler(bot: Client, event: Message):
     if not event.from_user:
         return await event.reply_text("I don't know about you sar :(")
