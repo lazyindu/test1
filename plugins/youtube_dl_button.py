@@ -11,6 +11,7 @@ import json
 import os
 import shutil
 import time
+from pyrogram import enums
 from datetime import datetime
 from info import *
 from Script import script
@@ -239,7 +240,7 @@ async def youtube_dl_call_back(bot, update):
                     chat_id=update.message.chat.id,
                     audio=download_directory,
                     caption=description,
-                    parse_mode="HTML",
+                    parse_mode=enums.ParseMode.HTML,
                     duration=duration,
                     thumb=thumbnail,
                     reply_to_message_id=update.message.reply_to_message.message_id,

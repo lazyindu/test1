@@ -18,6 +18,7 @@ from lazybot.help_uploadbot import DownLoadFile
 from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
+from pyrogram import enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import UserNotParticipant
 from lazybot.ran_text import random_char
@@ -150,7 +151,7 @@ async def echo(bot, update):
             chat_id=update.chat.id,
             text=script.NO_VOID_FORMAT_FOUND.format(str(error_message)),
             reply_to_message_id=update.message_id,
-            parse_mode="html",
+            parse_mode=enums.ParseMode.HTML,
             disable_web_page_preview=True
         )
         return False
@@ -258,7 +259,7 @@ async def echo(bot, update):
             chat_id=update.chat.id,
             text=script.FORMAT_SELECTION.format(Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
             reply_markup=reply_markup,
-            parse_mode="html",
+            parse_mode=enums.ParseMode.HTML,
             reply_to_message_id=update.message_id
         )
     else:
@@ -280,6 +281,6 @@ async def echo(bot, update):
             chat_id=update.chat.id,
             text=script.FORMAT_SELECTION,
             reply_markup=reply_markup,
-            parse_mode="html",
+            parse_mode=enums.ParseMode.HTML,
             reply_to_message_id=update.message_id
         )

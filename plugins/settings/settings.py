@@ -5,6 +5,7 @@ import asyncio
 from info import LOGGER
 from pyrogram import types, errors
 from database.users_chats_db import db
+from pyrogram import enums
 
 async def OpenSettings(m: "types.Message"):
     usr_id = m.chat.id
@@ -33,7 +34,7 @@ async def OpenSettings(m: "types.Message"):
             text="**ʜᴇʀᴇ ʏᴏᴜ ᴄᴀɴ sᴇᴛᴜᴘ ʏᴏᴜʀ sᴇᴛᴛɪɴɢs**",
             reply_markup=types.InlineKeyboardMarkup(buttons_markup),
             disable_web_page_preview=True,
-            parse_mode="Markdown"
+            parse_mode=enums.ParseMode.MARKDOWN
         )
     except errors.MessageNotModified: pass
     except errors.FloodWait as e:
