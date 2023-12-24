@@ -61,7 +61,7 @@ async def removethumb(client, message):
     await db.set_thumbnail(message.from_user.id, file_id=None)
     await message.reply_text("**Thumbnail deleted successfully**✅️")
 
-@Client.on_message(filters.private & filters.photo & filters.command(['set_thumb']))
+@Client.on_message(filters.private & filters.command(['set_thumb','st']))
 async def addthumbs(client, message):
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
@@ -114,7 +114,7 @@ async def removethumbnail(client, message):
         ])
     )
 
-@Client.on_message(filters.private & filters.photo & filters.command(['set_lazy_thumb', 'slt']))
+@Client.on_message(filters.private & filters.command(['set_lazy_thumb', 'slt']))
 async def add_thumbnail(client, message):
     replied = message.reply_to_message
     
