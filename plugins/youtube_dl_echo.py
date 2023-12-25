@@ -1,29 +1,38 @@
 # with Love @LazyDeveloperr 💘
 # Subscribe YT @LazyDeveloperr - to learn more about this for free...
 
+import math
+import json
+import asyncio
+import tldextract
+import shutil
+import os
+import filetype
+import urllib.parse
+import requests
+from pyrogram.types import Thumbnail
+from database.add import add_user_to_database
+from lazybot.ran_text import random_char
+from pyrogram.errors import UserNotParticipant
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram import enums
+from hachoir.parser import createParser
+from hachoir.metadata import extractMetadata
+from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
+from lazybot.help_uploadbot import DownLoadFile
+from lazybot.forcesub import handle_force_subscribe
+from pyrogram import Client
+from pyrogram import filters
+from Script import script
+import time
+from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL
+from PIL import Image
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-import requests, urllib.parse, filetype, os, time, shutil, tldextract, asyncio, json, math
-from PIL import Image
-from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL
-import time
-from Script import script
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
-from pyrogram import filters
-from pyrogram import Client
-from lazybot.forcesub import handle_force_subscribe
-from lazybot.help_uploadbot import DownLoadFile
-from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
-from pyrogram import enums
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors import UserNotParticipant
-from lazybot.ran_text import random_char
-from database.add import add_user_to_database
-from pyrogram.types import Thumbnail
+
 
 @Client.on_message(filters.private & filters.regex(pattern=".*http.*") & filters.incoming)
 async def echo(client, message):
@@ -62,13 +71,9 @@ async def echo(client, message):
         youtube_dl_password = None
         file_name = None
         print("url: => {url}")
-    except Exception as e :
+    except Exception as e:
         print("ERROR: => {e}")
         logging.exception(f"An error occurred: {e}")
-
-    
-    # with Love @LazyDeveloperr 💘
-    # Subscribe YT @LazyDeveloperr - to learn more about this for free...
 
     print(url)
     if "|" in url:
@@ -133,11 +138,11 @@ async def echo(client, message):
         command_to_exec.append(youtube_dl_password)
     logger.info(command_to_exec)
     chk = await client.send_message(
-            chat_id=message.chat.id,
-            text=f'<b>Processing... ⏳</b>',
-            disable_web_page_preview=True,
-            reply_to_message_id=message.message_id
-          )
+        chat_id=message.chat.id,
+        text=f'<b>Processing... ⏳</b>',
+        disable_web_page_preview=True,
+        reply_to_message_id=message.message_id
+    )
     process = await asyncio.create_subprocess_exec(
         *command_to_exec,
         # stdout must a pipe to be accessible as process.stdout
@@ -150,7 +155,8 @@ async def echo(client, message):
     t_response = stdout.decode().strip()
     if e_response and "nonnumeric port" not in e_response:
         # logger.warn("Status : FAIL", exc.returncode, exc.output)
-        error_message = e_response.replace("please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
+        error_message = e_response.replace(
+            "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
         if "This video is only available for registered users." in error_message:
             error_message += script.SET_CUSTOM_USERNAME_PASSWORD
         await chk.delete()
@@ -221,9 +227,12 @@ async def echo(client, message):
                     ]
                 inline_keyboard.append(ikeyboard)
             if duration is not None:
-                cb_string_64 = "{}|{}|{}|{}".format("audio", "64k", "mp3", randem)
-                cb_string_128 = "{}|{}|{}|{}".format("audio", "128k", "mp3", randem)
-                cb_string = "{}|{}|{}|{}".format("audio", "320k", "mp3", randem)
+                cb_string_64 = "{}|{}|{}|{}".format(
+                    "audio", "64k", "mp3", randem)
+                cb_string_128 = "{}|{}|{}|{}".format(
+                    "audio", "128k", "mp3", randem)
+                cb_string = "{}|{}|{}|{}".format(
+                    "audio", "320k", "mp3", randem)
                 inline_keyboard.append([
                     InlineKeyboardButton(
                         "🎵 ᴍᴘ𝟹 " + "(" + "64 ᴋʙᴘs" + ")", callback_data=cb_string_64.encode("UTF-8")),
@@ -234,10 +243,10 @@ async def echo(client, message):
                     InlineKeyboardButton(
                         "🎵 ᴍᴘ𝟹 " + "(" + "320 ᴋʙᴘs" + ")", callback_data=cb_string.encode("UTF-8"))
                 ])
-                inline_keyboard.append([                 
+                inline_keyboard.append([
                     InlineKeyboardButton(
-                        "🔒 Close", callback_data='close')               
-                ])
+                        "🔒 Close", callback_data='close' 
+                )])
         else:
             format_id = response_json["format_id"]
             format_ext = response_json["ext"]
@@ -265,7 +274,8 @@ async def echo(client, message):
         await chk.delete()
         await client.send_message(
             chat_id=message.chat.id,
-            text=script.FORMAT_SELECTION.format(Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
+            text=script.FORMAT_SELECTION.format(
+                Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML,
             reply_to_message_id=message.message_id
