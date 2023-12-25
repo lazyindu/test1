@@ -4,9 +4,7 @@
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-from lazybot import LazyPrincessBot
-logger = logging.getLogger(LazyPrincessBot)
-
+logger = logging.getLogger(__name__)
 import requests, urllib.parse, filetype, os, time, shutil, tldextract, asyncio, json, math
 from PIL import Image
 from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL
@@ -55,11 +53,18 @@ async def echo(client, message):
       fsub = await handle_force_subscribe(client, message)
       if fsub == 400:
         return
-    logger.info(message.from_user)
-    url = message.text
-    youtube_dl_username = None
-    youtube_dl_password = None
-    file_name = None
+    # logger.info(message.from_user)
+
+    try:
+        url = message.text
+        youtube_dl_username = None
+        youtube_dl_password = None
+        file_name = None
+        print("url: => {url}")
+    except Exception as e :
+        print("ERROR: => {e}")
+        logging.exception(f"An error occurred: {e}")
+
     
     # with Love @LazyDeveloperr 💘
     # Subscribe YT @LazyDeveloperr - to learn more about this for free...
