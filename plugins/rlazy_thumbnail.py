@@ -79,13 +79,11 @@ async def addthumbs(client, message):
         # Check if there is a replied message and it is a photo
     if replied and replied.photo:
         # Save the photo file_id as a thumbnail for the user
-        await db.set_thumbnail(message.from_user.id, thumbnail=replied.photo.file_id)
+        await db.set_thumbnail(message.from_user.id, file_id=replied.photo.file_id)
         await LazyDev.edit("**✅ Custom thumbnail set successfully!**")
     else:
         await LazyDev.edit("**❌ Please reply to a photo to set it as a custom thumbnail.**")
 
-    await db.set_thumbnail(message.from_user.id, file_id=message.photo.file_id)                
-    await LazyDev.edit("**Thumbnail saved successfully**✅️")    
 
 @Client.on_message(filters.private & filters.command(['view_lazy_thumb','vlt']))
 async def viewthumbnail(client, message):    
