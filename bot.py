@@ -39,7 +39,6 @@ from lazybot import LazyPrincessBot
 from util.keepalive import ping_server
 from lazybot.clients import initialize_clients
 
-logger = logging.getLogger(LazyPrincessBot)
 
 PORT = "8080"
 LazyPrincessBot.start()
