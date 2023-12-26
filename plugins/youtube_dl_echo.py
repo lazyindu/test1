@@ -1,3 +1,4 @@
+import os
 import asyncio
 import json
 import logging
@@ -5,6 +6,12 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram import enums
 from info import *
+from Script import script
+from PIL import Image
+
+from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
+from lazybot.help_uploadbot import DownLoadFile
+
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -108,20 +115,154 @@ async def download_video(client, message):
                     if format_string is None:
                         format_string = formats.get("format")
                     format_ext = formats.get("ext")
+                    approx_file_size = ""
+                    if "filesize" in formats:
+                        approx_file_size = humanbytes(formats["filesize"])
+                    cb_string_video = "{}|{}|{}".format(
+                        "video", format_id, format_ext)
+                    cb_string_file = "{}|{}|{}".format(
+                        "file", format_id, format_ext)
                     cb_string_video = f"video|{format_id}|{format_ext}"
-                    ikeyboard = [
-                        InlineKeyboardButton(
-                            f"🎬 {format_string} {format_ext}",
-                            callback_data=cb_string_video.encode("UTF-8")
-                        )
-                    ]
+                    if format_string is not None and not "audio only" in format_string:
+                        ikeyboard = [
+                            InlineKeyboardButton(
+                                "S " + format_string + " video " + approx_file_size + " ",
+                                callback_data=(cb_string_video).encode("UTF-8")
+                            ),
+                            InlineKeyboardButton(
+                                "D " + format_ext + " " + approx_file_size + " ",
+                                callback_data=(cb_string_file).encode("UTF-8")
+                            )
+                        ]
+                        """if duration is not None:
+                            cb_string_video_message = "{}|{}|{}".format(
+                                "vm", format_id, format_ext)
+                            ikeyboard.append(
+                                InlineKeyboardButton(
+                                    "VM",
+                                    callback_data=(
+                                        cb_string_video_message).encode("UTF-8")
+                                )
+                            )"""
+                    else:
+                        # special weird case :\
+                        ikeyboard = [
+                            InlineKeyboardButton(
+                                "SVideo [" +
+                                "] ( " +
+                                approx_file_size + " )",
+                                callback_data=(cb_string_video).encode("UTF-8")
+                            ),
+                            InlineKeyboardButton(
+                                "DFile [" +
+                                "] ( " +
+                                approx_file_size + " )",
+                                callback_data=(cb_string_file).encode("UTF-8")
+                            )
+                        ]
                     inline_keyboard.append(ikeyboard)
+                if duration is not None:
+                    cb_string_64 = "{}|{}|{}".format("audio", "64k", "mp3")
+                    cb_string_128 = "{}|{}|{}".format("audio", "128k", "mp3")
+                    cb_string = "{}|{}|{}".format("audio", "320k", "mp3")
+                    inline_keyboard.append([
+                        InlineKeyboardButton(
+                            "MP3 " + "(" + "64 kbps" + ")", callback_data=cb_string_64.encode("UTF-8")),
+                        InlineKeyboardButton(
+                            "MP3 " + "(" + "128 kbps" + ")", callback_data=cb_string_128.encode("UTF-8"))
+                    ])
+                    inline_keyboard.append([
+                        InlineKeyboardButton(
+                            "MP3 " + "(" + "320 kbps" + ")", callback_data=cb_string.encode("UTF-8"))
+                    ])
+            else:
+                format_id = response_json["format_id"]
+                format_ext = response_json["ext"]
+                cb_string_file = "{}|{}|{}".format(
+                    "file", format_id, format_ext)
+                cb_string_video = "{}|{}|{}".format(
+                    "video", format_id, format_ext)
+                inline_keyboard.append([
+                    InlineKeyboardButton(
+                        "📹SVideo",
+                        callback_data=(cb_string_video).encode("UTF-8")
+                    ),
+                    InlineKeyboardButton(
+                        "📁DFile",
+                        callback_data=(cb_string_file).encode("UTF-8")
+                    )
+                ])
+                cb_string_file = "{}={}={}".format(
+                    "file", format_id, format_ext)
+                cb_string_video = "{}={}={}".format(
+                    "video", format_id, format_ext)
+                inline_keyboard.append([
+                    InlineKeyboardButton(
+                        "📹video",
+                        callback_data=(cb_string_video).encode("UTF-8")
+                    ),
+                    InlineKeyboardButton(
+                        "📁file",
+                        callback_data=(cb_string_file).encode("UTF-8")
+                    )
+                ])   
 
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
-            await message.reply_text(
-                text="Choose a format:",
+            # logger.info(reply_markup)
+            thumbnail = DEF_THUMB_NAIL_VID_S
+            thumbnail_image = DEF_THUMB_NAIL_VID_S
+            if "thumbnail" in response_json:
+                if response_json["thumbnail"] is not None:
+                    thumbnail = response_json["thumbnail"]
+                    thumbnail_image = response_json["thumbnail"]
+            thumb_image_path = DownLoadFile(
+                thumbnail_image,
+                DOWNLOAD_LOCATION + "/" +
+                str(message.from_user.id) + ".webp",
+                CHUNK_SIZE,
+                None,  # bot,
+                script.DOWNLOAD_START,
+                message.message_id,
+                message.chat.id
+            )
+            if os.path.exists(thumb_image_path):
+                im = Image.open(thumb_image_path).convert("RGB")
+                im.save(thumb_image_path.replace(".webp", ".jpg"), "jpeg")
+            else:
+                thumb_image_path = None
+            await client.send_message(
+                chat_id=message.chat.id,
+                text=script.FORMAT_SELECTION.format(thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
                 reply_markup=reply_markup,
-                parse_mode=enums.ParseMode.HTML
+                parse_mode=enums.ParseMode.HTML,
+                reply_to_message_id=message.message_id,
+                disable_web_page_preview=True
+            )
+        else:
+            # fallback for nonnumeric port a.k.a seedbox.io
+            inline_keyboard = []
+            cb_string_file = "{}={}={}".format(
+                "file", "LFO", "NONE")
+            cb_string_video = "{}={}={}".format(
+                "video", "OFL", "ENON")
+            inline_keyboard.append([
+                InlineKeyboardButton(
+                    "SVideo",
+                    callback_data=(cb_string_video).encode("UTF-8")
+                ),
+                InlineKeyboardButton(
+                    "DFile",
+                    callback_data=(cb_string_file).encode("UTF-8")
+                )
+            ])
+            reply_markup = InlineKeyboardMarkup(inline_keyboard)
+            await client.send_message(
+                chat_id=message.chat.id,
+                text=script.FORMAT_SELECTION.format(""),
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML,
+                reply_to_message_id=message.message_id,
+                disable_web_page_preview=True
             )
 
     except Exception as e:
