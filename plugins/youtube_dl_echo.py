@@ -53,11 +53,11 @@ async def echo(client, message):
             print(error)
     if not message.from_user:
         return await message.reply_text("I don't know about you sar :(")
-    await add_user_to_database(client, message)
-    await client.send_chat_action(
-       chat_id=message.chat.id,
-       action="typing"
-    )
+    # await add_user_to_database(client, message)
+    # await client.send_chat_action(
+    #    chat_id=message.chat.id,
+    #    action="typing"
+    # )
     # if UPDATES_CHANNEL:
     #   fsub = await handle_force_subscribe(client, message)
     #   if fsub == 400:
