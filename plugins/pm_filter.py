@@ -459,6 +459,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     pass
             else:
                 await query.answer("That's not for you sona!", show_alert=True)
+    
+    elif "|" in query.data:
+        await youtube_dl_call_back(client, query)
+    elif "=" in query.data:
+        await ddl_call_back(client, query)
+
     elif "groupcb" in query.data:
         await query.answer()
 
@@ -1275,14 +1281,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup = InlineKeyboardMarkup(buttons)
             await query.message.edit_reply_markup(reply_markup)
     await query.answer('♥️ Thank You LazyDeveloper ♥️')
-
-@Client.on_callback_query()
-async def lazyurl_cb(bot , update):
-    if "|" in update.data:
-        await youtube_dl_call_back(bot, update)
-    elif "=" in update.data:
-        await ddl_call_back(bot, update)
-
 
 
 async def auto_filter(client, msg, spoll=False):
