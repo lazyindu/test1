@@ -110,7 +110,7 @@ async def echo(client, message):
         command_to_exec = [
             "yt-dlp",
             "--no-warnings",
-            "--skip-download",
+            # "--skip-download",
             "--youtube-skip-dash-manifest",
             "-j",
             url,
