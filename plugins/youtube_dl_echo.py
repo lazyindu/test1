@@ -1,64 +1,24 @@
-# with Love @LazyDeveloperr 💘
-# Subscribe YT @LazyDeveloperr - to learn more about this for free...
-
-import math
-import json
-import asyncio
-import tldextract
-import shutil
 import os
-import filetype
-import urllib.parse
-import requests
-from pyrogram.types import Thumbnail
-from database.add import add_user_to_database
-from lazybot.ran_text import random_char
-from pyrogram.errors import UserNotParticipant
+import asyncio
+import json
+import logging
+from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram import enums
-from hachoir.parser import createParser
-from hachoir.metadata import extractMetadata
+from info import *
+from Script import script
+from PIL import Image
+
 from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
 from lazybot.help_uploadbot import DownLoadFile
-from lazybot.forcesub import handle_force_subscribe
-from pyrogram import Client
-from pyrogram import filters
-from Script import script
-import time
-from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL, BANNED_USERS, DEF_THUMB_NAIL_VID_S, CHUNK_SIZE
-from PIL import Image
-import logging
+
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-
-@Client.on_message(filters.private & filters.regex(pattern=".*http.*"))
-async def echo(bot, update):
-    if update.from_user.id in BANNED_USERS:
-        await update.reply_text("You are B A N N E D 🤣🤣🤣🤣")
-        return
-    update_channel = UPDATES_CHANNEL
-    # if update_channel:
-    #     try:
-    #         user = await bot.get_chat_member(update_channel, update.chat.id)
-    #         if user.status == "kicked":
-    #            await update.reply_text("🤭 Sorry Dude, You are **B A N N E D 🤣🤣🤣**")
-    #            return
-    #     except UserNotParticipant:
-    #         #await update.reply_text(f"Join @{update_channel} To Use Me")
-    #         await update.reply_text(
-    #             text="**Join My Updates Channel to use ME 😎 🤭**",
-    #             reply_markup=InlineKeyboardMarkup([
-    #                 [ InlineKeyboardButton(text="Join My Updates Channel", url=f"https://t.me/LazyDeveloeprr")]
-    #           ])
-    #         )
-    #         return
-    #     except Exception:
-    #         await update.reply_text("**Join My Updates Channel To Use Me**")
-    #         return
-    logger.info(update.from_user)
+@Client.on_message(filters.private & filters.regex(pattern=".*http.*") & filters.incoming)
+async def download_video(bot, update):
     url = update.text
     youtube_dl_username = None
     youtube_dl_password = None
@@ -100,62 +60,42 @@ async def echo(bot, update):
                 o = entity.offset
                 l = entity.length
                 url = url[o:o + l]
-    if HTTP_PROXY != "":
-        command_to_exec = [
-            "youtube-dl",
-            "--no-warnings",
-            "--youtube-skip-dash-manifest",
-            "-j",
-            url,
-            "--proxy", HTTP_PROXY
-        ]
-    else:
-        command_to_exec = [
-            "yt-dlp",
-            "--no-warnings",
-            "--skip-download",  # Add this line to skip downloading the video
-            "--youtube-skip-dash-manifest",
-            "-j",
-            url
-        ]
+    command_to_exec = [
+        "yt-dlp",
+        "--no-warnings",
+        "--skip-download",
+        "--youtube-skip-dash-manifest",
+        "-j",
+        url
+    ]
 
     try:
-        if youtube_dl_username is not None:
-            command_to_exec.append("--username")
-            command_to_exec.append(youtube_dl_username)
-        if youtube_dl_password is not None:
-            command_to_exec.append("--password")
-            command_to_exec.append(youtube_dl_password)
-        # logger.info(command_to_exec)
         process = await asyncio.create_subprocess_exec(
             *command_to_exec,
-            # stdout must a pipe to be accessible as process.stdout
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
-        # Wait for the subprocess to finish
         stdout, stderr = await process.communicate()
         e_response = stderr.decode().strip()
-        # logger.info(e_response)
         t_response = stdout.decode().strip()
-        # logger.info(t_response)
-        # https://github.com/rg3/youtube-dl/issues/2630#issuecomment-38635239
-        if e_response and "nonnumeric port" not in e_response:
-            # logger.warn("Status : FAIL", exc.returncode, exc.output)
-            error_message = e_response.replace("please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
-            if "This video is only available for registered users." in error_message:
-                error_message += script.SET_CUSTOM_USERNAME_PASSWORD
-            await bot.send_message(
-                chat_id=update.chat.id,
-                text=script.NO_VOID_FORMAT_FOUND.format(str(error_message)),
-                reply_to_message_id=update.message_id,
-                parse_mode="html",
+
+        if e_response:
+            error_message = e_response.replace(
+                "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
+            await update.reply_text(
+                text=f"Error: {error_message}",
+                parse_mode=enums.ParseMode.HTML,
                 disable_web_page_preview=True
             )
-            return False
+            return
+
         if t_response:
+            response_json = json.loads(t_response)
+            inline_keyboard = []
             # logger.info(t_response)
             x_reponse = t_response
+            dlocation = DOWNLOAD_LOCATION
+            print(f"{dlocation}")
             if "\n" in x_reponse:
                 x_reponse, _ = x_reponse.split("\n")
             response_json = json.loads(x_reponse)
@@ -182,6 +122,7 @@ async def echo(bot, update):
                         "video", format_id, format_ext)
                     cb_string_file = "{}|{}|{}".format(
                         "file", format_id, format_ext)
+                    cb_string_video = f"video|{format_id}|{format_ext}"
                     if format_string is not None and not "audio only" in format_string:
                         ikeyboard = [
                             InlineKeyboardButton(
@@ -264,7 +205,8 @@ async def echo(bot, update):
                         "📁file",
                         callback_data=(cb_string_file).encode("UTF-8")
                     )
-                ])
+                ])   
+
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
             # logger.info(reply_markup)
             thumbnail = DEF_THUMB_NAIL_VID_S
@@ -292,12 +234,11 @@ async def echo(bot, update):
                 chat_id=update.chat.id,
                 text=script.FORMAT_SELECTION.format(thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
                 reply_markup=reply_markup,
-                parse_mode="html",
-                reply_to_message_id=update.message_id
+                parse_mode=enums.ParseMode.HTML,
+                disable_web_page_preview=True
             )
         else:
-            #
-            #  fallback for nonnumeric port a.k.a seedbox.io
+            # fallback for nonnumeric port a.k.a seedbox.io
             inline_keyboard = []
             cb_string_file = "{}={}={}".format(
                 "file", "LFO", "NONE")
@@ -318,10 +259,9 @@ async def echo(bot, update):
                 chat_id=update.chat.id,
                 text=script.FORMAT_SELECTION.format(""),
                 reply_markup=reply_markup,
-                parse_mode="html",
-                reply_to_message_id=update.message_id
+                parse_mode=enums.ParseMode.HTML,
+                disable_web_page_preview=True
             )
-    
+
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-
