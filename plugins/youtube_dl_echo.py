@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 @Client.on_message(filters.private & filters.regex(pattern=".*http.*") & filters.incoming)
-async def download_video(client, message):
-    url = message.text
+async def download_video(bot, update):
+    url = update.text
     youtube_dl_username = None
     youtube_dl_password = None
     file_name = None
@@ -34,7 +34,7 @@ async def download_video(client, message):
             youtube_dl_username = url_parts[2]
             youtube_dl_password = url_parts[3]
         else:
-            for entity in message.entities:
+            for entity in update.entities:
                 if entity.type == "text_link":
                     url = entity.url
                 elif entity.type == "url":
@@ -53,7 +53,7 @@ async def download_video(client, message):
         logger.info(url)
         logger.info(file_name)
     else:
-        for entity in message.entities:
+        for entity in update.entities:
             if entity.type == "text_link":
                 url = entity.url
             elif entity.type == "url":
@@ -82,7 +82,7 @@ async def download_video(client, message):
         if e_response:
             error_message = e_response.replace(
                 "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
-            await message.reply_text(
+            await update.reply_text(
                 text=f"Error: {error_message}",
                 parse_mode=enums.ParseMode.HTML,
                 disable_web_page_preview=True
@@ -100,7 +100,7 @@ async def download_video(client, message):
                 x_reponse, _ = x_reponse.split("\n")
             response_json = json.loads(x_reponse)
             save_ytdl_json_path = DOWNLOAD_LOCATION + \
-                "/" + str(message.from_user.id) + ".json"
+                "/" + str(update.from_user.id) + ".json"
             with open(save_ytdl_json_path, "w", encoding="utf8") as outfile:
                 json.dump(response_json, outfile, ensure_ascii=False)
             # logger.info(response_json)
@@ -218,24 +218,24 @@ async def download_video(client, message):
             thumb_image_path = DownLoadFile(
                 thumbnail_image,
                 DOWNLOAD_LOCATION + "/" +
-                str(message.from_user.id) + ".webp",
+                str(update.from_user.id) + ".webp",
                 CHUNK_SIZE,
                 None,  # bot,
                 script.DOWNLOAD_START,
-                message.message_id,
-                message.chat.id
+                update.message_id,
+                update.chat.id
             )
             if os.path.exists(thumb_image_path):
                 im = Image.open(thumb_image_path).convert("RGB")
                 im.save(thumb_image_path.replace(".webp", ".jpg"), "jpeg")
             else:
                 thumb_image_path = None
-            await client.send_message(
-                chat_id=message.chat.id,
+            await bot.send_message(
+                chat_id=update.chat.id,
                 text=script.FORMAT_SELECTION.format(thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML,
-                reply_to_message_id=message.message_id,
+                reply_to_message_id=update.message_id,
                 disable_web_page_preview=True
             )
         else:
@@ -256,12 +256,12 @@ async def download_video(client, message):
                 )
             ])
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
-            await client.send_message(
-                chat_id=message.chat.id,
+            await bot.send_message(
+                chat_id=update.chat.id,
                 text=script.FORMAT_SELECTION.format(""),
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML,
-                reply_to_message_id=message.message_id,
+                reply_to_message_id=update.message_id,
                 disable_web_page_preview=True
             )
 
