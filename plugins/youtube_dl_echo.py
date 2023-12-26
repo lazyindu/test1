@@ -134,7 +134,7 @@ async def echo(client, message):
             command_to_exec.append(youtube_dl_password)
         logger.info(command_to_exec)
         chk = await client.send_message(
-                chat_id=error_message.chat.id,
+                chat_id=message.chat.id,
                 text=f'<b>Processing... ⏳</b>',
                 disable_web_page_preview=True,
                 reply_to_message_id=message.id
