@@ -82,7 +82,7 @@ async def download_video(bot, update):
         if e_response:
             error_message = e_response.replace(
                 "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
-            await update.message.reply_text(
+            await update.reply_text(
                 text=f"Error: {error_message}",
                 parse_mode=enums.ParseMode.HTML,
                 disable_web_page_preview=True
@@ -222,7 +222,7 @@ async def download_video(bot, update):
                 CHUNK_SIZE,
                 None,  # bot,
                 script.DOWNLOAD_START,
-                update.message.message_id,
+                update.message.id,
                 update.chat.id
             )
             if os.path.exists(thumb_image_path):
