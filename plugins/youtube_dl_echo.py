@@ -294,7 +294,7 @@ async def echo(client, message):
                 chat_id=message.chat.id,
                 text=script.FORMAT_SELECTION.format(thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
                 reply_markup=reply_markup,
-                parse_mode="html",
+                parse_mode=enums.ParseMode.HTML,
                 reply_to_message_id=message.id
             )
         else:
