@@ -89,6 +89,18 @@ async def youtube_dl_call_back(client, query):
     await query.edit_message_text(
         text=script.DOWNLOAD_START,
     )
+
+    file = query.message.reply_to_message
+    ms = await query.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
+    c_time = time.time()
+    try:
+        path = await client.download_media(
+                message=file,
+                progress=progress_for_pyrogram,
+                progress_args=("**\n  ღ♡ ꜰɪʟᴇ ᴜɴᴅᴇʀ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ... ♡♪**", ms, c_time))
+    except Exception as e:
+        await ms.edit(e)
+        return 
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
         description = response_json["fulltitle"][0:1021]
