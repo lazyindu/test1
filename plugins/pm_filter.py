@@ -45,7 +45,7 @@ from urllib.parse import quote_plus
 from util.file_properties import get_name, get_hash, get_media_file_size
 import logging
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 req_channel = REQ_CHANNEL
 BUTTONS = {}
@@ -461,9 +461,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 await query.answer("That's not for you sona!", show_alert=True)
     
     elif "|" in query.data:
-        await youtube_dl_call_back(client, query)
+        try:
+            await youtube_dl_call_back(client, query)
+        except Exception as e:
+            logger.error(f"An error occurred youtube_dl_call_back: {e}")
+
     elif "=" in query.data:
-        await ddl_call_back(client, query)
+        try:
+            await ddl_call_back(client, query)
+        except Exception as e:
+            logger.error(f"AN error occurred for ddl_call_back: {e}")
 
     elif "groupcb" in query.data:
         await query.answer()
