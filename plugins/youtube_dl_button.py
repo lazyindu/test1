@@ -175,7 +175,6 @@ async def youtube_dl_call_back(client, query):
             file_size = os.stat(download_directory).st_size
         if file_size > TG_MAX_FILE_SIZE:
             await query.edit_message_text(
-                chat_id=query.message.chat.id,
                 text=script.RCHD_TG_API_LIMIT.format(time_taken_for_download, humanbytes(file_size)),
                 message_id=message_idx
             )
@@ -192,7 +191,6 @@ async def youtube_dl_call_back(client, query):
             logger.info(images)'''
             await query.edit_message_text(
                 text=script.UPLOAD_START,
-                chat_id=query.message.chat.id,
                 message_id=message_idx
             )
 
