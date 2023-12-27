@@ -25,8 +25,8 @@ from lazybot.ran_text import random_char
 async def youtube_dl_call_back(bot, update):
     cb_data = update.data
     # youtube_dl extractors
-    message = update.message.reply_to_message  # msg will be callback query
-    message_idx = message.id
+    lzmsg = update.message.reply_to_message  # msg will be callback query
+    message_idx = lzmsg.id #getting id
     print(f"{message_idx}")
     tg_send_type, youtube_dl_format, youtube_dl_ext, ranom = cb_data.split("|")
     print(cb_data)
@@ -40,7 +40,7 @@ async def youtube_dl_call_back(bot, update):
     except (FileNotFoundError) as e:
         await bot.delete_messages(
             chat_id=update.message.chat.id,
-            message_ids=update.message.message_id,
+            message_ids=message_idx,
             revoke=True
         )
         return False
@@ -89,7 +89,7 @@ async def youtube_dl_call_back(bot, update):
     await bot.edit_message_text(
         text=script.DOWNLOAD_START,
         chat_id=update.message.chat.id,
-        message_id=update.message.message_id
+        message_id=message_idx
     )
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
@@ -156,7 +156,7 @@ async def youtube_dl_call_back(bot, update):
         error_message = e_response.replace(ad_string_to_replace, "")
         await bot.edit_message_text(
             chat_id=update.message.chat.id,
-            message_id=update.message.message_id,
+            message_id=message_idx,
             text=error_message
         )
         return False
@@ -181,7 +181,7 @@ async def youtube_dl_call_back(bot, update):
             await bot.edit_message_text(
                 chat_id=update.message.chat.id,
                 text=script.RCHD_TG_API_LIMIT.format(time_taken_for_download, humanbytes(file_size)),
-                message_id=update.message.message_id
+                message_id=message_idx
             )
         else:
             is_w_f = False
@@ -197,7 +197,7 @@ async def youtube_dl_call_back(bot, update):
             await bot.edit_message_text(
                 text=script.UPLOAD_START,
                 chat_id=update.message.chat.id,
-                message_id=update.message.message_id
+                message_id=message_idx
             )
 
             start_time = time.time()
@@ -208,7 +208,7 @@ async def youtube_dl_call_back(bot, update):
                     document=download_directory,
                     thumb=thumbnail,
                     caption=description,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=lzmsg.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         script.UPLOAD_START,
@@ -228,7 +228,7 @@ async def youtube_dl_call_back(bot, update):
                     height=height,
                     supports_streaming=True,
                     thumb=thumb_image_path,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=lzmsg.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         script.UPLOAD_START,
@@ -246,7 +246,7 @@ async def youtube_dl_call_back(bot, update):
                     parse_mode=enums.ParseMode.HTML,
                     duration=duration,
                     thumb=thumbnail,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=lzmsg.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         script.UPLOAD_START,
@@ -263,7 +263,7 @@ async def youtube_dl_call_back(bot, update):
                     duration=duration,
                     length=width,
                     thumb=thumbnail,
-                    reply_to_message_id=update.message.reply_to_message.message_id,
+                    reply_to_message_id=lzmsg.id,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         script.UPLOAD_START,
@@ -283,6 +283,6 @@ async def youtube_dl_call_back(bot, update):
             await bot.edit_message_text(
                 text=script.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload),
                 chat_id=update.message.chat.id,
-                message_id=update.message.message_id,
+                message_id=message_idx,
                 disable_web_page_preview=True
             )
