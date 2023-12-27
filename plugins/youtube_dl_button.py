@@ -90,16 +90,17 @@ async def youtube_dl_call_back(client, query):
     await query.edit_message_text(
         text=script.DOWNLOAD_START,
     )
-    xxx = requests.head(youtube_dl_url)
-    content_length = int(xxx.headers.get("Content-Length", 0))
-    print(f"Total size of the file: {content_length} bytes")
+    
+    xLAZY_BAAPUx = requests.head(youtube_dl_url)
+    xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
+    print(f"Total size of the file: {xLAZY_BAAPUx_length} bytes")
 
     ms = await query.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
     c_time = time.time()
     try:
         for i in range(1, 101):  # Simulating progress from 1% to 100%
             await asyncio.sleep(0.1)  # Simulating some processing time
-            await progress_for_pyrogram(i, 100, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**".format(i), ms, c_time)
+            await progress_for_pyrogram(i, humanbytes(xLAZY_BAAPUx_length), "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**".format(i), ms, c_time)
     
     except Exception as e:
         await ms.edit(e)
@@ -244,6 +245,7 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
+                
             if tg_send_type == "audio":
                 duration = await Mdata03(download_directory)
                 thumbnail = await Gthumb01(client, query)
