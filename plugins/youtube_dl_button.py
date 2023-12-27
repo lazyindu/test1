@@ -11,6 +11,7 @@ import json
 import os
 import shutil
 import time
+import requests
 from pyrogram import enums
 from datetime import datetime
 from info import *
@@ -89,19 +90,21 @@ async def youtube_dl_call_back(client, query):
     await query.edit_message_text(
         text=script.DOWNLOAD_START,
     )
+    xxx = requests.head(youtube_dl_url)
+    content_length = int(xxx.headers.get("Content-Length", 0))
+    print(f"Total size of the file: {content_length} bytes")
 
     ms = await query.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
     c_time = time.time()
     try:
         for i in range(1, 101):  # Simulating progress from 1% to 100%
-            await asyncio.sleep(0.5)  # Simulating some processing time
+            await asyncio.sleep(0.1)  # Simulating some processing time
             await progress_for_pyrogram(i, 100, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**".format(i), ms, c_time)
     
     except Exception as e:
         await ms.edit(e)
         return 
-
-
+    
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
         description = response_json["fulltitle"][0:1021]
