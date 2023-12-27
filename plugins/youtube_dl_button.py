@@ -88,7 +88,6 @@ async def youtube_dl_call_back(client, query):
                 youtube_dl_url = youtube_dl_url[o:o + l]
     await query.edit_message_text(
         text=script.DOWNLOAD_START,
-        chat_id=query.message.chat.id,
     )
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
@@ -154,7 +153,6 @@ async def youtube_dl_call_back(client, query):
     if e_response and ad_string_to_replace in e_response:
         error_message = e_response.replace(ad_string_to_replace, "")
         await query.edit_message_text(
-            chat_id=query.message.chat.id,
             text=error_message
         )
         return False
@@ -280,7 +278,6 @@ async def youtube_dl_call_back(client, query):
                 pass
             await query.edit_message_text(
                 text=script.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload),
-                chat_id=update.message.chat.id,
-                message_id=update.message.message_id,
+                message_id=query.message.message_id,
                 disable_web_page_preview=True
             )
