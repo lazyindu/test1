@@ -25,6 +25,8 @@ from lazybot.ran_text import random_char
 async def youtube_dl_call_back(bot, update):
     cb_data = update.data
     # youtube_dl extractors
+    message = update.message.reply_to_message  # msg will be callback query
+    print(f"{message}")
     tg_send_type, youtube_dl_format, youtube_dl_ext, ranom = cb_data.split("|")
     print(cb_data)
     random1 = random_char(5)
