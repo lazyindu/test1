@@ -176,7 +176,6 @@ async def youtube_dl_call_back(client, query):
         if file_size > TG_MAX_FILE_SIZE:
             await query.edit_message_text(
                 text=script.RCHD_TG_API_LIMIT.format(time_taken_for_download, humanbytes(file_size)),
-                message_id=message_idx
             )
         else:
             is_w_f = False
@@ -191,7 +190,6 @@ async def youtube_dl_call_back(client, query):
             logger.info(images)'''
             await query.edit_message_text(
                 text=script.UPLOAD_START,
-                message_id=message_idx
             )
 
             start_time = time.time()
@@ -276,6 +274,5 @@ async def youtube_dl_call_back(client, query):
                 pass
             await query.edit_message_text(
                 text=script.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload),
-                message_id=query.message.message_id,
                 disable_web_page_preview=True
             )
