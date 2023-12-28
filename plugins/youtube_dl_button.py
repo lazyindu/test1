@@ -123,10 +123,11 @@ async def youtube_dl_call_back(client, query):
         return
 
 
-    description = script.CUSTOM_CAPTION_UL_FILE
+    descriptions = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
-        description = response_json["fulltitle"][0:1021]
+        descriptions = response_json["fulltitle"][0:1021]
         # escape Markdown and special characters
+    description = descriptions.split(":-")[1]
     tmp_directory_for_each_user = DOWNLOAD_LOCATION + "/" + str(query.from_user.id) + f'{random1}'
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
