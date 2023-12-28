@@ -99,11 +99,17 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
         xthumbx = await db.get_lazy_thumbnail(query.from_user.id)
-        xLAZY_BAAPUx_init = await client.send_photo(
-                photo=xthumbx,
-                chat_id = query.message.chat.id,
-                caption=f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
-            )
+        if xthumbx is not None:
+            xLAZY_BAAPUx_init = await client.send_photo(
+                    photo=xthumbx,
+                    chat_id = query.message.chat.id,
+                    caption=f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
+                )
+        else:
+            xLAZY_BAAPUx_init = await client.send_message(
+                    query.message.chat.id,
+                    f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
+                )
     except Exception as e:
         await print(e)
 
@@ -118,7 +124,7 @@ async def youtube_dl_call_back(client, query):
             # await asyncio.sleep(0.1)   Simulating some processing time
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            temp_download_progress = await progress_for_pyrogram(current_progress, f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_u_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xxLAZY_BAAPUxx , xLAZY_BAAPUx_init, c_time)
+            temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx , f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_u_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
