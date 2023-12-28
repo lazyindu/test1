@@ -89,8 +89,9 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-
-    xLAZY_BAAPUx_old_name = os.path.basename(xLAZY_BAAPUx_p)
+    
+    xLAZY_BAAPUx_name_path = urlparse(youtube_dl_url).path
+    xLAZY_BAAPUx_old_name = os.path.basename(xLAZY_BAAPUx_name_path)
     xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.replace("_"," ")[1]
     # print(f"file name: {xLAZY_BAAPUx_finalName} bytes")
 
