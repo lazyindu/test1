@@ -92,7 +92,7 @@ async def youtube_dl_call_back(client, query):
     
     xLAZY_BAAPUx_name_path = urlparse(youtube_dl_url).path
     xLAZY_BAAPUx_old_name = os.path.basename(xLAZY_BAAPUx_name_path)
-    xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.replace("_"," ")[1]
+    xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_old_name.replace("_"," ")[1]
     # print(f"file name: {xLAZY_BAAPUx_finalName} bytes")
 
     os.rename(xLAZY_BAAPUx_old_name, xLAZY_BAAPUx_finalName)
