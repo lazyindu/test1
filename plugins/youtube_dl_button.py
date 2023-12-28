@@ -95,7 +95,7 @@ async def youtube_dl_call_back(client, query):
     xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
     xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
     xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.split(":-")[1]
-    print(f"Total size of the file: {xLAZY_BAAPUx_length} bytes")
+    print(f"file name: {xLAZY_BAAPUx_finalName} bytes")
 
     c_time = time.time()
     xthumbx = await db.get_lazy_thumbnail(query.from_user.id)
@@ -103,7 +103,7 @@ async def youtube_dl_call_back(client, query):
     xLAZY_BAAPUx_init = await client.send_photo(
                     photo=xthumbx,
                     chat_id = query.message.chat.id,
-                    caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_finalName}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
+                    caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
                 )
     try:
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_length 
