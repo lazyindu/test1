@@ -90,10 +90,12 @@ async def youtube_dl_call_back(client, query):
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
 
-
-    # xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.split(":-")[1]
+    xLAZY_BAAPUx_old_name = os.path.basename(xLAZY_BAAPUx_p)
+    xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.replace("_"," ")[1]
     # print(f"file name: {xLAZY_BAAPUx_finalName} bytes")
 
+    os.rename(xLAZY_BAAPUx_old_name, xLAZY_BAAPUx_finalName)
+    print(f"File renamed to: {xLAZY_BAAPUx_finalName}")
 
     try:
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
@@ -120,6 +122,12 @@ async def youtube_dl_call_back(client, query):
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
+    
+    try:
+        sticker_file_id = "CAACAgUAAxkBAAEQ2YpljSvD5sq-Flkm9TV8afTGo7Kr4gACgwMAAjO28FeYSaGKzSOuUTME"
+        query.reply_sticker(sticker=sticker_file_id)
+    except Exception as e:
+        print(e)
 
     descriptions = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
