@@ -117,8 +117,11 @@ async def youtube_dl_call_back(client, query):
         await xLAZY_BAAPUx_init.edit(e)
         return
     
-    # lazy_sticker = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
-
+    try:
+        await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
+    except Exception as e:
+        await xLAZY_BAAPUx_init.edit(e)
+    
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
         description = response_json["fulltitle"][0:1021]
