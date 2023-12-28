@@ -89,10 +89,10 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    xlx = await query.edit_message_text(
+    await query.edit_message_text(
         text=f"⚡"
     )
-    await xlx.delete()
+    # await xlx.delete()
     try:
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
@@ -123,7 +123,7 @@ async def youtube_dl_call_back(client, query):
     
     try:
         sticker_file_id = "CAACAgUAAxkBAAEQ2YpljSvD5sq-Flkm9TV8afTGo7Kr4gACgwMAAjO28FeYSaGKzSOuUTME"
-        query.message.reply_sticker(sticker=sticker_file_id)
+        await query.message.reply_sticker(sticker=sticker_file_id)
     except Exception as e:
         await print(e)
 
