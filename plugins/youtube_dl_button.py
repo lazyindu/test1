@@ -90,23 +90,28 @@ async def youtube_dl_call_back(client, query):
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
 
-    xLAZY_BAAPUx = requests.head(youtube_dl_url)
-    xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
-    xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
-    xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
-    xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.split(":-")[1]
-    print(f"file name: {xLAZY_BAAPUx_finalName} bytes")
 
-    c_time = time.time()
-    xthumbx = await db.get_lazy_thumbnail(query.from_user.id)
+    # xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.split(":-")[1]
+    # print(f"file name: {xLAZY_BAAPUx_finalName} bytes")
 
-    xLAZY_BAAPUx_init = await client.send_photo(
-                    photo=xthumbx,
-                    chat_id = query.message.chat.id,
-                    caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
-                )
+
     try:
+        xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
+        xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
+        xthumbx = await db.get_lazy_thumbnail(query.from_user.id)
+        xLAZY_BAAPUx_init = await client.send_photo(
+                photo=xthumbx,
+                chat_id = query.message.chat.id,
+                caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
+            )
+    except Exception as e:
+        await print(e)
+
+    try:
+        xLAZY_BAAPUx = requests.head(youtube_dl_url)
+        xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_length 
+        c_time = time.time()
         for i in range(1, 101):
             await asyncio.sleep(0.1)  # Simulating some processing time
             # Calculate the current progress based on your actual progress data
