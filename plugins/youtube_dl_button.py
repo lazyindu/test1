@@ -89,13 +89,10 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    
-    xLAZY_BAAPUx_name_path = urlparse(youtube_dl_url).path
-    xLAZY_BAAPUx_old_name = os.path.basename(xLAZY_BAAPUx_name_path)
-    xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_old_name.replace("_"," ")[1]
-    # print(f"file name: {xLAZY_BAAPUx_finalName} bytes")
-    print(f"File renamed to: {xLAZY_BAAPUx_finalName}")
-
+    xlx = await query.edit_message_text(
+        text=f"⚡"
+    )
+    xlx.delete()
     try:
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
@@ -109,15 +106,17 @@ async def youtube_dl_call_back(client, query):
         await print(e)
 
     try:
-        xLAZY_BAAPUx = requests.head(youtube_dl_url)
-        xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
-        xxLAZY_BAAPUxx = xLAZY_BAAPUx_length 
+        xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
+        xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
+        xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
+        xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+        xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length 
         c_time = time.time()
         for i in range(1, 101):
             await asyncio.sleep(0.1)  # Simulating some processing time
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, "**\n ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**", xLAZY_BAAPUx_init, c_time)
+            await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_u_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
@@ -126,13 +125,13 @@ async def youtube_dl_call_back(client, query):
         sticker_file_id = "CAACAgUAAxkBAAEQ2YpljSvD5sq-Flkm9TV8afTGo7Kr4gACgwMAAjO28FeYSaGKzSOuUTME"
         query.reply_sticker(sticker=sticker_file_id)
     except Exception as e:
-        print(e)
+        await print(e)
 
-    descriptions = script.CUSTOM_CAPTION_UL_FILE
+    description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
-        descriptions = response_json["fulltitle"][0:1021]
+        description = response_json["fulltitle"][0:1021]
         # escape Markdown and special characters
-    description = descriptions.split(":-")[1]
+    # description = descriptions.split(":-")[1]
     tmp_directory_for_each_user = DOWNLOAD_LOCATION + "/" + str(query.from_user.id) + f'{random1}'
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
