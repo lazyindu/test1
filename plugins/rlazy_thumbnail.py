@@ -103,7 +103,7 @@ async def viewthumbnail(client, message):
         reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton("🗑️ ᴅᴇʟᴇᴛᴇ ᴛʜᴜᴍʙɴᴀɪʟ", callback_data="deleteThumbnail")]]
                 ),
-        reply_to_message_id=message.message_id)
+        reply_to_message_id=message.id)
     else:
         await message.reply_text(text=f"ɴᴏ ᴛʜᴜᴍʙɴᴀɪʟ ғᴏᴜɴᴅ 🤒")
 
