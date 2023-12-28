@@ -111,6 +111,7 @@ async def youtube_dl_call_back(client, query):
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
             await client.send_photo(
+                chat_id = query.message.chat.id,
                 photo = xthumbx,
                 caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
                 progress=progress_for_pyrogram,
