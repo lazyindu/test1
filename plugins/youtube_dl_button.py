@@ -91,9 +91,9 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    await query.edit_message_text(
-        text=f"⚡"
-    )
+    # await query.edit_message_text(
+    #     text=f"⚡"
+    # )
     # await xlx.delete()
     try:
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
@@ -118,23 +118,17 @@ async def youtube_dl_call_back(client, query):
             # await asyncio.sleep(0.1)   Simulating some processing time
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_u_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
+            temp_download_progress = await progress_for_pyrogram(current_progress, f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_u_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xxLAZY_BAAPUxx , xLAZY_BAAPUx_init, c_time)
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
     
-    await temp_download_progress.delete()
-
-    try:
-        lazy_sticker = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
-    except Exception as e:
-        await print(e)
+    lazy_sticker = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
 
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
         description = response_json["fulltitle"][0:1021]
         # escape Markdown and special characters
-    # description = descriptions.split(":-")[1]
     tmp_directory_for_each_user = DOWNLOAD_LOCATION + "/" + str(query.from_user.id) + f'{random1}'
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
@@ -193,6 +187,7 @@ async def youtube_dl_call_back(client, query):
     logger.info(e_response)
     logger.info(t_response)
     ad_string_to_replace = "please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output."
+    
     if e_response and ad_string_to_replace in e_response:
         error_message = e_response.replace(ad_string_to_replace, "")
         await temp_download_progress.edit_text(
@@ -238,6 +233,8 @@ async def youtube_dl_call_back(client, query):
             start_time = time.time()
             if (await db.get_upload_as_doc(query.from_user.id)) is False:
                 thumbnail = await Gthumb01(client, query)
+                await lazy_sticker.delete()
+                lazy_sticker01 = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
                 await client.send_document(
                     chat_id=query.message.chat.id,
                     document=download_directory,
@@ -251,10 +248,12 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
-                await lazy_sticker.delete()
+                await lazy_sticker01.delete()
             else:
                  width, height, duration = await Mdata01(download_directory)
                  thumb_image_path = await Gthumb02(client, query, duration, download_directory)
+                 await lazy_sticker.delete()
+                 lazy_sticker02 = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
                  await client.send_video(
                     chat_id=query.message.chat.id,
                     video=download_directory,
@@ -272,6 +271,7 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
+                 await lazy_sticker02.delete()
 
             if tg_send_type == "audio":
                 duration = await Mdata03(download_directory)
