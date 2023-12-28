@@ -818,7 +818,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "showThumbnail":
         thumbnail = await db.get_lazy_thumbnail(query.from_user.id)
         if not thumbnail:
-            await query.answer("You didn't set any custom thumbnail!", show_alert=True)
+            await query.answer("Hey baby, You didn't set any custom thumbnail for url downloading 🥱!", show_alert=True)
         else:
             await query.answer()
             await client.send_photo(query.message.chat.id, thumbnail, "Custom Thumbnail",
@@ -829,7 +829,11 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data == "deleteurlthumbnail":
         await db.set_lazy_thumbnail(query.from_user.id, None)
-        await query.answer("Okay, I deleted your custom thumbnail. Now I will apply default thumbnail.", show_alert=True)
+        await query.answer("**Okay baby, I deleted your custom thumbnail for url downloading. Now I will apply default thumbnail. ☑**", show_alert=True)
+        await query.message.delete(True)
+    elif query.data == "deleteThumbnail":
+        await db.set_thumbnail(query.from_user.id, None)
+        await query.answer("**Okay sweetie, I deleted your custom thumbnail for direct renaming. Now I will apply default thumbnail. ✅️**", show_alert=True)
         await query.message.delete(True)
 
     elif query.data == "setThumbnail":
