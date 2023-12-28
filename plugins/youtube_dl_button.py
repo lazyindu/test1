@@ -87,10 +87,11 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
+
     await query.edit_message_text(
         text=script.DOWNLOAD_START,
     )
-    
+
     xLAZY_BAAPUx = requests.head(youtube_dl_url)
     xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
     print(f"Total size of the file: {xLAZY_BAAPUx_length} bytes")
@@ -98,9 +99,9 @@ async def youtube_dl_call_back(client, query):
     ms = await query.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
     c_time = time.time()
     try:
-        for i in range(1, 101):  # Simulating progress from 1% to 100%
-            await asyncio.sleep(0.1)  # Simulating some processing time
-            await progress_for_pyrogram(i, xLAZY_BAAPUx_length, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**".format(i), ms, c_time)
+        # for i in range(1, 101):  # Simulating progress from 1% to 100%
+        #     await asyncio.sleep(0.1)  # Simulating some processing time
+        await progress_for_pyrogram(i, xLAZY_BAAPUx_length, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**".format(i), ms, c_time)
 
     except Exception as e:
         await ms.edit(e)
@@ -160,6 +161,7 @@ async def youtube_dl_call_back(client, query):
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
+
     # Wait for the subprocess to finish
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
@@ -180,7 +182,7 @@ async def youtube_dl_call_back(client, query):
             os.remove(save_ytdl_json_path)
         except FileNotFoundError as exc:
             pass
-        
+
         end_one = datetime.now()
         time_taken_for_download = (end_one -start).seconds
         file_size = TG_MAX_FILE_SIZE + 1
@@ -245,7 +247,7 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
-                
+
             if tg_send_type == "audio":
                 duration = await Mdata03(download_directory)
                 thumbnail = await Gthumb01(client, query)
