@@ -99,13 +99,19 @@ async def youtube_dl_call_back(client, query):
     ms = await query.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
     c_time = time.time()
     try:
-        # for i in range(1, 101):  # Simulating progress from 1% to 100%
-        #     await asyncio.sleep(0.1)  # Simulating some processing time
-        await progress_for_pyrogram(0, xLAZY_BAAPUx_length, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨... ♡♪**", ms, c_time)
+        xxLAZY_BAAPUxx = xLAZY_BAAPUx_length  # Replace this with the total size of your file
+        for i in range(1, 101):
+            await asyncio.sleep(0.1)  # Simulating some processing time
+            
+            # Calculate the current progress based on your actual progress data
+            current_progress = int((i / 100) * xxLAZY_BAAPUxx)
+            
+            await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**", ms, c_time)
 
     except Exception as e:
         await ms.edit(e)
-        return 
+        return
+
 
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
