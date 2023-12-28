@@ -90,39 +90,32 @@ async def youtube_dl_call_back(client, query):
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
 
-    await query.edit_message_text(
-        text=script.DOWNLOAD_START,
-    )
+
 
     xLAZY_BAAPUx = requests.head(youtube_dl_url)
     xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
     xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
     xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
+    xLAZY_BAAPUx_finalName = xLAZY_BAAPUx_name.split(":-")[1]
     print(f"Total size of the file: {xLAZY_BAAPUx_length} bytes")
 
-    ms = await query.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
     c_time = time.time()
     xthumbx = await db.get_thumbnail(query.from_user.id)
+
+    xLAZY_BAAPUx_init = await client.send_photo(
+                    chat_id = query.message.chat.id,
+                    caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_finalName}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
+                )
     try:
-        xxLAZY_BAAPUxx = xLAZY_BAAPUx_length  # Replace this with the total size of your file
+        xxLAZY_BAAPUxx = xLAZY_BAAPUx_length 
         for i in range(1, 101):
             await asyncio.sleep(0.1)  # Simulating some processing time
-
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            await client.send_photo(
-                chat_id = query.message.chat.id,
-                photo = xthumbx,
-                caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
-                progress=progress_for_pyrogram,
-                progress_args=(current_progress, xxLAZY_BAAPUxx, ms, c_time)
-            )
-            # await progress_for_pyrogram()
-
+            await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, "**\n ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**", xLAZY_BAAPUx_init, c_time)
     except Exception as e:
-        await ms.edit(e)
+        await xLAZY_BAAPUx_init.edit(e)
         return
-
 
     descriptions = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
