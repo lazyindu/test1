@@ -98,7 +98,7 @@ async def youtube_dl_call_back(client, query):
     try:
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
-        xthumbx = await db.get_lazy_thumbnail(query.from_user.id)
+      
         xLAZY_BAAPUx_init = await query.edit_message_text(
                 text=f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
             )
@@ -113,7 +113,7 @@ async def youtube_dl_call_back(client, query):
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length 
         c_time = time.time()
         for i in range(1, 101):
-            # await asyncio.sleep(0.1)   Simulating some processing time
+             await asyncio.sleep(0.1)   #Simulating some processing time
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
             temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx , f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_u_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
@@ -121,7 +121,7 @@ async def youtube_dl_call_back(client, query):
         await xLAZY_BAAPUx_init.edit(e)
         return
     
-    lazy_sticker = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
+    #lazy_sticker = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
 
     description = script.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
@@ -210,7 +210,7 @@ async def youtube_dl_call_back(client, query):
             # https://stackoverflow.com/a/678242/4723940
             file_size = os.stat(download_directory).st_size
         if file_size > TG_MAX_FILE_SIZE:
-            await temp_download_progress.edit_text(
+            await query.edit_message_text(
                 text=script.RCHD_TG_API_LIMIT.format(time_taken_for_download, humanbytes(file_size)),
             )
         else:
@@ -231,8 +231,8 @@ async def youtube_dl_call_back(client, query):
             start_time = time.time()
             if (await db.get_upload_as_doc(query.from_user.id)) is False:
                 thumbnail = await Gthumb01(client, query)
-                await lazy_sticker.delete()
-                lazy_sticker01 = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
+                #await lazy_sticker.delete()
+                #lazy_sticker01 = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
                 await client.send_document(
                     chat_id=query.message.chat.id,
                     document=download_directory,
@@ -246,12 +246,12 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
-                await lazy_sticker01.delete()
+                #await lazy_sticker01.delete()
             else:
                  width, height, duration = await Mdata01(download_directory)
                  thumb_image_path = await Gthumb02(client, query, duration, download_directory)
-                 await lazy_sticker.delete()
-                 lazy_sticker02 = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
+                 #await lazy_sticker.delete()
+                 #lazy_sticker02 = await query.message.reply_sticker(sticker=random.choice(LAZYS_FILE_ID))
                  await client.send_video(
                     chat_id=query.message.chat.id,
                     video=download_directory,
@@ -269,7 +269,7 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
-                 await lazy_sticker02.delete()
+                 #await lazy_sticker02.delete()
 
             if tg_send_type == "audio":
                 duration = await Mdata03(download_directory)
