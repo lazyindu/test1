@@ -101,7 +101,7 @@ async def youtube_dl_call_back(client, query):
     try:
         # for i in range(1, 101):  # Simulating progress from 1% to 100%
         #     await asyncio.sleep(0.1)  # Simulating some processing time
-        await progress_for_pyrogram(i, xLAZY_BAAPUx_length, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**".format(i), ms, c_time)
+        await progress_for_pyrogram(xLAZY_BAAPUx_length, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**".format(i), ms, c_time)
 
     except Exception as e:
         await ms.edit(e)
