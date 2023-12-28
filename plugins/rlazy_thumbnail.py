@@ -101,7 +101,7 @@ async def viewthumbnail(client, message):
         photo=thumbnail,
         caption=f"ʏᴏᴜʀ ᴄᴜʀʀᴇɴᴛ sᴀᴠᴇᴅ ᴛʜᴜᴍʙɴᴀɪʟ 🦠",
         reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("🗑️ ᴅᴇʟᴇᴛᴇ ᴛʜᴜᴍʙɴᴀɪʟ", callback_data="deleteThumbnail")]]
+                    [[InlineKeyboardButton("🗑️ ᴅᴇʟᴇᴛᴇ ᴛʜᴜᴍʙɴᴀɪʟ", callback_data="deleteurlthumbnail")]]
                 ),
         reply_to_message_id=message.id)
     else:
