@@ -90,8 +90,6 @@ async def youtube_dl_call_back(client, query):
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
 
-
-
     xLAZY_BAAPUx = requests.head(youtube_dl_url)
     xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
     xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
@@ -100,9 +98,10 @@ async def youtube_dl_call_back(client, query):
     print(f"Total size of the file: {xLAZY_BAAPUx_length} bytes")
 
     c_time = time.time()
-    xthumbx = await db.get_thumbnail(query.from_user.id)
+    xthumbx = await db.get_lazy_thumbnail(query.from_user.id)
 
     xLAZY_BAAPUx_init = await client.send_photo(
+                    photo=xthumbx,
                     chat_id = query.message.chat.id,
                     caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_finalName}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
                 )
