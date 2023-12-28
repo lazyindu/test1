@@ -91,25 +91,17 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    # await query.edit_message_text(
-    #     text=f"⚡"
-    # )
-    # await xlx.delete()
+    await query.edit_message_text(
+        text=f"⚡"
+    )
+
     try:
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
         xthumbx = await db.get_lazy_thumbnail(query.from_user.id)
-        if xthumbx is not None:
-            xLAZY_BAAPUx_init = await client.send_photo(
-                    photo=xthumbx,
-                    chat_id = query.message.chat.id,
-                    caption=f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
-                )
-        else:
-            xLAZY_BAAPUx_init = await client.send_message(
-                    query.message.chat.id,
-                    f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
-                )
+        xLAZY_BAAPUx_init = await query.edit_message_text(
+                text=f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
+            )
     except Exception as e:
         await print(e)
 
@@ -196,7 +188,7 @@ async def youtube_dl_call_back(client, query):
     
     if e_response and ad_string_to_replace in e_response:
         error_message = e_response.replace(ad_string_to_replace, "")
-        await temp_download_progress.edit_text(
+        await query.edit_message_text(
             text=error_message
         )
         return False
@@ -232,7 +224,7 @@ async def youtube_dl_call_back(client, query):
                 9
             )
             logger.info(images)'''
-            await temp_download_progress.edit_text(
+            await query.edit_message_text(
                 text="**initiating Lazy Upload** ⚡",
             )
 
