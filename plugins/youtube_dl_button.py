@@ -12,6 +12,7 @@ import os
 import shutil
 import time
 import requests
+from urllib.parse import urlparse
 from pyrogram import enums
 from datetime import datetime
 from info import *
@@ -32,7 +33,7 @@ async def youtube_dl_call_back(client, query):
     tg_send_type, youtube_dl_format, youtube_dl_ext, ranom = cb_data.split("|")
     print(cb_data)
     random1 = random_char(5)
-    
+
     save_ytdl_json_path = DOWNLOAD_LOCATION + \
         "/" + str(query.from_user.id) + f'{ranom}' + ".json"
     try:
@@ -45,6 +46,7 @@ async def youtube_dl_call_back(client, query):
             revoke=True
         )
         return False
+
     youtube_dl_url = query.message.reply_to_message.text
     custom_file_name = str(response_json.get("title")) + \
         "_" + youtube_dl_format + "." + youtube_dl_ext
@@ -94,19 +96,27 @@ async def youtube_dl_call_back(client, query):
 
     xLAZY_BAAPUx = requests.head(youtube_dl_url)
     xLAZY_BAAPUx_length = int(xLAZY_BAAPUx.headers.get("Content-Length", 0))
+    xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
+    xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
     print(f"Total size of the file: {xLAZY_BAAPUx_length} bytes")
 
     ms = await query.message.edit("\n༻☬ད 𝘽𝙪𝙞𝙡𝙙𝙞𝙣𝙜 𝙇𝙖𝙯𝙮 𝙈𝙚𝙩𝙖𝘿𝙖𝙩𝙖...")
     c_time = time.time()
+    xthumbx = await db.get_thumbnail(query.from_user.id)
     try:
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_length  # Replace this with the total size of your file
         for i in range(1, 101):
             await asyncio.sleep(0.1)  # Simulating some processing time
-            
+
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            
-            await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, "**\n ღ♡ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨: {}%... ♡♪**", ms, c_time)
+            await client.send_photo(
+                photo = xthumbx,
+                caption=f" ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
+                progress=progress_for_pyrogram,
+                progress_args=(current_progress, xxLAZY_BAAPUxx, ms, c_time)
+            )
+            # await progress_for_pyrogram()
 
     except Exception as e:
         await ms.edit(e)
