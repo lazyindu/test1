@@ -120,9 +120,19 @@ async def youtube_dl_call_back(client, query):
         # Use tqdm to display the progress bar
         colored_bar_format = "{l_bar}" + "\033[32m{bar}\033[0m" + "{r_bar}"  # \033[32m sets the color to green
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
-        with tqdm(total=xxLAZY_BAAPUxx, unit='B', unit_scale=True, unit_divisor=1024, desc=desc, bar_format = colored_bar_format) as bar:
+        with tqdm(total=xxLAZY_BAAPUxx, unit='B', unit_scale=True, unit_divisor=1024, desc=desc, bar_format=colored_bar_format) as bar:
             def update_bar(chunk_size, total_size):
                 bar.update(chunk_size)
+                # Calculate and display the progress percentage
+                progress_percentage = (bar.n / bar.total) * 100
+                message_text = f"{desc}\nProgress: {progress_percentage:.2f}%"
+                # Update the message text in the chat
+                query.edit_message_text(text=message_text)
+
+            # Simulate download progress
+            for chunk_size in range(1, xxLAZY_BAAPUxx + 1):
+                update_bar(chunk_size, xxLAZY_BAAPUxx)
+                time.sleep(0.1)  # Simulate processing time
 
         # lazy_bar = DownloadBar(
         #         empty_char=f"\033[31m{chr(9472)}\033[0m",
@@ -133,6 +143,7 @@ async def youtube_dl_call_back(client, query):
         #     dest=download_path,
         #     title=f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         # )
+
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
