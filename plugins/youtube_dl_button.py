@@ -122,13 +122,13 @@ async def youtube_dl_call_back(client, query):
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         
         with tqdm(total=xxLAZY_BAAPUxx, unit='B', unit_scale=True, unit_divisor=1024, desc=desc, bar_format=colored_bar_format) as bar:
-            def update_bar(chunk_size, query):
+            def update_bar(chunk_size, xxLAZY_BAAPUxx):
                 bar.update(chunk_size)
                 # Calculate and display the progress percentage
                 progress_percentage = (bar.n / bar.total) * 100
                 message_text = f"{desc}\nProgress: {progress_percentage:.2f}%"
                 # Update the message text in the chat
-                query.edit_message_text(text=message_text)
+                desc.edit(text=message_text)
 
             # Simulate download progress
             for chunk_size in range(1, xxLAZY_BAAPUxx + 1):
