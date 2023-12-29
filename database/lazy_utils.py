@@ -48,6 +48,40 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
         except:
             pass
 
+async def progress_for_pyrogram2(current, total, ud_type, message, start, progress_bar):
+
+    now = time.time()
+    diff = now - start
+    if round(diff % 10.00) == 0 or current == total:
+        percentage = current * 100 / total
+        speed = current / diff
+        elapsed_time = round(diff) * 1000
+        time_to_completion = round((total - current) / speed) * 1000
+        estimated_total_time = elapsed_time + time_to_completion
+
+        elapsed_time = TimeFormatter(milliseconds=elapsed_time)
+        estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
+
+        progress_bar.update(current)
+
+        tmp = progress_bar.format_bar() + script.PROGRESS_BAR.format( 
+            round(percentage, 2),
+            humanbytes(current),
+            humanbytes(total),
+            humanbytes(speed),
+            estimated_total_time if estimated_total_time != '' else "0 s"
+        )
+        try:
+            await message.edit(
+                text="{}\n\n{}".format(ud_type, tmp),               
+                reply_markup=InlineKeyboardMarkup( [[
+                    InlineKeyboardButton("⨳  C L Ф S Ξ  ⨳", callback_data="cancel")
+                    ]]
+                )
+            )
+        except:
+            pass
+
 def humanbytes(size):
     # https://stackoverflow.com/a/49361727/4723940
     # 2**10 = 1024
@@ -80,9 +114,4 @@ def convert(seconds):
     minutes = seconds // 60
     seconds %= 60      
     return "%d:%02d:%02d" % (hour, minutes, seconds)
-
-         
-
-
-
 
