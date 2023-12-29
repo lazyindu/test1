@@ -21,7 +21,7 @@ from Script import script
 from plugins.rlazy_thumbnail import *
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from pyrogram.types import InputMediaPhoto
-from database.lazy_utils import progress_for_pyrogram, progress_for_pyrogram2, humanbytes
+from database.lazy_utils import progress_for_pyrogram, humanbytes
 from database.users_chats_db import db
 from lazybot.ran_text import random_char
 
@@ -122,10 +122,10 @@ async def youtube_dl_call_back(client, query):
         c_time = time.time()
         current_size = 0
        
-        for chunk_size in range(1, xxLAZY_BAAPUxx + 1):
-            current_size += chunk_size  # Increment current_size by the chunk_size
-            time.sleep(0.1)  # Simulate processing time
-            await progress_for_pyrogram2(current_size, xxLAZY_BAAPUxx, 'Download', xLAZY_BAAPUx_init, c_time)
+        for i in range(1, xxLAZY_BAAPUxx + 1):
+            await asyncio.sleep(0.1)
+            current_size += i
+            await progress_for_pyrogram(current_size, xxLAZY_BAAPUxx, 'Download', xLAZY_BAAPUx_init, c_time)
 
            
             # def update_bar(chunk_size, xxLAZY_BAAPUxx):
