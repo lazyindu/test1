@@ -119,12 +119,11 @@ async def youtube_dl_call_back(client, query):
                 empty_char=f"\033[31m{chr(9472)}\033[0m",
                 filled_char=f"\033[32m{chr(9472)}\033[0m"
         )
-        lazy_bar.download(
+        await lazy_bar.download(
             url=youtube_dl_url,
             dest=download_path,
             title=f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         )
-
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
