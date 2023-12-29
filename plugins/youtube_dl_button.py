@@ -120,6 +120,7 @@ async def youtube_dl_call_back(client, query):
         colored_bar_format = "{l_bar}" + "\033[32m{bar}\033[0m" + "{r_bar}"  # \033[32m sets the color to green
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         c_time = time.time()
+        current_size = 0
         with tqdm(total=xxLAZY_BAAPUxx, unit='B', unit_scale=True, unit_divisor=1024, desc=desc, bar_format=colored_bar_format) as bar:
             def update_bar(chunk_size, xxLAZY_BAAPUxx):
                 bar.update(chunk_size)
