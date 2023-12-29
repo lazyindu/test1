@@ -114,7 +114,7 @@ async def youtube_dl_call_back(client, query):
             await asyncio.sleep(0.1)  # Simulating some processing time
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx , f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{xLAZY_BAAPUx_u_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
+            temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx , f"**ღ♡ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ... ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
@@ -206,8 +206,11 @@ async def youtube_dl_call_back(client, query):
         file_size = TG_MAX_FILE_SIZE + 1
         try:
             file_size = os.stat(download_directory).st_size
+            download_directory = os.path.splitext(download_directory)[0] + "." + "mkv"
+            logger.info(download_directory)
         except FileNotFoundError as exc:
             download_directory = os.path.splitext(download_directory)[0] + "." + "mkv"
+            logger.info(download_directory)
             # https://stackoverflow.com/a/678242/4723940
             file_size = os.stat(download_directory).st_size
         if file_size > TG_MAX_FILE_SIZE:
@@ -233,12 +236,13 @@ async def youtube_dl_call_back(client, query):
             if (await db.get_upload_as_doc(query.from_user.id)) is False:
                 thumbnail = await Gthumb01(client, query)
                 await lazy_sticker.delete()
+                caption = custom_file_name
                 lazy_sticker01 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
                 await client.send_document(
                     chat_id=query.message.chat.id,
                     document=download_directory,
                     thumb=thumbnail,
-                    caption=description,
+                    caption=caption,
                     reply_to_message_id=message_idx,
                     progress=progress_for_pyrogram,
                     progress_args=(
@@ -275,6 +279,8 @@ async def youtube_dl_call_back(client, query):
             if tg_send_type == "audio":
                 duration = await Mdata03(download_directory)
                 thumbnail = await Gthumb01(client, query)
+                await lazy_sticker.delete()
+                lazy_sticker03 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
                 await client.send_audio(
                     chat_id=query.message.chat.id,
                     audio=download_directory,
@@ -290,9 +296,12 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
+                await lazy_sticker03.delete()
             elif tg_send_type == "vm":
                 width, duration = await Mdata02(download_directory)
                 thumbnail = await Gthumb02(client, query, duration, download_directory)
+                await lazy_sticker.delete()
+                lazy_sticker04 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
                 await client.send_video_note(
                     chat_id=query.message.chat.id,
                     video_note=download_directory,
@@ -307,6 +316,7 @@ async def youtube_dl_call_back(client, query):
                         start_time
                     )
                 )
+                await lazy_sticker04.delete()
             else:
                 logger.info("Did this happen? :\\")
             end_two = datetime.now()
