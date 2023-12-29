@@ -110,11 +110,15 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length 
         c_time = time.time()
+        downloaded_size = 0
+        r = requests.get(youtube_dl_url, allow_redirects=True, stream=True)
+
         for i in range(1, 101):
             await asyncio.sleep(0.1)  # Simulating some processing time
             # Calculate the current progress based on your actual progress data
             current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx , f"**ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
+            temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, "video_download", f"**ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
+
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
