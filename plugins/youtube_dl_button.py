@@ -121,15 +121,11 @@ async def youtube_dl_call_back(client, query):
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         c_time = time.time()
         current_size = 0
-        with tqdm(total=xxLAZY_BAAPUxx, unit='B', unit_scale=True, unit_divisor=1024, desc=desc) as bar:
-            def update_bar(chunk_size, xxLAZY_BAAPUxx):
-                bar.update(chunk_size)
-
-            for chunk_size in range(1, xxLAZY_BAAPUxx + 1):
-                update_bar(chunk_size, xxLAZY_BAAPUxx)
-                current_size += chunk_size  # Increment current_size by the chunk_size
-                time.sleep(0.1)  # Simulate processing time
-                await progress_for_pyrogram2(current_size, xxLAZY_BAAPUxx, 'Download', xLAZY_BAAPUx_init, c_time, bar)
+       
+        for chunk_size in range(1, xxLAZY_BAAPUxx + 1):
+            current_size += chunk_size  # Increment current_size by the chunk_size
+            time.sleep(0.1)  # Simulate processing time
+            await progress_for_pyrogram2(current_size, xxLAZY_BAAPUxx, 'Download', xLAZY_BAAPUx_init, c_time)
 
            
             # def update_bar(chunk_size, xxLAZY_BAAPUxx):
