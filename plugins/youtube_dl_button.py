@@ -110,7 +110,6 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
         xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length 
-        c_time = time.time()
         lzy_directory_for_each_user = DOWNLOAD_LOCATION + "/" + str(query.from_user.id) + f'{random1}'
         if not os.path.isdir(lzy_directory_for_each_user):
             os.makedirs(lzy_directory_for_each_user)
@@ -120,7 +119,7 @@ async def youtube_dl_call_back(client, query):
         # Use tqdm to display the progress bar
         colored_bar_format = "{l_bar}" + "\033[32m{bar}\033[0m" + "{r_bar}"  # \033[32m sets the color to green
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
-        lazy_start_time = time.now()
+        c_time = time.time()
         with tqdm(total=xxLAZY_BAAPUxx, unit='B', unit_scale=True, unit_divisor=1024, desc=desc, bar_format=colored_bar_format) as bar:
             def update_bar(chunk_size, xxLAZY_BAAPUxx):
                 bar.update(chunk_size)
@@ -129,7 +128,7 @@ async def youtube_dl_call_back(client, query):
                 update_bar(chunk_size, xxLAZY_BAAPUxx)
                 current_size += chunk_size  # Increment current_size by the chunk_size
                 time.sleep(0.1)  # Simulate processing time
-                await progress_for_pyrogram2(current_size, xxLAZY_BAAPUxx, 'Download', xLAZY_BAAPUx_init, lazy_start_time, bar)
+                await progress_for_pyrogram2(current_size, xxLAZY_BAAPUxx, 'Download', xLAZY_BAAPUx_init, c_time, bar)
    
            
             # def update_bar(chunk_size, xxLAZY_BAAPUxx):
