@@ -12,6 +12,7 @@ import os
 import shutil
 import time
 import requests
+from dlbar import DownloadBar
 from urllib.parse import urlparse
 from pyrogram import enums
 from datetime import datetime
@@ -110,12 +111,19 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length 
         c_time = time.time()
-
-        for i in range(1, 101):
-            await asyncio.sleep(0.1)  # Simulating some processing time
-            # Calculate the current progress based on your actual progress data
-            current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            temp_download_progress = await progress_for_pyrogram(current_progress, xxLAZY_BAAPUxx, "video_download", xLAZY_BAAPUx_init, c_time)
+        lzy_directory_for_each_user = DOWNLOAD_LOCATION + "/" + str(query.from_user.id) + f'{random1}'
+        if not os.path.isdir(lzy_directory_for_each_user):
+            os.makedirs(lzy_directory_for_each_user)
+        download_path = lzy_directory_for_each_user + "/" + custom_file_name
+        lazy_bar = DownloadBar(
+                empty_char=f"\033[31m{chr(9472)}\033[0m",
+                filled_char=f"\033[32m{chr(9472)}\033[0m"
+        )
+        lazy_bar.download(
+            url=youtube_dl_url,
+            dest=download_path,
+            title=f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
+        )
 
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
