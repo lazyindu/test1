@@ -12,7 +12,7 @@ import os
 import shutil
 import time
 import requests
-from dlbar import DownloadBar
+from tqdm import tqdm
 from urllib.parse import urlparse
 from pyrogram import enums
 from datetime import datetime
@@ -115,15 +115,22 @@ async def youtube_dl_call_back(client, query):
         if not os.path.isdir(lzy_directory_for_each_user):
             os.makedirs(lzy_directory_for_each_user)
         download_path = lzy_directory_for_each_user + "/" + custom_file_name
-        lazy_bar = DownloadBar(
-                empty_char=f"\033[31m{chr(9472)}\033[0m",
-                filled_char=f"\033[32m{chr(9472)}\033[0m"
-        )
-        await lazy_bar.download(
-            url=youtube_dl_url,
-            dest=download_path,
-            title=f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
-        )
+
+
+        # Use tqdm to display the progress bar
+        with tqdm(total=xxLAZY_BAAPUxx, unit='B', unit_scale=True, unit_divisor=1024) as bar:
+            def update_bar(chunk_size, total_size):
+                bar.update(chunk_size)
+
+        # lazy_bar = DownloadBar(
+        #         empty_char=f"\033[31m{chr(9472)}\033[0m",
+        #         filled_char=f"\033[32m{chr(9472)}\033[0m"
+        # )
+        # await lazy_bar.download(
+        #     url=youtube_dl_url,
+        #     dest=download_path,
+        #     title=f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
+        # )
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
