@@ -93,7 +93,7 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    
+
     try:
         xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
@@ -108,14 +108,13 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
         xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
         xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-        xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length 
+        xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         c_time = time.time()
-       
-        for i in range(1, 101):
-            await asyncio.sleep(0.1)
-            current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-            await progress_for_pyrogram(i, xxLAZY_BAAPUxx, f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ [ ⏳ {current_progress} ] ♡♪**\n\n{custom_file_name}\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**".format(i * 100 // xxLAZY_BAAPUxx), xLAZY_BAAPUx_init, c_time)
+        # for i in range(1, 101):
+        #     await asyncio.sleep(0.1)
+        #     current_progress = int((i / 100) * xxLAZY_BAAPUxx)
+        await progress_for_pyrogram(1, xxLAZY_BAAPUxx, f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ  ♡♪**\n\n{custom_file_name}\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
