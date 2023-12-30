@@ -103,21 +103,31 @@ async def youtube_dl_call_back(client, query):
     except Exception as e:
         await print(e)
 
-    try:
-        xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
-        xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-        xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
-        xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-        xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length
-        desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
-        c_time = time.time()
-        # for i in range(1, 101):
-        #     await asyncio.sleep(0.1)
-        #     current_progress = int((i / 100) * xxLAZY_BAAPUxx)
-        await progress_for_pyrogram(1, xxLAZY_BAAPUxx, f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ  ♡♪**\n\n{custom_file_name}\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
-    except Exception as e:
-        await xLAZY_BAAPUx_init.edit(e)
-        return
+    # try:
+    #     xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
+    #     xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
+    #     xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
+    #     xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+    #     xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length
+    #     desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
+    #     c_time = time.time()
+    #       # lazy_bar = DownloadBar(
+    #     #         empty_char=f"\033[31m{chr(9472)}\033[0m",
+    #     #         filled_char=f"\033[32m{chr(9472)}\033[0m"
+    #     # )
+    #     # await lazy_bar.download(
+    #     #     url=youtube_dl_url,
+    #     #     dest=download_path,
+    #     #     title=f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ɪꜱ ɢᴏɪɴɢ ᴏɴ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
+    #     # )
+
+    #     # for i in range(1, 101):
+    #     #     await asyncio.sleep(0.1)
+    #     #     current_progress = int((i / 100) * xxLAZY_BAAPUxx)
+    #     # await progress_for_pyrogram(1, xxLAZY_BAAPUxx, f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ  ♡♪**\n\n{custom_file_name}\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", xLAZY_BAAPUx_init, c_time)
+    # except Exception as e:
+    #     await xLAZY_BAAPUx_init.edit(e)
+    #     return
     
     try:
         lazy_sticker = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
@@ -178,6 +188,8 @@ async def youtube_dl_call_back(client, query):
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
+    
+    await progress_for_pyrogram(f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ  ♡♪**\n\n{custom_file_name}\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**", process, start )
 
     # Wait for the subprocess to finish
     stdout, stderr = await process.communicate()
