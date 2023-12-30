@@ -109,15 +109,10 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
         xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length 
-        lzy_directory_for_each_user = DOWNLOAD_LOCATION + "/" + str(query.from_user.id) + f'{random1}'
-
-
-        # Use tqdm to display the progress bar
-        # colored_bar_format = "{l_bar}" + "\033[32m{bar}\033[0m" + "{r_bar}"  # \033[32m sets the color to green
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         c_time = time.time()
        
-        for i in range(1, xxLAZY_BAAPUxx + 1):
+        for i in range(1, 101):
             await asyncio.sleep(0.1)
             progress = i * 100 // xxLAZY_BAAPUxx
             await progress_for_pyrogram(i, xxLAZY_BAAPUxx, f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ [ ⏳ {progress} ] ♡♪**\n\n{custom_file_name}\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**".format(i * 100 // xxLAZY_BAAPUxx), xLAZY_BAAPUx_init, c_time)
