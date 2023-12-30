@@ -114,7 +114,7 @@ async def youtube_dl_call_back(client, query):
        
         for i in range(1, 101):
             await asyncio.sleep(0.1)
-            progress = i * 100 // xxLAZY_BAAPUxx
+            progress = int((i / 100) * xxLAZY_BAAPUxx)
             await progress_for_pyrogram(i, xxLAZY_BAAPUxx, f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ [ ⏳ {progress} ] ♡♪**\n\n{custom_file_name}\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**".format(i * 100 // xxLAZY_BAAPUxx), xLAZY_BAAPUx_init, c_time)
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
