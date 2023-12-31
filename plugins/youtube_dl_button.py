@@ -95,25 +95,22 @@ async def youtube_dl_call_back(client, query):
                 youtube_dl_url = youtube_dl_url[o:o + l]
 
     try:
-        xLAZY_BAAPUx_p = urlparse(youtube_dl_url).path
-        xLAZY_BAAPUx_name = os.path.basename(xLAZY_BAAPUx_p)
-        xLAZY_BAAPUx_init = await query.edit_message_text(
-                text=f"ღ♡ running ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{xLAZY_BAAPUx_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔ ",
-            )
-    except Exception as e:
-        await print(e)
-
-    try:
         xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
         xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
         xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-        xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length
-        desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
-        c_time = time.time()
-        chunk_size = 1024
-        await progress_for_pyrogram(chunk_size, xxLAZY_BAAPUxx, desc, xLAZY_BAAPUx_init, c_time)
+        xxLAZY_BAAPUxx = humanbytes(xLAZY_BAAPUx_t_length)
+        template_name = custom_file_name if custom_file_name else "**⚠ You haven't given any custom name...**"
+        
+        xLAZY_BAAPUx_init = await query.edit_message_text(
+                        text=f"ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪ \n⬇️⏬ {xLAZY_BAAPUx_u_name}",
+                    )
+        await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ₑₙⱼₒᵧ ₛᵤₚₑᵣ𝒻ₐₛₜ 𝒹ₒ𝓌ₙₗₒₐ𝒹 ᵦᵧ [@ₗₐ𝓏ᵧDₑᵥₑₗₒₚₑᵣ](https://t.me/LazyDeveloper)◔_◔** \n\n**✩░▒▓▅▂▁𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ 📂**\n{xLAZY_BAAPUx_u_name}\n\n**✩░▒▓▅▂▁𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ 📝**\n{template_name}\n███████████████████████\n[ ⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx} ]")
         # progress to be displayed to the user
+        # i am currently work on this to display current progress in progress bar in the chat
+        # if you have code then you can contact me @LazyDeveloperr on telegram - instagram 
+        # 💘 with love @LazyDeveloperr 💘
+
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
         return
