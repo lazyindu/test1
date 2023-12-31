@@ -111,7 +111,8 @@ async def youtube_dl_call_back(client, query):
         xxLAZY_BAAPUxx = xLAZY_BAAPUx_t_length
         desc = f"ღ♡ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n\n{custom_file_name}\n\n - 𝙴𝚗𝚓𝚘𝚢 𝚜𝚞𝚙𝚎𝚛𝚏𝚊𝚜𝚝 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝚋𝚢 @LazyDeveloperr ◔_◔**"
         c_time = time.time()
-        await progress_for_pyrogram( xxLAZY_BAAPUxx, desc, xLAZY_BAAPUx_init, c_time)
+        chunk_size = 1024
+        await progress_for_pyrogram(chunk_size, xxLAZY_BAAPUxx, desc, xLAZY_BAAPUx_init, c_time)
         # progress to be displayed to the user
     except Exception as e:
         await xLAZY_BAAPUx_init.edit(e)
