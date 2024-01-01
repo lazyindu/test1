@@ -133,6 +133,8 @@ async def ddl_call_back(client, query):
                 session,
                 youtube_dl_url,
                 download_directory,
+                chat_id=query.message.chat.id,
+                message_id=query.message.id
                 c_time
             )
         except TimeoutError:
@@ -248,7 +250,7 @@ async def ddl_call_back(client, query):
             disable_web_page_preview=True
         )
 
-async def download_coroutine(bot, session, url, file_name, start):
+async def download_coroutine(bot, session, url, file_name,chat_id,message_id start):
     downloaded = 0
     display_message = ""
     async with session.get(url, timeout=PROCESS_MAX_TIMEOUT) as response:
@@ -257,6 +259,8 @@ async def download_coroutine(bot, session, url, file_name, start):
         if "text" in content_type and total_length < 500:
             return await response.release()
         await bot.edit_message_text(
+            chat_id,
+            message_id,
             text="""Initiating Download
 **🔗 Uʀʟ :** `{}`
 **🗂️ Sɪᴢᴇ :** {}""".format(url, humanbytes(total_length))
