@@ -460,13 +460,13 @@ async def cb_handler(client: Client, query: CallbackQuery):
             else:
                 await query.answer("That's not for you sona!", show_alert=True)
     
-    elif "|" in query.data:
+    elif "=" in query.data:
         try:
             await youtube_dl_call_back(client, query)
         except Exception as e:
             logger.error(f"An error occurred youtube_dl_call_back: {e}")
 
-    elif "=" in query.data:
+    elif "|" in query.data:
         try:
             await ddl_call_back(client, query)
         except Exception as e:
