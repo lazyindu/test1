@@ -16,11 +16,7 @@ from lazybot.ran_text import random_char
 from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram import enums
-from hachoir.parser import createParser
-from hachoir.metadata import extractMetadata
-from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
-from lazybot.help_uploadbot import DownLoadFile
-from lazybot.forcesub import handle_force_subscribe
+from database.lazy_utils import  humanbytes
 from pyrogram import Client
 from pyrogram import filters
 from Script import script
@@ -52,7 +48,7 @@ async def echo(client, message):
         except Exception as error:
             print(error)
     if not message.from_user:
-        return await message.reply_text("I don't know about you sar :(")
+        return await message.reply_text("What the hell is this 🤐")
     # await add_user_to_database(client, message)
     # await client.send_chat_action(
     #    chat_id=message.chat.id,
@@ -110,7 +106,6 @@ async def echo(client, message):
         command_to_exec = [
             "yt-dlp",
             "--no-warnings",
-            # "--skip-download",
             "--youtube-skip-dash-manifest",
             "-j",
             url,
@@ -120,7 +115,6 @@ async def echo(client, message):
         command_to_exec = [
             "yt-dlp",
             "--no-warnings",
-            "--skip-download",
             "--youtube-skip-dash-manifest",
             "-j",
             url
@@ -135,7 +129,7 @@ async def echo(client, message):
         logger.info(command_to_exec)
         chk = await client.send_message(
                 chat_id=message.chat.id,
-                text=f'<b>Processing... ⏳</b>',
+                text=f'<b>Analysing url.... </b>',
                 disable_web_page_preview=True,
                 reply_to_message_id=message.id
             )
