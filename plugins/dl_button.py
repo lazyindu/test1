@@ -286,7 +286,7 @@ async def download_coroutine(bot, session, url, file_name, chat_id, message_id, 
                     progress = "{0}{1}".format(
                         ''.join(["█" for i in range(math.floor(percentage / 5))]),
                         ''.join(["░" for i in range(20 - math.floor(percentage / 5))]))
-                    tmp = progress + script.PROGRESS_BAR.format( 
+                    tmp = okda + progress + script.PROGRESS_BAR.format( 
                         round(percentage, 2),
                         humanbytes(downloaded),
                         humanbytes(total_length),
