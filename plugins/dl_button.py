@@ -11,7 +11,7 @@ import os
 import json
 import shutil
 import requests
-
+import math
 import time
 from urllib.parse import urlparse
 from info import *
@@ -254,7 +254,7 @@ async def ddl_call_back(client, query):
 async def download_coroutine(bot, session, url, file_name, chat_id, message_id, start):
     downloaded = 0
     display_message = ""
-    async with session.get(url, timeout=script.PROCESS_MAX_TIMEOUT) as response:
+    async with session.get(url, timeout=PROCESS_MAX_TIMEOUT) as response:
         total_length = int(response.headers["Content-Length"])
         content_type = response.headers["Content-Type"]
         if "text" in content_type and total_length < 500:
@@ -282,20 +282,20 @@ async def download_coroutine(bot, session, url, file_name, chat_id, message_id, 
                     time_to_completion = round(
                         (total_length - downloaded) / speed) * 1000
                     estimated_total_time = elapsed_time + time_to_completion
+                    okda = "hello i'm downloading..."
+                    progress = "{0}{1}".format(
+                        ''.join(["█" for i in range(math.floor(percentage / 5))]),
+                        ''.join(["░" for i in range(20 - math.floor(percentage / 5))]))
+                    tmp = progress + script.PROGRESS_BAR.format( 
+                        round(percentage, 2),
+                        humanbytes(downloaded),
+                        humanbytes(total_length),
+                        humanbytes(speed),
+                        # elapsed_time if elapsed_time != '' else "0 s",
+                        estimated_total_time if estimated_total_time != '' else "0 s"
+                    )
                     try:
-                        current_message = """**DᴏᴡɴʟᴏᴀᴅɪɴG**
-**🔗 Uʀʟ :** `{}`
-
-**🗂️ Sɪᴢᴇ :** {}
-
-**✅ Dᴏɴᴇ :** {}
-
-**⏱️ Eᴛᴀ :** {}""".format(
-    url,
-    humanbytes(total_length),
-    humanbytes(downloaded),
-    TimeFormatter(estimated_total_time)
-)
+                        current_message = tmp
                         if current_message != display_message:
                             await bot.edit_message_text(
                                 chat_id,
