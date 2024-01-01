@@ -250,10 +250,11 @@ async def ddl_call_back(client, query):
             disable_web_page_preview=True
         )
 
-async def download_coroutine(bot, session, url, file_name,chat_id,message_id, start):
+
+async def download_coroutine(bot, session, url, file_name, chat_id, message_id, start):
     downloaded = 0
     display_message = ""
-    async with session.get(url, timeout=PROCESS_MAX_TIMEOUT) as response:
+    async with session.get(url, timeout=script.PROCESS_MAX_TIMEOUT) as response:
         total_length = int(response.headers["Content-Length"])
         content_type = response.headers["Content-Type"]
         if "text" in content_type and total_length < 500:
@@ -297,7 +298,8 @@ async def download_coroutine(bot, session, url, file_name,chat_id,message_id, st
 )
                         if current_message != display_message:
                             await bot.edit_message_text(
-                                
+                                chat_id,
+                                message_id,
                                 text=current_message
                             )
                             display_message = current_message
