@@ -137,7 +137,7 @@ async def ddl_call_back(client, query):
                 query.message.message_id,
                 c_time
             )
-        except asyncio.TimeOutError:
+        except TimeoutError:
             await query.edit_message_text(
                 text=script.SLOW_URL_DECED,
             )
