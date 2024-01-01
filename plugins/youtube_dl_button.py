@@ -103,7 +103,7 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_init = await query.edit_message_text(
                         text=f"ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪ \n⬇️⏬ {xLAZY_BAAPUx_u_name}",
                     )
-        await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ₑₙⱼₒᵧ ₛᵤₚₑᵣ𝒻ₐₛₜ 𝒹ₒ𝓌ₙₗₒₐ𝒹 ᵦᵧ [@ₗₐ𝓏ᵧDₑᵥₑₗₒₚₑᵣ](https://t.me/LazyDeveloper)◔_◔** \n\n**✩░▒▓▅▂▁𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ 📂**\n{xLAZY_BAAPUx_u_name}\n\n**✩░▒▓▅▂▁𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ 📝**\n{template_name}\n███████████████████████\n[ ⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx} ]", disable_web_page_preview=True)
+        await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**✩░▒▓▅▂▁ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n{xLAZY_BAAPUx_u_name}\n\n**✩░▒▓▅▂▁ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n{template_name}\n███████████████████████\n⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx}", disable_web_page_preview=True)
         # progress to be displayed to the user
         # i am currently work on this to display current progress in progress bar in the chat
         # if you have code then you can contact me @LazyDeveloperr on telegram - instagram 
