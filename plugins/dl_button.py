@@ -90,28 +90,28 @@ async def ddl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    try:
+    # try:
         xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
         xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
         xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
         xxLAZY_BAAPUxx = humanbytes(xLAZY_BAAPUx_t_length)
-        template_name = custom_file_name if custom_file_name else "**⚠ You haven't given any custom name...**"
-        xLAZY_BAAPUx_init = await query.edit_message_text(
-                        text=f"ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪ \n⬇️⏬ {xLAZY_BAAPUx_u_name}",
-                    )
-        xox = await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n███████████████████████\n⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx}", disable_web_page_preview=True,)
+        # template_name = custom_file_name if custom_file_name else "**⚠ You haven't given any custom name...**"
+        # xLAZY_BAAPUx_init = await query.edit_message_text(
+                        # text=f"ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪ \n⬇️⏬ {xLAZY_BAAPUx_u_name}",
+        #             )
+        # xox = await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n███████████████████████\n⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx}", disable_web_page_preview=True,)
         # progress to be displayed to the user
         # i am currently work on this to display current progress in progress bar in the chat
         # if you have code then you can contact me @LazyDeveloperr on telegram - instagram 
         # with love 💘 @LazyDeveloperr
-    except Exception as e:
-        await xLAZY_BAAPUx_init.edit(e)
-        pass
+    # except Exception as e:
+    #     await xLAZY_BAAPUx_init.edit(e)
+    #     pass
     try:
         lazy_sticker = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
     except Exception as e:
-        await xLAZY_BAAPUx_init.edit(e)
+        await print(e)
         pass
 
     description = script.CUSTOM_CAPTION_UL_FILE
@@ -131,6 +131,7 @@ async def ddl_call_back(client, query):
             await download_coroutine(
                 client,
                 session,
+                custom_file_name,
                 youtube_dl_url,
                 download_directory,
                 query.message.chat.id,
@@ -166,7 +167,7 @@ async def ddl_call_back(client, query):
                     chat_id=query.message.chat.id,
                     document=download_directory,
                     thumb=thumbnail,
-                    caption=description,
+                    caption=custom_file_name,
                     reply_to_message_id=message_idx,
                     progress=progress_for_pyrogram,
                     progress_args=(
@@ -181,7 +182,7 @@ async def ddl_call_back(client, query):
                  await client.send_video(
                     chat_id=query.message.chat.id,
                     video=download_directory,
-                    caption=description,
+                    caption=custom_file_name,
                     duration=duration,
                     width=width,
                     height=height,
@@ -201,7 +202,7 @@ async def ddl_call_back(client, query):
                 await client.send_audio(
                     chat_id=query.message.chat.id,
                     audio=download_directory,
-                    caption=description,
+                    caption=custom_file_name,
                     parse_mode=enums.ParseMode.HTML,
                     duration=duration,
                     thumb=thumbnail,
@@ -221,9 +222,9 @@ async def ddl_call_back(client, query):
                     video_note=download_directory,
                     duration=duration,
                     length=width,
-                    thumb=thumbnail,
-                    reply_to_message_id=message_idx,
-                    progress=progress_for_pyrogram,
+                    thuly_to_message_id=message_idx,
+                    promb=thumbnail,
+                    repgress=progress_for_pyrogram,
                     progress_args=(
                         script.UPLOAD_START,
                         query.message,
@@ -251,20 +252,21 @@ async def ddl_call_back(client, query):
         )
 
 
-async def download_coroutine(bot, session, url, file_name, chat_id, message_id, start):
+async def download_coroutine(bot, session, custom_file_name, url, file_name, chat_id, message_id, start):
     downloaded = 0
     display_message = ""
     async with session.get(url, timeout=PROCESS_MAX_TIMEOUT) as response:
         total_length = int(response.headers["Content-Length"])
         content_type = response.headers["Content-Type"]
+        xLAZY_BAAPUx_path = urlparse(url).path
+        xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
         if "text" in content_type and total_length < 500:
             return await response.release()
         await bot.edit_message_text(
             chat_id,
             message_id,
-            text="""Initiating Download
-**🔗 Uʀʟ :** `{}`
-**🗂️ Sɪᴢᴇ :** {}""".format(url, humanbytes(total_length))
+            text=""""**ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪** \n⬇️⏬ `{}`\n🧬**ѕιzє:**`{}`
+            """.format(xLAZY_BAAPUx_u_name, humanbytes(total_length))
         )
         with open(file_name, "wb") as f_handle:
             while True:
@@ -275,6 +277,8 @@ async def download_coroutine(bot, session, url, file_name, chat_id, message_id, 
                 downloaded += CHUNK_SIZE
                 now = time.time()
                 diff = now - start
+                xLAZY_BAAPUx_path = urlparse(url).path
+                xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
                 if round(diff % 5.00) == 0 or downloaded == total_length:
                     percentage = downloaded * 100 / total_length
                     speed = downloaded / diff
@@ -282,17 +286,21 @@ async def download_coroutine(bot, session, url, file_name, chat_id, message_id, 
                     time_to_completion = round(
                         (total_length - downloaded) / speed) * 1000
                     estimated_total_time = elapsed_time + time_to_completion
-                    okda = "hello i'm downloading..."
+                    xxLAZY_BAPUXX_total_size = humanbytes(total_length)
+                    tp = round(percentage, 2)
+                    xxLAZY_BAPUXX_estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
+                    template_name = custom_file_name if custom_file_name else "**⚠ You haven't given any custom name...**"
+
+                    xLDx = await bot.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n ☼﹍︿﹍ⲯ﹍︿﹍﹍︿﹍ⲯ﹍︿﹍☼\n⚡️**Done: {tp}** | 🧬ѕιzє: {xxLAZY_BAPUXX_total_size}", disable_web_page_preview=True,)
                     progress = "{0}{1}".format(
                         ''.join(["█" for i in range(math.floor(percentage / 5))]),
                         ''.join(["░" for i in range(20 - math.floor(percentage / 5))]))
-                    tmp = okda + progress + script.PROGRESS_BAR.format( 
+                    tmp = xLDx + "\n" + progress + script.PROGRESS_BAR.format( 
                         round(percentage, 2),
                         humanbytes(downloaded),
                         humanbytes(total_length),
                         humanbytes(speed),
-                        # elapsed_time if elapsed_time != '' else "0 s",
-                        estimated_total_time if estimated_total_time != '' else "0 s"
+                        xxLAZY_BAPUXX_estimated_total_time if xxLAZY_BAPUXX_estimated_total_time != '' else "0 s"
                     )
                     try:
                         current_message = tmp
