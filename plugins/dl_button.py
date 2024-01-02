@@ -263,25 +263,14 @@ async def ddl_call_back(client, query):
             disable_web_page_preview=True
         )
 
-
 async def download_coroutine(bot, session, custom_file_name, url, file_name, chat_id, message_id, start):
     downloaded = 0
     display_message = ""
-    total_length = 0
     async with session.get(url, timeout=PROCESS_MAX_TIMEOUT) as response:
-        if "youtu" in url or "youtube" in url:
-            logger.info('cant define file size for youtube videos')
-        else:
-            xLAZY_BAAPUx_d_size = requests.head(url)    
-            xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-            total_length = humanbytes(xLAZY_BAAPUx_t_length)
-
-        logger.info(total_length)
-        # getting file name from url
+        total_length = int(response.headers["Content-Length"])
+        content_type = response.headers["Content-Type"]
         xLAZY_BAAPUx_path = urlparse(url).path
         xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-
-        content_type = response.headers["Content-Type"]
         if "text" in content_type and total_length < 500:
             return await response.release()
         await bot.edit_message_text(
@@ -313,7 +302,7 @@ async def download_coroutine(bot, session, custom_file_name, url, file_name, cha
                     xxLAZY_BAPUXX_estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
                     template_name = custom_file_name if custom_file_name else "**⚠ You haven't given any custom name...**"
 
-                    xLDx = f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n ☼﹍︿﹍ⲯ﹍︿﹍﹍︿﹍ⲯ﹍︿﹍☼\n⚡️**Done: {tp}** | 🧬ѕιzє: {xxLAZY_BAPUXX_total_size}"
+                    xLDx = await bot.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n ☼﹍︿﹍ⲯ﹍︿﹍﹍︿﹍ⲯ﹍︿﹍☼\n⚡️**Done: {tp}** | 🧬ѕιzє: {xxLAZY_BAPUXX_total_size}", disable_web_page_preview=True,)
                     progress = "{0}{1}".format(
                         ''.join(["█" for i in range(math.floor(percentage / 5))]),
                         ''.join(["░" for i in range(20 - math.floor(percentage / 5))]))
