@@ -268,6 +268,11 @@ async def echo(client, message):
                 total_length = humanbytes(xLAZY_BAAPUx_t_length)
             logger.info(total_length)
             size = "undefined" if "youtu" in url or "youtube" in url else total_length
+            usr_id = message.chat.id
+            user_data = await db.get_user_data(usr_id)
+            if not user_data:
+                await message.edit("Failed to fetch your data from database!")
+                return
             upload_as_doc = user_data.get("upload_as_doc", False)
             upload_type = f" {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
             await client.send_message(
@@ -298,12 +303,6 @@ async def echo(client, message):
             
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
             await chk.delete(True)
-            usr_id = message.chat.id
-            user_data = await db.get_user_data(usr_id)
-            if not user_data:
-                await message.edit("Failed to fetch your data from database!")
-                return
-
             await client.send_message(
                 chat_id=message.chat.id,
                 text=f"⏯**File Name:** {file_name}\n\n🧬**File Size:** {total_length}\n**⩙ Upload Type:** {upload_type}",
