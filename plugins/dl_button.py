@@ -272,16 +272,23 @@ async def download_coroutine(bot, session, custom_file_name, url, file_name, cha
         if "youtu" in url:
             try:
                 yt_video = YouTube(url)
-                total_length = yt_video.length
+                xtotal_length = yt_video.length
+                total_length = humanbytes(xtotal_length)
+                print(total_length)
             except Exception as e:
                 # Handle the exception (e.g., video is not available)
                 print(f"Error fetching video details: {e}")
             return
-        
-        total_length = int(response.headers["Content-Length"])
-        content_type = response.headers["Content-Type"]
+        else:
+            xLAZY_BAAPUx_d_size = requests.head(url)    
+            xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+            total_length = humanbytes(xLAZY_BAAPUx_t_length)
+            print(total_length)
+        # getting file name from url
         xLAZY_BAAPUx_path = urlparse(url).path
         xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
+
+        content_type = response.headers["Content-Type"]
         if "text" in content_type and total_length < 500:
             return await response.release()
         await bot.edit_message_text(
