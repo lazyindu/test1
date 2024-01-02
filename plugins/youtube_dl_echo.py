@@ -269,7 +269,7 @@ async def echo(client, message):
         else:
             # fallback for nonnumeric port a.k.a seedbox.io
             upload_as_doc = user_data.get("upload_as_doc", False)
-            upload_type = f"ᴜᴘʟᴏᴀᴅ ᴀs {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
+            upload_type = f" {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
             inline_keyboard = []
             cb_string_file = "{}={}={}".format(
                 "file", "LFO", "NONE")
@@ -292,12 +292,12 @@ async def echo(client, message):
             if not user_data:
                 await message.edit("Failed to fetch your data from database!")
                 return
-            xLAZY_BAAPUx_d_size = requests.head(url)
+            xLAZY_BAAPUx_d_size = requests.head(url)    
             xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
             xxLAZY_BAAPUxx = humanbytes(xLAZY_BAAPUx_t_length)
             await client.send_message(
                 chat_id=message.chat.id,
-                text=script.FORMAT_SELECTION.format(file_name, xxLAZY_BAAPUxx, upload_type),
+                text=f"<b>⏯**File Name:** {file_name}\n\n🧬**File Size:** {xxLAZY_BAAPUxx}\n**⩙ Upload Type:** {upload_type}",
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML,
                 reply_to_message_id=message.id
