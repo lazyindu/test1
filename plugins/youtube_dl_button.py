@@ -94,16 +94,8 @@ async def youtube_dl_call_back(client, query):
                 youtube_dl_url = youtube_dl_url[o:o + l]
 
     try:
-        if "youtu" in youtube_dl_url:
-            try:
-                yt_video = YouTube(youtube_dl_url)
-                xtotal_length = int(yt_video.length)
-                total_length = humanbytes(xtotal_length)
-                logger.info(total_length)
-            except Exception as e:
-                # Handle the exception (e.g., video is not available)
-                logger.info(f"Error fetching video details: {e}")
-            return
+        if "youtu" in youtube_dl_url or "youtube" in youtube_dl_url:
+            logger.info('cant define file size for youtube videos')
         else:
             xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)    
             xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
