@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
+from pytube import YouTube
 import asyncio
 import json
 import os
@@ -94,16 +94,30 @@ async def youtube_dl_call_back(client, query):
                 youtube_dl_url = youtube_dl_url[o:o + l]
 
     try:
+        if "youtu" in youtube_dl_url:
+            try:
+                yt_video = YouTube(youtube_dl_url)
+                xtotal_length = yt_video.length
+                total_length = humanbytes(xtotal_length)
+                print(total_length)
+            except Exception as e:
+                # Handle the exception (e.g., video is not available)
+                print(f"Error fetching video details: {e}")
+            return
+        else:
+            xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)    
+            xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+            total_length = humanbytes(xLAZY_BAAPUx_t_length)
+            print(total_length)
+
         xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-        xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
-        xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-        xxLAZY_BAAPUxx = humanbytes(xLAZY_BAAPUx_t_length)
+
         template_name = custom_file_name if custom_file_name else "**⚠ You haven't given any custom name...**"
         xLAZY_BAAPUx_init = await query.edit_message_text(
                         text=f"ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪ \n⬇️⏬ {xLAZY_BAAPUx_u_name}",
                     )
-        await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n███████████████████████\n⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx}", disable_web_page_preview=True,)
+        await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n███████████████████████\n⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {total_length}", disable_web_page_preview=True,)
         # progress to be displayed to the user
         # i am currently work on this to display current progress in progress bar in the chat
         # if you have code then you can contact me @LazyDeveloperr on telegram - instagram 
