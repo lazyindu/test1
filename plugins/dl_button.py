@@ -269,21 +269,13 @@ async def download_coroutine(bot, session, custom_file_name, url, file_name, cha
     display_message = ""
     total_length = 0
     async with session.get(url, timeout=PROCESS_MAX_TIMEOUT) as response:
-        if "youtu" in url:
-            try:
-                yt_video = YouTube(url)
-                xtotal_length = int(yt_video.length)
-                total_length = humanbytes(xtotal_length)
-                logger.info(total_length)
-            except Exception as e:
-                # Handle the exception (e.g., video is not available)
-                logger.info(f"Error fetching video details: {e}")
-            return
+        if "youtu" in url or "youtube" in url:
+            logger.info('cant define file size for youtube videos')
         else:
             xLAZY_BAAPUx_d_size = requests.head(url)    
             xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
             total_length = humanbytes(xLAZY_BAAPUx_t_length)
-        
+
         logger.info(total_length)
         # getting file name from url
         xLAZY_BAAPUx_path = urlparse(url).path
