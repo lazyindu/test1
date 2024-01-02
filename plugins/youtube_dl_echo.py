@@ -159,6 +159,21 @@ async def echo(client, message):
                 disable_web_page_preview=True
             )
             return False
+        if "youtu" in url:
+            try:
+                yt_video = YouTube(url)
+                xtotal_length = int(yt_video.length)
+                total_length = humanbytes(xtotal_length)
+                logger.info(total_length)
+            except Exception as e:
+                # Handle the exception (e.g., video is not available)
+                print(f"Error fetching video details: {e}")
+            return
+        else:
+            xLAZY_BAAPUx_d_size = requests.head(url)    
+            xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+            total_length = humanbytes(xLAZY_BAAPUx_t_length)
+        logger.info(total_length)
         if t_response:
             # logger.info(t_response)
             x_reponse = t_response
@@ -261,7 +276,7 @@ async def echo(client, message):
             await chk.delete()
             await client.send_message(
                 chat_id=message.chat.id,
-                text=script.FORMAT_SELECTION.format(Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
+                text= f"<b>⏯**File Name:** {file_name}\n\n🧬**File Size:** {total_length}\n**⩙ Upload Type:** {upload_type}" + script.FORMAT_SELECTION.format(Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML,
                 reply_to_message_id=message.id
@@ -292,21 +307,7 @@ async def echo(client, message):
             if not user_data:
                 await message.edit("Failed to fetch your data from database!")
                 return
-            if "youtu" in url:
-                try:
-                    yt_video = YouTube(url)
-                    xtotal_length = yt_video.length
-                    total_length = humanbytes(xtotal_length)
-                    print(total_length)
-                except Exception as e:
-                    # Handle the exception (e.g., video is not available)
-                    print(f"Error fetching video details: {e}")
-                return
-            else:
-                xLAZY_BAAPUx_d_size = requests.head(url)    
-                xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-                total_length = humanbytes(xLAZY_BAAPUx_t_length)
-                print(total_length)
+
             await client.send_message(
                 chat_id=message.chat.id,
                 text=f"<b>⏯**File Name:** {file_name}\n\n🧬**File Size:** {total_length}\n**⩙ Upload Type:** {upload_type}",
