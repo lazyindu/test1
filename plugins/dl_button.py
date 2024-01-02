@@ -11,6 +11,7 @@ import os
 import json
 import shutil
 import requests
+from pytube import YouTube
 import math
 import time
 from urllib.parse import urlparse
@@ -90,24 +91,7 @@ async def ddl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    # try:
-        xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
-        xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-        xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)
-        xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-        xxLAZY_BAAPUxx = humanbytes(xLAZY_BAAPUx_t_length)
-        # template_name = custom_file_name if custom_file_name else "**⚠ You haven't given any custom name...**"
-        # xLAZY_BAAPUx_init = await query.edit_message_text(
-                        # text=f"ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪ \n⬇️⏬ {xLAZY_BAAPUx_u_name}",
-        #             )
-        # xox = await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n███████████████████████\n⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx}", disable_web_page_preview=True,)
-        # progress to be displayed to the user
-        # i am currently work on this to display current progress in progress bar in the chat
-        # if you have code then you can contact me @LazyDeveloperr on telegram - instagram 
-        # with love 💘 @LazyDeveloperr
-    # except Exception as e:
-    #     await xLAZY_BAAPUx_init.edit(e)
-    #     pass
+
     try:
         lazy_sticker = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
     except Exception as e:
@@ -163,11 +147,17 @@ async def ddl_call_back(client, query):
             start_time = time.time()
             if (await db.get_upload_as_doc(query.from_user.id)) is False:
                 thumbnail = await Gthumb01(client, query)
+                await lazy_sticker.delete()
+                try:
+                    lazy_sticker01 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
+                except Exception as e:
+                    await client.send_message(chat_id = query.message.chat.id, text=f"🥳")
+                    pass
                 await client.send_document(
                     chat_id=query.message.chat.id,
                     document=download_directory,
                     thumb=thumbnail,
-                    caption=custom_file_name,
+                    caption=f"**{custom_file_name}**",
                     reply_to_message_id=message_idx,
                     progress=progress_for_pyrogram,
                     progress_args=(
@@ -176,13 +166,20 @@ async def ddl_call_back(client, query):
                         start_time
                     )
                 )
+                await lazy_sticker01.delete()
             else:
                  width, height, duration = await Mdata01(download_directory)
                  thumb_image_path = await Gthumb02(client, query, duration, download_directory)
+                 await lazy_sticker.delete()
+                 try:
+                     lazy_sticker02 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
+                 except Exception as e:
+                     await client.send_message(chat_id = query.message.chat.id, text=f"🥳")
+                     pass
                  await client.send_video(
                     chat_id=query.message.chat.id,
                     video=download_directory,
-                    caption=custom_file_name,
+                    caption=f"**{custom_file_name}**",
                     duration=duration,
                     width=width,
                     height=height,
@@ -196,13 +193,20 @@ async def ddl_call_back(client, query):
                         start_time
                     )
                 )
+                 await lazy_sticker02.delete()
             if tg_send_type == "audio":
                 duration = await Mdata03(download_directory)
                 thumbnail = await Gthumb01(client, query)
+                await lazy_sticker.delete()
+                try:
+                    lazy_sticker03 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
+                except Exception as e:
+                    await client.send_message(chat_id = query.message.chat.id, text=f"🥳")
+                    pass
                 await client.send_audio(
                     chat_id=query.message.chat.id,
                     audio=download_directory,
-                    caption=custom_file_name,
+                    caption=f"**{custom_file_name}**",
                     parse_mode=enums.ParseMode.HTML,
                     duration=duration,
                     thumb=thumbnail,
@@ -214,9 +218,16 @@ async def ddl_call_back(client, query):
                         start_time
                     )
                 )
+                await lazy_sticker03.delete()
             elif tg_send_type == "vm":
                 width, duration = await Mdata02(download_directory)
                 thumbnail = await Gthumb02(client, query, duration, download_directory)
+                await lazy_sticker.delete()
+                try:
+                    lazy_sticker04 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
+                except Exception as e:
+                    await client.send_message(chat_id = query.message.chat.id, text=f"🥳")
+                    pass
                 await client.send_video_note(
                     chat_id=query.message.chat.id,
                     video_note=download_directory,
@@ -231,6 +242,7 @@ async def ddl_call_back(client, query):
                         start_time
                     )
                 )
+                await lazy_sticker04.delete()
             else:
                 logger.info("Did this happen? :\\")
             end_two = datetime.now()
@@ -255,7 +267,17 @@ async def ddl_call_back(client, query):
 async def download_coroutine(bot, session, custom_file_name, url, file_name, chat_id, message_id, start):
     downloaded = 0
     display_message = ""
+    total_length = 0
     async with session.get(url, timeout=PROCESS_MAX_TIMEOUT) as response:
+        if "youtu" in url:
+            try:
+                yt_video = YouTube(url)
+                total_length = yt_video.length
+            except Exception as e:
+                # Handle the exception (e.g., video is not available)
+                print(f"Error fetching video details: {e}")
+            return
+        
         total_length = int(response.headers["Content-Length"])
         content_type = response.headers["Content-Type"]
         xLAZY_BAAPUx_path = urlparse(url).path

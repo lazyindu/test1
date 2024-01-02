@@ -10,6 +10,7 @@ import os
 import filetype
 import urllib.parse
 import requests
+from database.users_chats_db import db
 from pyrogram.types import Thumbnail
 from database.add import add_user_to_database
 from lazybot.ran_text import random_char
@@ -267,6 +268,8 @@ async def echo(client, message):
             )
         else:
             # fallback for nonnumeric port a.k.a seedbox.io
+            upload_as_doc = user_data.get("upload_as_doc", False)
+            upload_type = f"ᴜᴘʟᴏᴀᴅ ᴀs {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
             inline_keyboard = []
             cb_string_file = "{}={}={}".format(
                 "file", "LFO", "NONE")
@@ -276,13 +279,25 @@ async def echo(client, message):
                 InlineKeyboardButton(
                     "🎬 ᴍᴇᴅɪᴀ",
                     callback_data=(cb_string_video).encode("UTF-8")
-                )
+                ),
+                InlineKeyboardButton(
+                    text=f"ᴜᴘʟᴏᴀᴅ ᴀs {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}",
+                    callback_data="triggerUploadMode")
             ])
+            
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
             await chk.delete(True)
+            usr_id = message.chat.id
+            user_data = await db.get_user_data(usr_id)
+            if not user_data:
+                await message.edit("Failed to fetch your data from database!")
+                return
+            xLAZY_BAAPUx_d_size = requests.head(url)
+            xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+            xxLAZY_BAAPUxx = humanbytes(xLAZY_BAAPUx_t_length)
             await client.send_message(
                 chat_id=message.chat.id,
-                text=script.FORMAT_SELECTION,
+                text=script.FORMAT_SELECTION.format(file_name, xxLAZY_BAAPUxx, upload_type),
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML,
                 reply_to_message_id=message.id

@@ -19,7 +19,6 @@ from PIL import Image
 
 # the Strings used for this "thing"
 from pyrogram import Client
-
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
@@ -32,7 +31,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, 
 from lazybot.forcesub import handle_force_subscribe
 from database.add import add_user_to_database
 
-@Client.on_message(filters.private & filters.command(['view_thumb','vt']))
+@Client.on_message(filters.private & filters.command(['view_thumb','view_thumbnail','vt']))
 async def viewthumb(client, message):
     if not message.from_user:
         return await message.reply_text("What the hell is this...")
@@ -65,7 +64,7 @@ async def removethumb(client, message):
     await db.set_thumbnail(message.from_user.id, file_id=None)
     await message.reply_text("**Okay sweetie, I deleted your custom thumbnail for direct renaming. Now I will apply default thumbnail. ✅️**✅️")
 
-@Client.on_message(filters.private & filters.command(['set_thumb','st']))
+@Client.on_message(filters.private & filters.command(['set_thumbnail','set_thumb','st']))
 async def addthumbs(client, message):
     replied = message.reply_to_message
     
@@ -128,7 +127,7 @@ async def removethumbnail(client, message):
         ])
     )
 
-@Client.on_message(filters.private & filters.command(['set_lazy_thumb', 'slt']))
+@Client.on_message(filters.private & filters.command(['set_lazy_thumb','set_lazy_thumbnail', 'slt']))
 async def add_thumbnail(client, message):
     replied = message.reply_to_message
     
