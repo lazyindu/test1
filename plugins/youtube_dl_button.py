@@ -222,7 +222,7 @@ async def youtube_dl_call_back(client, query):
                 9
             )
             logger.info(images)'''
-            await CallbackQuery.edit_message_text(
+            await query.edit_message_text(
                 text="**initiating Lazy Upload** ⚡",
             )
 
