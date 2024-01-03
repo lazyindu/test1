@@ -8,9 +8,8 @@ import tldextract
 import shutil
 import os
 import filetype
-from pytube import YouTube
+import urllib.parse
 import requests
-from database.users_chats_db import db
 from pyrogram.types import Thumbnail
 from database.add import add_user_to_database
 from lazybot.ran_text import random_char
@@ -22,7 +21,6 @@ from pyrogram import Client
 from pyrogram import filters
 from Script import script
 import time
-from urllib.parse import urlparse
 from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL, BANNED_USERS, DEF_THUMB_NAIL_VID_S, CHUNK_SIZE
 from PIL import Image
 import logging
@@ -160,19 +158,6 @@ async def echo(client, message):
                 disable_web_page_preview=True
             )
             return False
-        
-        if "youtu" in url or "youtube" in url:
-            logger.info('cant define file size for youtube videos')
-        else:
-            xLAZY_BAAPUx_d_size = requests.head(url)    
-            xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-            xLAZY_BAAPUx_path = urlparse(url).path
-            xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-            total_length = humanbytes(xLAZY_BAAPUx_t_length)
-        logger.info(total_length)
-        size = "undefined" if "youtu" in url or "youtube" in url else total_length
-        namee = "undefined" if "youtu" in url or "youtube" in url else xLAZY_BAAPUx_u_name
-
         if t_response:
             # logger.info(t_response)
             x_reponse = t_response
@@ -269,38 +254,19 @@ async def echo(client, message):
                     InlineKeyboardButton(
                         "🎥 ᴠɪᴅᴇᴏ",
                         callback_data=(cb_string_video).encode("UTF-8")
-                    ),
-                    InlineKeyboardButton(
-                        text=f"ᴜᴘʟᴏᴀᴅ ᴀs {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}",
-                        callback_data="triggerUploadMode")
+                    )
                 ])
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
             await chk.delete()
-
-            usr_id = message.chat.id
-            user_data = await db.get_user_data(usr_id)
-            if not user_data:
-                await message.edit("Failed to fetch your data from database!")
-                return
-            upload_as_doc = user_data.get("upload_as_doc", False)
-            upload_type = f" {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
             await client.send_message(
                 chat_id=message.chat.id,
-                text= f"⏯<b>File Name:</b> {namee}\n\n🧬<b>File Size:</b> {size} \n<b>⩙ Upload Type:</b> {upload_type}" + script.FORMAT_SELECTION.format(Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
+                text=script.FORMAT_SELECTION.format(Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML,
                 reply_to_message_id=message.id
             )
         else:
             # fallback for nonnumeric port a.k.a seedbox.io
-
-            usr_id = message.chat.id
-            user_data = await db.get_user_data(usr_id)
-            if not user_data:
-                await message.edit("Failed to fetch your data from database!")
-                return
-            upload_as_doc = user_data.get("upload_as_doc", False)
-            upload_type = f" {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
             inline_keyboard = []
             cb_string_file = "{}={}={}".format(
                 "file", "LFO", "NONE")
@@ -310,17 +276,13 @@ async def echo(client, message):
                 InlineKeyboardButton(
                     "🎬 ᴍᴇᴅɪᴀ",
                     callback_data=(cb_string_video).encode("UTF-8")
-                ),
-                InlineKeyboardButton(
-                    text=f"ᴜᴘʟᴏᴀᴅ ᴀs {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}",
-                    callback_data="triggerUploadMode")
+                )
             ])
-            
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
             await chk.delete(True)
             await client.send_message(
                 chat_id=message.chat.id,
-                text=f"⏯<b>File URL:</b> {namee}\n\n🧬<b>File Size:</b> {size} \n<b>⩙ Upload Type:</b> {upload_type}",
+                text=script.FORMAT_SELECTION,
                 reply_markup=reply_markup,
                 parse_mode=enums.ParseMode.HTML,
                 reply_to_message_id=message.id
