@@ -33,7 +33,7 @@ async def youtube_dl_call_back(client, query):
     # youtube_dl extractors
     lzmsg = query.message.reply_to_message  # msg will be callback query
     message_idx = lzmsg.id #getting id
-    print(f"{message_idx}") 
+    print(f"{message_idx}")
     tg_send_type, youtube_dl_format, youtube_dl_ext, ranom = cb_data.split("|")
     print(cb_data)
     random1 = random_char(5)
@@ -92,6 +92,7 @@ async def youtube_dl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
+
     try:
         xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
         xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
@@ -102,7 +103,7 @@ async def youtube_dl_call_back(client, query):
         xLAZY_BAAPUx_init = await query.edit_message_text(
                         text=f"ღ♡ ɪɴɪᴛɪᴀᴛɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪ \n⬇️⏬ {xLAZY_BAAPUx_u_name}",
                     )
-        await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ᵉⁿʲᵒʸ ˢᵘᵖᵉʳᶠᵃˢᵗ ᵈᵒʷⁿˡᵒᵈ ᵇʸ [ᴸᵃᶻʸᴰᵉᵛᵉˡᵒᵖᵉʳʳ](https://t.me/LazyDeveloper)◔_◔** \n\n**░░✩ 📂𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ **\n<code>{xLAZY_BAAPUx_u_name}</code>\n\n**░░✩ 📝𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ **\n<code>{template_name}</code>\n\n███████████████████████\n⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx}", disable_web_page_preview=True,)
+        await query.edit_message_text(f"**ღ♡ ʀᴜɴɴɪɴɢ ʟᴀᴢʏ ᴄᴏɴꜱᴛʀᴜᴄᴛɪᴏɴ ♡♪**\n**ₑₙⱼₒᵧ ₛᵤₚₑᵣ𝒻ₐₛₜ 𝒹ₒ𝓌ₙₗₒₐ𝒹 ᵦᵧ [@ₗₐ𝓏ᵧDₑᵥₑₗₒₚₑᵣ](https://t.me/LazyDeveloper)◔_◔** \n\n**✩░▒▓▅▂▁𝐎𝐑𝐆 𝐅𝐈𝐋𝐄𝐍𝐀𝐌𝐄 ✩ 📂**\n{xLAZY_BAAPUx_u_name}\n\n**✩░▒▓▅▂▁𝐍𝐄𝐖 𝐍𝐀𝐌𝐄 ✩ 📝**\n{template_name}\n███████████████████████\n[ ⚡️**ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ** | 🧬ѕιzє: {xxLAZY_BAAPUxx} ]", disable_web_page_preview=True)
         # progress to be displayed to the user
         # i am currently work on this to display current progress in progress bar in the chat
         # if you have code then you can contact me @LazyDeveloperr on telegram - instagram 
@@ -190,7 +191,7 @@ async def youtube_dl_call_back(client, query):
             os.remove(save_ytdl_json_path)
         except FileNotFoundError as exc:
             pass
-
+        
         end_one = datetime.now()
         time_taken_for_download = (end_one -start).seconds
         file_size = TG_MAX_FILE_SIZE + 1
@@ -223,6 +224,7 @@ async def youtube_dl_call_back(client, query):
             if (await db.get_upload_as_doc(query.from_user.id)) is False:
                 thumbnail = await Gthumb01(client, query)
                 await lazy_sticker.delete()
+                caption = custom_file_name
                 try:
                     lazy_sticker01 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
                 except Exception as e:
@@ -233,7 +235,7 @@ async def youtube_dl_call_back(client, query):
                     chat_id=query.message.chat.id,
                     document=download_directory,
                     thumb=thumbnail,
-                    caption=custom_file_name,
+                    caption=caption,
                     reply_to_message_id=message_idx,
                     progress=progress_for_pyrogram,
                     progress_args=(
@@ -247,6 +249,7 @@ async def youtube_dl_call_back(client, query):
                  width, height, duration = await Mdata01(download_directory)
                  thumb_image_path = await Gthumb02(client, query, duration, download_directory)
                  await lazy_sticker.delete()
+                 caption = custom_file_name
                  try:
                      lazy_sticker02 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
                  except Exception as e:
@@ -255,7 +258,7 @@ async def youtube_dl_call_back(client, query):
                  await client.send_video(
                     chat_id=query.message.chat.id,
                     video=download_directory,
-                    caption=custom_file_name,
+                    caption=caption,
                     duration=duration,
                     width=width,
                     height=height,
@@ -274,6 +277,7 @@ async def youtube_dl_call_back(client, query):
                 duration = await Mdata03(download_directory)
                 thumbnail = await Gthumb01(client, query)
                 await lazy_sticker.delete()
+                caption = custom_file_name
                 try:
                     lazy_sticker03 = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
                 except Exception as e:
@@ -282,7 +286,7 @@ async def youtube_dl_call_back(client, query):
                 await client.send_audio(
                     chat_id=query.message.chat.id,
                     audio=download_directory,
-                    caption=custom_file_name,
+                    caption=description,
                     parse_mode=enums.ParseMode.HTML,
                     duration=duration,
                     thumb=thumbnail,
