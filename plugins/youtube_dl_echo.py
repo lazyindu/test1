@@ -161,6 +161,18 @@ async def echo(client, message):
             )
             return False
         
+        if "youtu" in url or "youtube" in url:
+            logger.info('cant define file size for youtube videos')
+        else:
+            xLAZY_BAAPUx_d_size = requests.head(url)    
+            xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+            xLAZY_BAAPUx_path = urlparse(url).path
+            xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
+            total_length = humanbytes(xLAZY_BAAPUx_t_length)
+        logger.info(total_length)
+        size = "undefined" if "youtu" in url or "youtube" in url else total_length
+        namee = "undefined" if "youtu" in url or "youtube" in url else xLAZY_BAAPUx_u_name
+
         if t_response:
             # logger.info(t_response)
             x_reponse = t_response
@@ -264,17 +276,7 @@ async def echo(client, message):
                 ])
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
             await chk.delete()
-            if "youtu" in url or "youtube" in url:
-                logger.info('cant define file size for youtube videos')
-            else:
-                xLAZY_BAAPUx_d_size = requests.head(url)    
-                xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-                xLAZY_BAAPUx_path = urlparse(url).path
-                xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-                total_length = humanbytes(xLAZY_BAAPUx_t_length)
-            logger.info(total_length)
-            size = "undefined" if "youtu" in url or "youtube" in url else total_length
-            namee = "undefined" if "youtu" in url or "youtube" in url else xLAZY_BAAPUx_u_name
+
             usr_id = message.chat.id
             user_data = await db.get_user_data(usr_id)
             if not user_data:
@@ -291,17 +293,7 @@ async def echo(client, message):
             )
         else:
             # fallback for nonnumeric port a.k.a seedbox.io
-            if "youtu" in url or "youtube" in url:
-                logger.info('cant define file size for youtube videos')
-            else:
-                xLAZY_BAAPUx_d_size = requests.head(url)    
-                xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-                xLAZY_BAAPUx_path = urlparse(url).path
-                xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-                total_length = humanbytes(xLAZY_BAAPUx_t_length)
-            logger.info(total_length)
-            size = "undefined" if "youtu" in url or "youtube" in url else total_length
-            namee = "undefined" if "youtu" in url or "youtube" in url else xLAZY_BAAPUx_u_name
+
             usr_id = message.chat.id
             user_data = await db.get_user_data(usr_id)
             if not user_data:
