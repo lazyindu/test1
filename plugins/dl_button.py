@@ -157,7 +157,7 @@ async def ddl_call_back(client, query):
                     chat_id=query.message.chat.id,
                     document=download_directory,
                     thumb=thumbnail,
-                    caption=f"**{custom_file_name}**",
+                    caption=custom_file_name,
                     reply_to_message_id=message_idx,
                     progress=progress_for_pyrogram,
                     progress_args=(
@@ -179,7 +179,7 @@ async def ddl_call_back(client, query):
                  await client.send_video(
                     chat_id=query.message.chat.id,
                     video=download_directory,
-                    caption=f"**{custom_file_name}**",
+                    caption=custom_file_name,
                     duration=duration,
                     width=width,
                     height=height,
@@ -206,7 +206,7 @@ async def ddl_call_back(client, query):
                 await client.send_audio(
                     chat_id=query.message.chat.id,
                     audio=download_directory,
-                    caption=f"**{custom_file_name}**",
+                    caption=custom_file_name,
                     parse_mode=enums.ParseMode.HTML,
                     duration=duration,
                     thumb=thumbnail,
