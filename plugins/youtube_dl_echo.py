@@ -4,29 +4,16 @@
 import math
 import json
 import asyncio
-import tldextract
-import shutil
-import os
-import filetype
-import urllib.parse
-import requests
 from pyrogram.types import Thumbnail
-from database.add import add_user_to_database
 from lazybot.ran_text import random_char
-from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram import enums
-from hachoir.parser import createParser
-from hachoir.metadata import extractMetadata
-from database.lazy_utils import progress_for_pyrogram, humanbytes, TimeFormatter
-from lazybot.help_uploadbot import DownLoadFile
-from lazybot.forcesub import handle_force_subscribe
+from database.lazy_utils import progress_for_pyrogram, humanbytes
 from pyrogram import Client
 from pyrogram import filters
 from Script import script
 import time
 from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL, BANNED_USERS, DEF_THUMB_NAIL_VID_S, CHUNK_SIZE
-from PIL import Image
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -110,7 +97,6 @@ async def echo(client, message):
         command_to_exec = [
             "yt-dlp",
             "--no-warnings",
-            # "--skip-download",
             "--youtube-skip-dash-manifest",
             "-j",
             url,
@@ -120,7 +106,6 @@ async def echo(client, message):
         command_to_exec = [
             "yt-dlp",
             "--no-warnings",
-            "--skip-download",
             "--youtube-skip-dash-manifest",
             "-j",
             url
