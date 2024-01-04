@@ -19,7 +19,7 @@ from Script import script
 from plugins.rlazy_thumbnail import *
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from pyrogram.types import InputMediaPhoto
-from database.lazy_utils import progress_for_pyrogram, progress_for_pyrogram2, humanbytes
+from database.lazy_utils import progress_for_pyrogram, humanbytes
 from database.users_chats_db import db
 from lazybot.ran_text import random_char
 
