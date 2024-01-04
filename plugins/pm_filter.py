@@ -459,16 +459,19 @@ async def cb_handler(client: Client, query: CallbackQuery):
                     pass
             else:
                 await query.answer("That's not for you sona!", show_alert=True)
-    elif "|" in query.data:
+    
+    elif "=" in query.data:
         try:
             await youtube_dl_call_back(client, query)
         except Exception as e:
             logger.error(f"An error occurred youtube_dl_call_back: {e}")
-    elif "=" in query.data:
+
+    elif "|" in query.data:
         try:
             await ddl_call_back(client, query)
         except Exception as e:
             logger.error(f"AN error occurred for ddl_call_back: {e}")
+
     elif "groupcb" in query.data:
         await query.answer()
 
@@ -695,10 +698,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('🙆🏻 Help 🦾', callback_data='help'),
             InlineKeyboardButton('♥️ About ♥️', callback_data='about')
         ],[
-            InlineKeyboardButton('🔗 URL Help ', callback_data='leech_url_help'),
-            InlineKeyboardButton('⚙ Open Settings ', callback_data='openSettings'),
+            InlineKeyboardButton('URL Help ', callback_data='leech_url_help'),
+            InlineKeyboardButton('open settings ', callback_data='openSettings'),
         ],[
-            InlineKeyboardButton('⪦ Learn BOT Making ⪧', url='https://youtube.com/LazyDeveloper')
+            InlineKeyboardButton('Watch Tutorial', url='https://youtube.com/LazyDeveloper')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
@@ -845,6 +848,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=button,
             disable_web_page_preview=True
         )
+
+# with Love @LazyDeveloperr 💘
+# Subscribe YT @LazyDeveloperr - to learn more about this for free...
+
+    # elif "|" in query.data:
+    #     await youtube_dl_call_back(bot, update)
+
+    # elif "=" in query.data:
+    #     await ddl_call_back(bot, update)
+
     elif data.startswith("generate_stream_link"):
         _, file_id = data.split(":")
         try:

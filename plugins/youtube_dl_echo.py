@@ -4,16 +4,25 @@
 import math
 import json
 import asyncio
+import tldextract
+import shutil
+import os
+import filetype
+import urllib.parse
+import requests
 from pyrogram.types import Thumbnail
+from database.add import add_user_to_database
 from lazybot.ran_text import random_char
+from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram import enums
-from database.lazy_utils import progress_for_pyrogram, humanbytes
+from database.lazy_utils import  humanbytes
 from pyrogram import Client
 from pyrogram import filters
 from Script import script
 import time
 from info import LOG_CHANNEL, DOWNLOAD_LOCATION, HTTP_PROXY, UPDATES_CHANNEL, BANNED_USERS, DEF_THUMB_NAIL_VID_S, CHUNK_SIZE
+from PIL import Image
 import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -39,7 +48,7 @@ async def echo(client, message):
         except Exception as error:
             print(error)
     if not message.from_user:
-        return await message.reply_text("I don't know about you sar :(")
+        return await message.reply_text("What the hell is this 🤐")
     # await add_user_to_database(client, message)
     # await client.send_chat_action(
     #    chat_id=message.chat.id,
@@ -120,7 +129,7 @@ async def echo(client, message):
         logger.info(command_to_exec)
         chk = await client.send_message(
                 chat_id=message.chat.id,
-                text=f'<b>Processing... ⏳</b>',
+                text=f'<b>Analysing url.... </b>',
                 disable_web_page_preview=True,
                 reply_to_message_id=message.id
             )

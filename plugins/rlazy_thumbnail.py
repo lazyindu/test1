@@ -19,6 +19,7 @@ from PIL import Image
 
 # the Strings used for this "thing"
 from pyrogram import Client
+
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
@@ -31,10 +32,10 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, 
 from lazybot.forcesub import handle_force_subscribe
 from database.add import add_user_to_database
 
-@Client.on_message(filters.private & filters.command(['view_thumb','view_thumbnail','vt']))
+@Client.on_message(filters.private & filters.command(['viewthumb','vt']))
 async def viewthumb(client, message):
     if not message.from_user:
-        return await message.reply_text("What the hell is this...")
+        return await message.reply_text("I don't know about you sar :(")
     await add_user_to_database(client, message)
     if UPDATES_CHANNEL:
       fsub = await handle_force_subscribe(client, message)
@@ -52,10 +53,10 @@ async def viewthumb(client, message):
     else:
         await message.reply_text("😔**Sorry ! No thumbnail found...**😔") 
 
-@Client.on_message(filters.private & filters.command(['del_thumb','delete_thumb','dt']))
+@Client.on_message(filters.private & filters.command(['delthumb','deletethumb','dt']))
 async def removethumb(client, message):
     if not message.from_user:
-        return await message.reply_text("What the hell is this...")
+        return await message.reply_text("I don't know about you sar :(")
     await add_user_to_database(client, message)
     if UPDATES_CHANNEL:
       fsub = await handle_force_subscribe(client, message)
@@ -64,12 +65,12 @@ async def removethumb(client, message):
     await db.set_thumbnail(message.from_user.id, file_id=None)
     await message.reply_text("**Okay sweetie, I deleted your custom thumbnail for direct renaming. Now I will apply default thumbnail. ✅️**✅️")
 
-@Client.on_message(filters.private & filters.command(['set_thumbnail','set_thumb','st']))
+@Client.on_message(filters.private & filters.command(['set_thumb','st']))
 async def addthumbs(client, message):
     replied = message.reply_to_message
     
     if not message.from_user:
-        return await message.reply_text("What the hell is this...")
+        return await message.reply_text("I don't know about you, sorry. :(")
     
     await add_user_to_database(client, message)
     
@@ -87,10 +88,11 @@ async def addthumbs(client, message):
     else:
         await LazyDev.edit("**❌ Please reply to a photo to set it as a custom thumbnail.**")
 
+
 @Client.on_message(filters.private & filters.command(['view_lazy_thumb','vlt']))
 async def viewthumbnail(client, message):    
     if not message.from_user:
-        return await message.reply_text("What the hell is this...")
+        return await message.reply_text("I don't know about you sar :(")
     await add_user_to_database(client, message) 
     if UPDATES_CHANNEL:
       fsub = await handle_force_subscribe(client, message)
@@ -109,10 +111,10 @@ async def viewthumbnail(client, message):
     else:
         await message.reply_text(text=f"ɴᴏ ᴛʜᴜᴍʙɴᴀɪʟ ғᴏᴜɴᴅ 🤒")
 
-@Client.on_message(filters.private & filters.command(['del_lazy_thumb','delete_lazy_thumb','dlt']))
+@Client.on_message(filters.private & filters.command(['del_lazy_thumb','deletelazythumb','dlt']))
 async def removethumbnail(client, message):
     if not message.from_user:
-        return await message.reply_text("What the hell is this...")
+        return await message.reply_text("I don't know about you sar :(")
     await add_user_to_database(client, message)
     if UPDATES_CHANNEL:
       fsub = await handle_force_subscribe(client, message)
@@ -123,16 +125,16 @@ async def removethumbnail(client, message):
     await message.reply_text(
         "**🗑️ Okay baby, I deleted your custom thumbnail for url downloading. Now I will apply default thumbnail. ☑**",
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("⚙ ᴄᴏɴғɪɢᴜʀᴇ sᴇᴛᴛɪɴɢs 🎨", callback_data="openSettings")]
+            [InlineKeyboardButton("⚙ ᴄᴏɴғɪɢᴜʀᴇ sᴇᴛᴛɪɴɢs 👀", callback_data="OpenSettings")]
         ])
     )
 
-@Client.on_message(filters.private & filters.command(['set_lazy_thumb','set_lazy_thumbnail', 'slt']))
+@Client.on_message(filters.private & filters.command(['set_lazy_thumb', 'slt']))
 async def add_thumbnail(client, message):
     replied = message.reply_to_message
     
     if not message.from_user:
-        return await message.reply_text("What the hell is this...")
+        return await message.reply_text("I don't know about you, sorry. :(")
     
     await add_user_to_database(client, message)
     
