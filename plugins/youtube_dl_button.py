@@ -341,6 +341,6 @@ async def youtube_dl_call_back(client, query):
             except:
                 pass
             await query.edit_message_text(
-                text=script.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload),
+                text=script.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload, youtube_dl_url, namee, template_name ),
                 disable_web_page_preview=True
             )

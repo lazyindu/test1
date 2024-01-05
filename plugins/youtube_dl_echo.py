@@ -104,6 +104,29 @@ async def echo(client, message):
                 o = entity.offset
                 l = entity.length
                 url = url[o:o + l]
+    
+    ######################## 
+    if "youtu" in url or "youtube" in url:
+        logger.info('cant define file size for youtube videos')
+    else:
+        xLAZY_BAAPUx_d_size = requests.head(url)    
+        xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+        xLAZY_BAAPUx_path = urlparse(url).path
+        xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
+        total_length = humanbytes(xLAZY_BAAPUx_t_length)
+    logger.info(total_length)
+    size = "undefined" if "youtu" in url or "youtube" in url else total_length
+    namee = "undefined" if "youtu" in url or "youtube" in url else xLAZY_BAAPUx_u_name
+
+    usr_id = message.chat.id
+    user_data = await db.get_user_data(usr_id)
+    if not user_data:
+        await message.edit("Failed to fetch your data from database!")
+        return
+    upload_as_doc = user_data.get("upload_as_doc", False)
+    upload_type = f" {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
+    ######################## 
+    
     if HTTP_PROXY != "":
         command_to_exec = [
             "yt-dlp",
@@ -249,6 +272,12 @@ async def echo(client, message):
                         callback_data=(cb_string_video).encode("UTF-8")
                     )
                 ])
+                inline_keyboard.append([
+                    InlineKeyboardButton(
+                        text=f"ᴜᴘʟᴏᴀᴅ ᴀs {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}",
+                        callback_data="triggerUploadMode"
+                    )
+                ])
                 cb_string_file = "{}={}={}".format(
                     "file", format_id, format_ext)
                 cb_string_video = "{}={}={}".format(
@@ -267,24 +296,6 @@ async def echo(client, message):
                 ])
             reply_markup = InlineKeyboardMarkup(inline_keyboard)
             await chk.delete()
-            if "youtu" in url or "youtube" in url:
-                logger.info('cant define file size for youtube videos')
-            else:
-                xLAZY_BAAPUx_d_size = requests.head(url)    
-                xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-                xLAZY_BAAPUx_path = urlparse(url).path
-                xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-                total_length = humanbytes(xLAZY_BAAPUx_t_length)
-            logger.info(total_length)
-            size = "undefined" if "youtu" in url or "youtube" in url else total_length
-            namee = "undefined" if "youtu" in url or "youtube" in url else xLAZY_BAAPUx_u_name
-            usr_id = message.chat.id
-            user_data = await db.get_user_data(usr_id)
-            if not user_data:
-                await message.edit("Failed to fetch your data from database!")
-                return
-            upload_as_doc = user_data.get("upload_as_doc", False)
-            upload_type = f" {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
             await client.send_message(
                 chat_id=message.chat.id,
                 text= f"⏯<b>File Name:</b> {namee}\n\n🧬<b>File Size:</b> {size} \n<b>⩙ Upload Type:</b> {upload_type}" + script.FORMAT_SELECTION.format(Thumbnail) + "\n" + script.SET_CUSTOM_USERNAME_PASSWORD,
@@ -294,24 +305,6 @@ async def echo(client, message):
             )
         else:
             # fallback for nonnumeric port a.k.a seedbox.io
-            if "youtu" in url or "youtube" in url:
-                logger.info('cant define file size for youtube videos')
-            else:
-                xLAZY_BAAPUx_d_size = requests.head(url)    
-                xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-                xLAZY_BAAPUx_path = urlparse(url).path
-                xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-                total_length = humanbytes(xLAZY_BAAPUx_t_length)
-            logger.info(total_length)
-            size = "undefined" if "youtu" in url or "youtube" in url else total_length
-            namee = "undefined" if "youtu" in url or "youtube" in url else xLAZY_BAAPUx_u_name
-            usr_id = message.chat.id
-            user_data = await db.get_user_data(usr_id)
-            if not user_data:
-                await message.edit("Failed to fetch your data from database!")
-                return
-            upload_as_doc = user_data.get("upload_as_doc", False)
-            upload_type = f" {'🎥 ᴠɪᴅᴇᴏ' if upload_as_doc else '🗃️ ғɪʟᴇ'}"
             inline_keyboard = []
             cb_string_file = "{}={}={}".format(
                 "file", "LFO", "NONE")
