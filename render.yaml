@@ -78,5 +78,5 @@ services:
         sync: false    
       - key: SELF_DELETE_SECONDS
         sync: false    
-      
+
     autoDeploy: false

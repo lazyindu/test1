@@ -1,5 +1,4 @@
-import uvloop
-uvloop.install()
+
 
 # https://github.com/odysseusmax/animated-lamp/blob/master/bot/database/database.py
 import motor.motor_asyncio
