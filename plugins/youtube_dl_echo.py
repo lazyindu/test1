@@ -7,8 +7,6 @@ import asyncio
 import tldextract
 import shutil
 import os
-import filetype
-from pytube import YouTube
 import requests
 from database.users_chats_db import db
 from pyrogram.types import Thumbnail

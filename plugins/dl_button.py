@@ -11,7 +11,6 @@ import os
 import json
 import shutil
 import requests
-from pytube import YouTube
 import math
 import time
 from urllib.parse import urlparse
