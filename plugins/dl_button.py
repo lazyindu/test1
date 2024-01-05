@@ -90,20 +90,20 @@ async def ddl_call_back(client, query):
                 o = entity.offset
                 l = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + l]
-    # ######################## 
-    # if "youtu" in youtube_dl_url or "youtube" in youtube_dl_url:
-    #     logger.info('cant define file size for youtube videos')
-    # else:
-    #     xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)    
-    #     xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
-    #     xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
-    #     xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
-    #     total_length = humanbytes(xLAZY_BAAPUx_t_length)
-    # logger.info(total_length)
-    # size = "undefined" if "youtu" in youtube_dl_url or "youtube" in youtube_dl_url else total_length
-    # namee = "undefined" if "youtu" in youtube_dl_url or "youtube" in youtube_dl_url else xLAZY_BAAPUx_u_name
+    ######################## 
+    if "youtu" in youtube_dl_url or "youtube" in youtube_dl_url:
+        logger.info('cant define file size for youtube videos')
+    else:
+        xLAZY_BAAPUx_d_size = requests.head(youtube_dl_url)    
+        xLAZY_BAAPUx_t_length = int(xLAZY_BAAPUx_d_size.headers.get("Content-Length", 0))
+        xLAZY_BAAPUx_path = urlparse(youtube_dl_url).path
+        xLAZY_BAAPUx_u_name = os.path.basename(xLAZY_BAAPUx_path)
+        total_length = humanbytes(xLAZY_BAAPUx_t_length)
+    logger.info(total_length)
+    sizee = "undefined" if "youtu" in youtube_dl_url or "youtube" in youtube_dl_url else total_length
+    namee = "undefined" if "youtu" in youtube_dl_url or "youtube" in youtube_dl_url else xLAZY_BAAPUx_u_name
 
-    # ######################## 
+    ######################## 
     try:
         lazy_sticker = await query.message.reply_sticker(sticker=random.choice(lazystickerset))
     except Exception as e:
@@ -266,7 +266,7 @@ async def ddl_call_back(client, query):
             time_taken_for_download = (end_one - start).seconds
             time_taken_for_upload = (end_two - end_one).seconds
             await query.edit_message_text(
-                text=script.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload, youtube_dl_url, ),
+                text=script.AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS.format(time_taken_for_download, time_taken_for_upload, youtube_dl_url, namee, custom_file_name, sizee ),
                 disable_web_page_preview=True
             )
     else:
