@@ -1,3 +1,6 @@
+import uvloop
+uvloop.install()
+
 import logging
 from struct import pack
 import re
