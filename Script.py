@@ -26,9 +26,9 @@ Thanks for thinking about us.\nIt seems that you really love <a href=https://t.m
 
     NO_VOID_FORMAT_FOUND = "ERROR... <code>{}</code>"
 
-    UPLOAD_START = "<b>initiating Lazy Upload 📤</b>"
+    UPLOAD_START = "<b>initiating Lazy Upload ⚡</b>"
 
-    LAZY_UPLOAD_START = """<b>●❤♡ Recieving Lazy File ♡❤●</b>\n\n⏯**File Name:** {}\n\n"""
+    LAZY_UPLOAD_START = """<b>●❤♡ Recieving Lazy File ♡❤●</b>\n\n⏯**File Name:** {}\n"""
 
     AFTER_SUCCESSFUL_UPLOAD_MSG_WITH_TS = "▼ Dᴏᴡɴʟᴏᴀᴅᴇᴅ ɪɴ {} sᴇᴄᴏɴᴅs.\n▲ Uᴘʟᴏᴀᴅᴇᴅ ɪɴ {} sᴇᴄᴏɴᴅs\n\n★.•☆•.★𑁔𑁔★ 𝖽𝖾𝗍✫𝗂𝗅𝗌 ★𑁔𑁔★.•☆•.★\n\n🔗<b>URL:</b> {}\n\n✩📂<b>F Name:</b> {}\n\n✩📝<b>C Name:</b> {}\n\n🧡Thank you🧡"
 
