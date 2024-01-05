@@ -1,7 +1,7 @@
 # https://github.com/odysseusmax/animated-lamp/blob/master/bot/database/database.py
 import motor.motor_asyncio
 import datetime
-from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_USERS, P_TTI_SHOW_OFF, SINGLE_BUTTON, SPELL_CHECK_REPLY, PROTECT_CONTENT
+from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_USERS, P_TTI_SHOW_OFF, SINGLE_BUTTON, SPELL_CHECK_REPLY, PROTECT_CONTENT,DEF_THUMB_NAIL_VID_S
 
 class Database:
     
@@ -22,7 +22,7 @@ class Database:
             join_date=datetime.date.today().isoformat(),
             apply_caption=True,
             upload_as_doc=False,
-            thumbnail=None,
+            thumbnail=DEF_THUMB_NAIL_VID_S,
             ban_status=dict(
                 is_banned=False,
                 ban_reason="",
