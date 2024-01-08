@@ -42,8 +42,17 @@ async def save_group(bot, message):
         ]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await message.reply_text(
-            text=f"<b>Thankyou For Adding Me In {message.chat.title} ❣️\n\nIf you have any questions & doubts about using me contact support.</b>",
+            text=f"<b>Thank you For Adding Me In {message.chat.title} ❣️\n\nIf you have any questions & doubts about using me contact support.</b>",
             reply_markup=reply_markup)
+
+        # GROUP ACTIONS IN CONTROL
+        lz_buttons = [[
+            InlineKeyboardButton('⚙ Ban', callback_data="ban_chat")
+        ]]
+        lazy_markup=InlineKeyboardMarkup(lz_buttons)
+        await bot.send_message(LOG_CHANNEL,
+                            text=f"hey babe.\n I am added forcefully to this group named **{message.chat.title}** Please take action according to ur wish !",
+                            reply_markup=lazy_markup)
     else:
         settings = await get_settings(message.chat.id)
         if settings["welcome"]:
@@ -54,7 +63,6 @@ async def save_group(bot, message):
                     except:
                         pass
                 temp.MELCOW['welcome'] = await message.reply(f"<b>Hey , {u.mention}, Welcome to {message.chat.title}</b>")
-
 
 @Client.on_message(filters.command('leave') & filters.user(ADMINS))
 async def leave_a_chat(bot, message):
