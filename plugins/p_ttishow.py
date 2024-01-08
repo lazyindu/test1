@@ -47,7 +47,7 @@ async def save_group(bot, message):
 
         # GROUP ACTIONS IN CONTROL
         lz_buttons = [[
-            InlineKeyboardButton('⚙ Ban', callback_data="ban_chat")
+            InlineKeyboardButton('⚙ Ban Chat', callback_data=f"ban_chat:{message.chat.id}")
         ]]
         lazy_markup=InlineKeyboardMarkup(lz_buttons)
         await bot.send_message(LOG_CHANNEL,
