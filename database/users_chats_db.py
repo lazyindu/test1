@@ -94,7 +94,6 @@ class Database:
         chat = self.new_group(chat, title)
         await self.grp.insert_one(chat)
     
-
     async def get_chat(self, chat):
         chat = await self.grp.find_one({'id':int(chat)})
         return False if not chat else chat.get('chat_status')
@@ -108,7 +107,6 @@ class Database:
         
     async def update_settings(self, id, settings):
         await self.grp.update_one({'id': int(id)}, {'$set': {'settings': settings}})
-        
     
     async def get_settings(self, id):
         default = {
