@@ -1066,7 +1066,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                         [InlineKeyboardButton(text=f"😒Not Available", callback_data=f"notify_user_not_avail:{user_id}:{movie}"),InlineKeyboardButton("📃Write Reply", callback_data=f"notify_user_custom:{user_id}:{movie}")],
                         [InlineKeyboardButton("❌Reject Req", callback_data=f"notify_user_req_rejected:{user_id}:{movie}")]
                        ]
-            reply_markup_lzdv = InlineKeyboardMarkup(btn_lzdv) 
+            reply_markup_lzdv = InlineKeyboardMarkup(btn_lzdv)
             reply_markup = InlineKeyboardMarkup(btn)
             await client.send_message(int(user_id), f"💞Hello sweetheart ! we have recieved your request for  `{movie}`... \n\nPlease keep some patience, we will upload it as soon as possible. \n❤ Thank u for your Love .❤", reply_markup=reply_markup)
             await query.edit_message_text(text=f"- __**User notified successfully sweetie...✅**__\n\n⏳**Status** : Request Recieved 🖊.\n🪪**UserID** : `{user_id}`\n🎞**Content** : `{movie}`\n\n\n🦋",reply_markup=reply_markup_lzdv)
@@ -1078,12 +1078,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer(f"☣something went wrong sweetie\n\n{e}", show_alert=True)
             return
 
-    elif data.startwith("ban_chat"):
+    elif query.data == "ban_chat":
         _, chatID = data.split(":")
-        await client.send_message(chatID, text=f"Oops! Sorry, Let's Take a break\nThis is my last and Good Bye message to you all. \n\nContact my admin for more info")
-        await db.disable_chat(int(chatID))
-        temp.BANNED_CHATS.append(int(chatID))
-        query.answer("chat successfully disabled")
+        try:
+            await client.send_message(chatID, text=f"Oops! Sorry, Let's Take a break\nThis is my last and Good Bye message to you all. \n\nContact my admin for more info")
+            await db.disable_chat(int(chatID))
+            temp.BANNED_CHATS.append(int(chatID))
+            query.answer("chat successfully disabled")
+        except Exception as e:
+            logger.error(f"Please solve this Error Lazy Bro : {e}")
 
     elif query.data == "coct":
         buttons = [[
