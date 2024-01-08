@@ -40,7 +40,7 @@ from database.filters_mdb import (
 from util.human_readable import humanbytes
 from plugins.settings.settings import OpenSettings
 from plugins.dl_button import ddl_call_back
-from plugins.youtube_dl_button import youtube_dl_call_back
+from plugins.yt_lazy_dl_btn import youtube_dl_call_back
 from urllib.parse import quote_plus
 from util.file_properties import get_name, get_hash, get_media_file_size
 import logging
@@ -695,10 +695,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('🙆🏻 Help 🦾', callback_data='help'),
             InlineKeyboardButton('♥️ About ♥️', callback_data='about')
         ],[
-            InlineKeyboardButton('🔗 URL Help ', callback_data='leech_url_help'),
+            InlineKeyboardButton('🔗 More Help ', callback_data='leech_url_help'),
             InlineKeyboardButton('⚙ Open Settings ', callback_data='openSettings'),
         ],[
-            InlineKeyboardButton('⪦ Learn BOT Making ⪧', url='https://youtube.com/LazyDeveloper')
+            InlineKeyboardButton('⪦ Learn BOT Making ⪧', url='https://youtube.com/@Lazydeveloperr')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
