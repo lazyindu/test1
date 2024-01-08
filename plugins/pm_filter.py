@@ -1077,7 +1077,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
             print(e)  # print the error message
             await query.answer(f"☣something went wrong sweetie\n\n{e}", show_alert=True)
             return
-        
+
+    elif data.startwith("ban_chat"):
+        _, chatID = data.split(":")
+        await client.send_message(chatID, text=f"Oops! Sorry, Let's Take a break\nThis is my last and Good Bye message to you all. \n\nContact my admin for more info")
+        await db.disable_chat(int(chatID))
+        temp.BANNED_CHATS.append(int(chatID))
+        query.answer("chat successfully disabled")
+
     elif query.data == "coct":
         buttons = [[
             InlineKeyboardButton('🚪 Back', callback_data='help')
