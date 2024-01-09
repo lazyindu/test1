@@ -1079,7 +1079,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return
 
     elif query.data == "ban_chat":
-        _, chatID = data.split(":")
+        data = query.data.split(":")
+        _, chatID = data
+        print(f"Debug: query.data={query.data}, chatID={chatID}")
         try:
             await client.send_message(chatID, text=f"Oops! Sorry, Let's Take a break\nThis is my last and Good Bye message to you all. \n\nContact my admin for more info")
             await db.disable_chat(int(chatID))
