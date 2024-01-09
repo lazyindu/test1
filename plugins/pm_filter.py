@@ -1108,7 +1108,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         _, chatTitle , chatID = query.data.split(":")
         print(f"Debug: query.data={query.data}, chatID={chatID}, chatTitle={chatTitle}")
         try:
-            sts = await db.get_chat(int(chat))
+            sts = await db.get_chat(int(chatID))
             if not sts:
                 return await query.answer("Chat Not Found In DB !", show_alert=True)
             if not sts.get('is_disabled'):
