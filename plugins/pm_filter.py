@@ -58,6 +58,12 @@ async def give_filter(client, message):
     if k == False:
         await auto_filter(client, message)
 
+@Client.on_message(filters.private & filters.text & filters.incoming)
+async def give_filter(client, message):
+    k = await manual_filters(client, message)
+    if k == False:
+        await auto_filter(client, message)
+
 @Client.on_callback_query(filters.regex('rename'))
 async def rename(bot,update):
 	user_id = update.message.chat.id
@@ -1078,9 +1084,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer(f"☣something went wrong sweetie\n\n{e}", show_alert=True)
             return
 
-    elif query.data == "ban_chat":
-        data = query.data.split(":")
-        _, chatID = data
+    elif query.data.startswith("bangrpchat"):
+        chatID = query.data.split(":")
         print(f"Debug: query.data={query.data}, chatID={chatID}")
         try:
             await client.send_message(chatID, text=f"Oops! Sorry, Let's Take a break\nThis is my last and Good Bye message to you all. \n\nContact my admin for more info")
