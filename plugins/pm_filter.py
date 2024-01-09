@@ -54,11 +54,20 @@ SPELL_CHECK = {}
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
-    k = await manual_filters(client, message)
+    try:
+        chatIDx = message.chat.id
+        lazy_chatIDx = await db.get_chat(int(chatIDx))
+        if lazy_chatIDx['is_lazy_verified']:
+            k = await manual_filters(client, message)
+        else:
+            return await client.send_message(chatIDx, text="PLease wait until the verification completed by my admin....")
+    except Exception as e:
+        logger.error(f"An error arrived : {e}") 
+
     if k == False:
         try:
             chatID = message.chat.id
-            lazy_chatID = db.get_chat(int(chatID))
+            lazy_chatID = await db.get_chat(int(chatID))
             if lazy_chatID['is_lazy_verified']:
                 await auto_filter(client, message)
             else:
@@ -1107,7 +1116,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             ]
             ]
             reply_markup = InlineKeyboardMarkup(btn)
-            ms = await query.edit_message_text(f"**chat successfully disabled** ✅\n\n**Chat ID**: {chatID}\n\n**Chat Title**:{chatTitle}", reply_markup=reply_markup)
+            ms = await query.edit_message_text(f"**🍁 Chat successfully verified 🧡**\n\n**Chat ID**: {chatID}\n**Chat Title**:{chatTitle}", reply_markup=reply_markup)
         except Exception as e:
             ms.edit(f"Got a Lazy error:\n{e}" )
             logger.error(f"Please solve this Error Lazy Bro : {e}")
