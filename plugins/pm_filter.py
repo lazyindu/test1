@@ -1085,7 +1085,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return
 
     elif query.data.startswith("bangrpchat"):
-        chatID = query.data.split(":")
+        _, chatID = query.data.split(":")
         print(f"Debug: query.data={query.data}, chatID={chatID}")
         try:
             await client.send_message(chatID, text=f"Oops! Sorry, Let's Take a break\nThis is my last and Good Bye message to you all. \n\nContact my admin for more info")
