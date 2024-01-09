@@ -29,7 +29,6 @@ async def save_group(bot, message):
                 text='<b>CHAT NOT ALLOWED 🐞\n\nMy admins has restricted me from working here ! If you want to know more about it contact support..</b>',
                 reply_markup=reply_markup,
             )
-
             try:
                 await k.pin()
             except:
@@ -50,10 +49,12 @@ async def save_group(bot, message):
         chatTitle = message.chat.title
         lz_buttons = [
             [
-            InlineKeyboardButton('⚙ Ban Chat', callback_data=f"bangrpchat:{chatTitle}:{chatID}")
-        ],[
-            InlineKeyboardButton('🚮 Close', callback_data="close_data")
-        ]]
+                InlineKeyboardButton('🎉 Mark Verified 💞', callback_data=f"verify_lazy_group:{chatTitle}:{chatID}")
+            ],[
+                InlineKeyboardButton('⚙ Ban Chat', callback_data=f"bangrpchat:{chatTitle}:{chatID}")
+            ],[
+                InlineKeyboardButton('🚮 Close', callback_data="close_data")
+            ]]
         lazy_markup=InlineKeyboardMarkup(lz_buttons)
         await bot.send_message(LOG_CHANNEL,
                             text=f"Hey babe.\n I am added forcefully to this group named **{chatTitle}** Please tell me if you like to restrict this group...",
