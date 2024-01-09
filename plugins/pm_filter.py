@@ -59,7 +59,7 @@ async def give_filter(client, message):
         await auto_filter(client, message)
 
 @Client.on_message(filters.private & filters.text & filters.incoming)
-async def give_filter(client, message):
+async def private_filter(client, message):
     k = await manual_filters(client, message)
     if k == False:
         await auto_filter(client, message)
@@ -1085,16 +1085,21 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return
 
     elif query.data.startswith("bangrpchat"):
-        _, chatID = query.data.split(":")
-        print(f"Debug: query.data={query.data}, chatID={chatID}")
+        _, chatTitle, chatID = query.data.split(":")
+        print(f"Debug: query.data={query.data}, chatID={chatID}, chatTitle={chatTitle}")
         try:
             await client.send_message(chatID, text=f"Oops! Sorry, Let's Take a break\nThis is my last and Good Bye message to you all. \n\nContact my admin for more info")
             await db.disable_chat(int(chatID))
             temp.BANNED_CHATS.append(int(chatID))
-            query.answer("chat successfully disabled")
+            btn = [[
+                InlineKeyboardButton(text=f"❌ Close ❌", callback_data="close_data")
+            ]]
+            reply_markup = InlineKeyboardMarkup(btn)
+            ms = query.edit_message_text(f"**chat successfully disabled** ✅\n\n**Chat ID**: {chatID}\n\n**Chat Title**:{chatTitle}", reply_markup=reply_markup)
         except Exception as e:
+            ms.edit(f"Got a Lazy error:\n{e}" )
             logger.error(f"Please solve this Error Lazy Bro : {e}")
-
+            
     elif query.data == "coct":
         buttons = [[
             InlineKeyboardButton('🚪 Back', callback_data='help')
