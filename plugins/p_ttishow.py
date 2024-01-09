@@ -45,14 +45,18 @@ async def save_group(bot, message):
             text=f"<b>Thank you For Adding Me In {message.chat.title} ❣️\n\nIf you have any questions & doubts about using me contact support.</b>",
             reply_markup=reply_markup)
 
-        # GROUP ACTIONS IN CONTROL
+        # GROUP ACTIONS IN CONTROL => Coded By YT@LazyDeveloperr with love ❣️
         chatID = message.chat.id
-        lz_buttons = [[
-            InlineKeyboardButton('⚙ Ban Chat', callback_data=f"bangrpchat:{chatID}")
+        chatTitle = message.chat.title
+        lz_buttons = [
+            [
+            InlineKeyboardButton('⚙ Ban Chat', callback_data=f"bangrpchat:{chatTitle}:{chatID}")
+        ],[
+            InlineKeyboardButton('🚮 Close', callback_data="close_data")
         ]]
         lazy_markup=InlineKeyboardMarkup(lz_buttons)
         await bot.send_message(LOG_CHANNEL,
-                            text=f"hey babe.\n I am added forcefully to this group named **{message.chat.title}** Please take action according to ur wish !",
+                            text=f"Hey babe.\n I am added forcefully to this group named **{chatTitle}** Please tell me if you like to restrict this group...",
                             reply_markup=lazy_markup)
     else:
         settings = await get_settings(message.chat.id)
