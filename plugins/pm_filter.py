@@ -57,23 +57,19 @@ async def give_filter(client, message):
     try:
         chatIDx = message.chat.id
         lazy_chatIDx = await db.get_chat(int(chatIDx))
-        if lazy_chatIDx['is_lazy_verified'] is True:
+        if lazy_chatIDx['is_lazy_verified']:
             k = await manual_filters(client, message)
-        else:
-            await client.send_message(chatIDx, text="PLease wait until the verification completed by my admin....")
     except Exception as e:
-        logger.error(f"An error arrived : {e}") 
+        logger.error(f"Chat not verifeid : {e}") 
 
     if k == False:
         try:
             chatID = message.chat.id
             lazy_chatID = await db.get_chat(int(chatID))
-            if lazy_chatID['is_lazy_verified'] is True:
+            if lazy_chatID['is_lazy_verified']:
                 await auto_filter(client, message)
-            else:
-                await client.send_message(chatID, text="PLease wait until the verification completed by my admin....")
         except Exception as e:
-            logger.error(f"An error arrived : {e}") 
+            logger.error(f"Chat Not verified : {e}") 
 
 # @Client.on_message(filters.private & filters.text & filters.incoming)
 # async def private_filter(client, message):
