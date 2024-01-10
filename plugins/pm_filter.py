@@ -57,10 +57,10 @@ async def give_filter(client, message):
     try:
         chatIDx = message.chat.id
         lazy_chatIDx = await db.get_chat(int(chatIDx))
-        if lazy_chatIDx['is_lazy_verified']:
+        if lazy_chatIDx['is_lazy_verified'] is True:
             k = await manual_filters(client, message)
         else:
-            return await client.send_message(chatIDx, text="PLease wait until the verification completed by my admin....")
+            await client.send_message(chatIDx, text="PLease wait until the verification completed by my admin....")
     except Exception as e:
         logger.error(f"An error arrived : {e}") 
 
@@ -68,18 +68,18 @@ async def give_filter(client, message):
         try:
             chatID = message.chat.id
             lazy_chatID = await db.get_chat(int(chatID))
-            if not lazy_chatID['is_lazy_verified']:
-                await client.send_message(chatID, text="PLease wait until the verification completed by my admin....")
-            else:
+            if lazy_chatID['is_lazy_verified'] is True:
                 await auto_filter(client, message)
+            else:
+                await client.send_message(chatID, text="PLease wait until the verification completed by my admin....")
         except Exception as e:
             logger.error(f"An error arrived : {e}") 
 
-@Client.on_message(filters.private & filters.text & filters.incoming)
-async def private_filter(client, message):
-    k = await manual_filters(client, message)
-    if k == False:
-        await auto_filter(client, message)
+# @Client.on_message(filters.private & filters.text & filters.incoming)
+# async def private_filter(client, message):
+#     k = await manual_filters(client, message)
+#     if k == False:
+#         await auto_filter(client, message)
 
 @Client.on_callback_query(filters.regex('rename'))
 async def rename(bot,update):
