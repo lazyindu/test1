@@ -374,8 +374,12 @@ async def next_page(bot, query):
 
     btn.insert(0,
         [ 
-	    InlineKeyboardButton(text="⚡ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ⚡", url='https://telegram.me/real_MoviesAdda3/18'),
         InlineKeyboardButton("Filter ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
+        ] 
+    )
+    btn.insert(0,
+        [ 
+	    InlineKeyboardButton(text="⚡ʜᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ⚡", url='https://telegram.me/real_MoviesAdda3/18'),
         ] 
     )
 
@@ -604,15 +608,6 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
                         for file in files
                     ]
 
-            btn.insert(0, 
-                [
-                InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
-                ]
-            )
-            btn.insert(0, [
-                InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url=f"https://telegram.me/{temp.U_NAME}"),
-            ])
-
         else:
             if URL_MODE is True:
                 if query.from_user.id in ADMINS:
@@ -681,14 +676,14 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
                         for file in files
                     ]
 
-                btn.insert(0, 
-                    [
-                        InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
-                    ]
-                )
-                btn.insert(0, [
-                    InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url=f"https://telegram.me/{temp.U_NAME}"),
-                ])
+        btn.insert(0, 
+            [
+                InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
+            ]
+        )
+        btn.insert(0, [
+            InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url=f"https://telegram.me/{temp.U_NAME}"),
+        ])
 
         if offset != "":
             print(f"offset => {offset}")
