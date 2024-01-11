@@ -632,9 +632,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             ])
 
         if offset != "":
-            key = f"{message.chat.id}-{message.id}"
-            BUTTONS[key] = search
-            req = message.from_user.id if message.from_user else 0
+            print(offset)
             btn.append(
                 [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / 10)}", callback_data="pages"),
                 InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]
