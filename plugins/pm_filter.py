@@ -190,7 +190,8 @@ async def doc(bot, update):
 @Client.on_callback_query(filters.regex(r"^next"))
 async def next_page(bot, query):
     ident, req, key, offset = query.data.split("_")
-    if int(req) not in [query.message.reply_to_message.from_user.id, 0]:
+    print(f"REQ => {req}")
+    if int(req) not in [query.from_user.id, 0]:
         return await query.answer(
                         f"⚠️ ʜᴇʟʟᴏ{query.from_user.first_name},\nᴛʜɪꜱ ɪꜱ ɴᴏᴛ ʏᴏᴜʀ ᴍᴏᴠɪᴇ ʀᴇQᴜᴇꜱᴛ,\nʀᴇQᴜᴇꜱᴛ ʏᴏᴜʀ'ꜱ...",
                         show_alert=True,
@@ -517,7 +518,11 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             search = f"{search} {lang}"
         BUTTONS[key] = search
 
-        files, offset, total_results = await get_search_results_badAss_LazyDeveloperr(chat_id, search, offset=0, filter=True)
+        files, n_offset, total_results = await get_search_results_badAss_LazyDeveloperr(chat_id, search, offset=0, filter=True)
+        try:
+            n_offset = int(n_offset)
+        except:
+            n_offset = 0
         if not files:
             await query.answer("🚫 𝗡𝗼 𝗙𝗶𝗹𝗲 𝗪𝗲𝗿𝗲 𝗙𝗼𝘂𝗻𝗱 🚫", show_alert=1)
             return
@@ -617,48 +622,126 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             btn.insert(0, [
                 InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url=f"https://telegram.me/{temp.U_NAME}"),
             ])
-        else:
-            btn = []
-            btn.insert(0, 
-                [
-                    InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
-                ]
-            )
-            btn.insert(0, [
-                InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url=f"https://telegram.me/{temp.U_NAME}"),
-            ])
 
-        if offset != "":
-            print(offset)
-            btn.append(
-                [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / 10)}", callback_data="pages"),
-                InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]
-            )
         else:
-            btn.append(
-                [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
-            )
-        
-        if not settings["button"]:
-            # cur_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
-            # time_difference = timedelta(hours=cur_time.hour, minutes=cur_time.minute, seconds=(cur_time.second+(cur_time.microsecond/1000000))) - timedelta(hours=curr_time.hour, minutes=curr_time.minute, seconds=(curr_time.second+(curr_time.microsecond/1000000)))
-            # remaining_seconds = "{:.2f}".format(time_difference.total_seconds())
-            # cap = await get_cap(settings, remaining_seconds, files, query, total_results, search)
-            try:
-                # await query.message.edit_text(text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
-                await query.edit_message_reply_markup(
-                                reply_markup=InlineKeyboardMarkup(btn)
-                        )
-            except MessageNotModified:
-                pass
-        else:
-            try:
-                await query.edit_message_reply_markup(
-                    reply_markup=InlineKeyboardMarkup(btn)
+            if URL_MODE is True:
+                if query.from_user.id in ADMINS:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",callback_data=f'files#{file.file_id}',),
+                            InlineKeyboardButton(text=f"{get_size(file.file_size)}",callback_data=f'files#{file.file_id}',),
+                        ]
+                        for file in files
+                    ]
+                elif query.from_user.id in MY_USERS:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",callback_data=f'files#{file.file_id}',),
+                            InlineKeyboardButton(text=f"{get_size(file.file_size)}",callback_data=f'files#{file.file_id}',),
+                        ]
+                        for file in files
+                    ]
+                elif query.from_user.id in LZURL_PRIME_USERS:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",callback_data=f'files#{file.file_id}',),
+                            InlineKeyboardButton(text=f"{get_size(file.file_size)}",callback_data=f'files#{file.file_id}',),
+                        ]
+                        for file in files
+                    ]
+                elif query.message.chat.id is not None and query.message.chat.id in LAZY_GROUPS:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",callback_data=f'files#{file.file_id}',),
+                            InlineKeyboardButton(text=f"{get_size(file.file_size)}",callback_data=f'files#{file.file_id}',),
+                        ]
+                        for file in files
+                    ]
+                else:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",url=await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")),
+                            InlineKeyboardButton(text=f"[{get_size(file.file_size)}]", url=await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")),
+                        ]
+                        for file in files
+                    ]
+            else:
+                if query.form_user.id in ADMINS:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",callback_data=f'files#{file.file_id}',),
+                            InlineKeyboardButton(text=f"{get_size(file.file_size)}",callback_data=f'files#{file.file_id}',),
+                        ]
+                        for file in files
+                    ]
+                elif query.form_user.id in MY_USERS:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",callback_data=f'files#{file.file_id}',),
+                            InlineKeyboardButton(text=f"{get_size(file.file_size)}",callback_data=f'files#{file.file_id}',),
+                        ]
+                        for file in files
+                    ]
+                else:
+                    btn = [
+                        [
+                            InlineKeyboardButton(text=f"{file.file_name}",callback_data=f'files#{file.file_id}',),
+                            InlineKeyboardButton(text=f"{get_size(file.file_size)}",callback_data=f'files#{file.file_id}',),
+                        ]
+                        for file in files
+                    ]
+
+                btn.insert(0, 
+                    [
+                        InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
+                    ]
                 )
-            except MessageNotModified:
-                pass
-        await query.answer()    
+                btn.insert(0, [
+                    InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url=f"https://telegram.me/{temp.U_NAME}"),
+                ])
+
+        # if offset != "":
+        #     print(offset)
+        #     btn.append(
+        #         [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / 10)}", callback_data="pages"),
+        #         InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]
+        #     )
+        # else:
+        #     btn.append(
+        #         [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
+        #     )
+        
+        if 0 < offset <= 10:
+            off_set = 0
+        elif offset == 0:
+            off_set = None
+        else:
+            off_set = offset - 10
+        if n_offset == 0:
+            btn.append(
+                [InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
+                InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}",
+                                    callback_data="pages")]
+            )
+        elif off_set is None:
+            btn.append(
+                [InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
+                InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")])
+        else:
+            btn.append(
+                [
+                    InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
+                    InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
+                    InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")
+                ],
+            )
+        try:
+            await query.edit_message_reply_markup(
+                reply_markup=InlineKeyboardMarkup(btn)
+            )
+        except MessageNotModified:
+            pass
+        await query.answer()   
     except Exception as e:
         logger.error(f"Got an unexpected error : {e}")
  
