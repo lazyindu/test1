@@ -127,6 +127,7 @@ async def get_search_results_badAss_LazyDeveloperr(chat_id, query, file_type=Non
                 max_results = 10
             else:
                 max_results = int(MAX_B_TN)
+    print(query)
     query = query.strip()
     #if filter:
         #better ?
