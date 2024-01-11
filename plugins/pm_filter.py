@@ -210,6 +210,8 @@ async def next_page(bot, query):
 
     if not files:
         return
+    temp.GETALL[key] = files
+    temp.SHORT[query.from_user.id] = query.message.chat.id
     settings = await get_settings(query.message.chat.id)
         # if query.from_user.id in download_counts and download_counts[query.from_user.id]['date'] == current_date:
         #     if download_counts[query.from_user.id]['count'] >= DOWNLOAD_LIMIT:
@@ -515,7 +517,6 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             await query.answer("🚫 𝗡𝗼 𝗙𝗶𝗹𝗲 𝗪𝗲𝗿𝗲 𝗙𝗼𝘂𝗻𝗱 🚫", show_alert=1)
             return
         temp.GETALL[key] = files 
-        print(f"fl => {temp.GETALL[key]}")
         settings = await get_settings(message.chat.id)
         pre = 'filep' if settings['file_secure'] else 'file'
         if settings["button"]:
