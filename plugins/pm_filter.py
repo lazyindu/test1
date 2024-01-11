@@ -486,13 +486,15 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         _, lang, key = query.data.split("#")
         curr_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
         search = FRESH.get(key)
-        print(f"fl => {search}")
+        print(f"fl s1 => {search}")
         search = search.replace("_", " ")
         baal = lang in search
         if baal:
             search = search.replace(lang, "")
+            print(f"fl s2 => {search}")
         else:
             search = search
+            print(f"fl s3 => {search}")
         req = query.from_user.id
         chat_id = query.message.chat.id
         message = query.message
@@ -505,14 +507,21 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         except:
             pass
         if lang != "homepage":
-            search = f"{search} {lang}" 
+            search = f"{search} {lang}"
+            print(f"fl s4 => {search}")
         BUTTONS[key] = search
+        print(f"fl=>BUTTONS => {BUTTONS}")
 
         files, offset, total_results = await get_search_results(chat_id, search, offset=0, filter=True)
+        print(f"fl => files => {files}")        
+        print(f"fl => offset => {offset}")        
+        print(f"fl => total files => {total_results}")        
+
         if not files:
             await query.answer("🚫 𝗡𝗼 𝗙𝗶𝗹𝗲 𝗪𝗲𝗿𝗲 𝗙𝗼𝘂𝗻𝗱 🚫", show_alert=1)
             return
-        temp.GETALL[key] = files
+        temp.GETALL[key] = files 
+        print(f"fl => {temp.GETALL[key]}")
         settings = await get_settings(message.chat.id)
         pre = 'filep' if settings['file_secure'] else 'file'
         if settings["button"]:
