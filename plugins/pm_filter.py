@@ -25,7 +25,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
 from utils import get_size, is_subscribed, get_poster, search_gagala, temp, get_settings, save_group_settings
 from database.users_chats_db import db
-from database.ia_filterdb import Media, get_file_details, get_search_results
+from database.ia_filterdb import Media, get_file_details, get_search_results,get_search_results_badAss_LazyDeveloperr
 from database.lazy_utils import progress_for_pyrogram, convert, humanbytes
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
@@ -512,7 +512,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         BUTTONS[key] = search
         print(f"fl=>BUTTONS => {BUTTONS}")
 
-        files, offset, total_results = await get_search_results(chat_id, search, offset=0, filter=True)
+        files, offset, total_results = await get_search_results_badAss_LazyDeveloperr(chat_id, search, offset=0, filter=True)
         print(f"fl => files => {files}")        
         print(f"fl => offset => {offset}")        
         print(f"fl => total files => {total_results}")        
