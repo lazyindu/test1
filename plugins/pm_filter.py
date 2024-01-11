@@ -63,19 +63,19 @@ BUTTONS2 = {}
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     try:
-        chatIDx = message.chat.id
-        lazy_chatIDx = await db.get_chat(int(chatIDx))
-        if lazy_chatIDx['is_lazy_verified']:
-            k = await manual_filters(client, message)
+        #chatIDx = message.chat.id
+        #lazy_chatIDx = await db.get_chat(int(chatIDx))
+        #if lazy_chatIDx['is_lazy_verified']:
+        k = await manual_filters(client, message)
     except Exception as e:
         logger.error(f"Chat not verifeid : {e}") 
 
     if k == False:
         try:
-            chatID = message.chat.id
-            lazy_chatID = await db.get_chat(int(chatID))
-            if lazy_chatID['is_lazy_verified']:
-                await auto_filter(client, message)
+            #chatID = message.chat.id
+            #lazy_chatID = await db.get_chat(int(chatID))
+            #if lazy_chatID['is_lazy_verified']:
+            await auto_filter(client, message)
         except Exception as e:
             logger.error(f"Chat Not verified : {e}") 
 
