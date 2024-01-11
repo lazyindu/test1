@@ -517,12 +517,9 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         if lang != "homepage":
             search = f"{search} {lang}"
         BUTTONS[key] = search
+    
+        files, offset, total_results = await get_search_results_badAss_LazyDeveloperr(chat_id, search, offset=0, filter=True)
 
-        files, n_offset, total_results = await get_search_results_badAss_LazyDeveloperr(chat_id, search, offset=0, filter=True)
-        try:
-            n_offset = int(n_offset)
-        except:
-            n_offset = 0
         if not files:
             await query.answer("🚫 𝗡𝗼 𝗙𝗶𝗹𝗲 𝗪𝗲𝗿𝗲 𝗙𝗼𝘂𝗻𝗱 🚫", show_alert=1)
             return
@@ -616,7 +613,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
 
             btn.insert(0, 
                 [
-                    InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
+                InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇs", callback_data=f"languages#{key}"),
                 ]
             )
             btn.insert(0, [
@@ -700,41 +697,17 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
                     InlineKeyboardButton("Sᴛᴀʀᴛ Bᴏᴛ", url=f"https://telegram.me/{temp.U_NAME}"),
                 ])
 
-        # if offset != "":
-        #     print(offset)
-        #     btn.append(
-        #         [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / 10)}", callback_data="pages"),
-        #         InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]
-        #     )
-        # else:
-        #     btn.append(
-        #         [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
-        #     )
-        
-        if 0 < offset <= 10:
-            off_set = 0
-        elif offset == 0:
-            off_set = None
-        else:
-            off_set = offset - 10
-        if n_offset == 0:
+        if offset != "":
+            print(f"offset => {offset}")
             btn.append(
-                [InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
-                InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}",
-                                    callback_data="pages")]
+                [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / 10)}", callback_data="pages"),
+                InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]
             )
-        elif off_set is None:
-            btn.append(
-                [InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-                InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")])
         else:
             btn.append(
-                [
-                    InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
-                    InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
-                    InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")
-                ],
+                [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
             )
+
         try:
             await query.edit_message_reply_markup(
                 reply_markup=InlineKeyboardMarkup(btn)
