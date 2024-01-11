@@ -450,16 +450,13 @@ async def languages_cb_handler(client: Client, query: CallbackQuery):
     except:
         pass
     _, key = query.data.split("#")
-    print(key)
     # if BUTTONS.get(key+"1")!=None:
     #     search = BUTTONS.get(key+"1")
     # else:
     #     search = BUTTONS.get(key)
     #     BUTTONS[key+"1"] = search
     search = FRESH.get(key)
-    print(search)
     search = search.replace(' ', '_')
-    print(search)
     btn = []
     for i in range(0, len(LANGUAGES)-1, 2):
         btn.append([
@@ -472,7 +469,6 @@ async def languages_cb_handler(client: Client, query: CallbackQuery):
                 callback_data=f"fl#{LANGUAGES[i+1].lower()}#{key}"
             ),
         ])
-
     btn.insert(
         0,
         [
@@ -494,15 +490,12 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         _, lang, key = query.data.split("#")
         curr_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
         search = FRESH.get(key)
-        print(f"fl s1 => {search}")
         search = search.replace("_", " ")
         baal = lang in search
         if baal:
             search = search.replace(lang, "")
-            print(f"fl s2 => {search}")
         else:
             search = search
-            print(f"fl s3 => {search}")
         req = query.from_user.id
         chat_id = query.message.chat.id
         message = query.message
@@ -707,7 +700,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             btn.append(
                 [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
             )
-
+##############################
         try:
             await query.edit_message_reply_markup(
                 reply_markup=InlineKeyboardMarkup(btn)
@@ -717,7 +710,6 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         await query.answer()   
     except Exception as e:
         logger.error(f"Got an unexpected error : {e}")
- 
 
 # Born to make history @LazyDeveloper !
 @Client.on_callback_query()
