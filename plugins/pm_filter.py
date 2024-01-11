@@ -198,11 +198,12 @@ async def next_page(bot, query):
     except:
         offset = 0
     search = BUTTONS.get(key)
+    chat_id = query.message.chat.id
     if not search:
         await query.answer("You are using one of my old messages, please send the request again.", show_alert=True)
         return
 
-    files, n_offset, total = await get_search_results(search, offset=offset, filter=True)
+    files, n_offset, total = await get_search_results_badAss_LazyDeveloperr(chat_id, search, offset=offset, filter=True)
     try:
         n_offset = int(n_offset)
     except:
@@ -419,10 +420,12 @@ async def advantage_spoll_choker(bot, query):
     if not movies:
         return await query.answer("You are clicking on an old button which is expired.", show_alert=True)
     movie = movies[(int(movie_))]
+    chat_id = query.message.chat.id
+
     await query.answer('Checking for Movie in database...')
     k = await manual_filters(bot, query.message, text=movie)
     if k == False:
-        files, offset, total_results = await get_search_results(movie, offset=0, filter=True)
+        files, offset, total_results = await get_search_results_badAss_LazyDeveloperr(chat_id, movie, offset=0, filter=True)
         if files:
             k = (movie, files, offset, total_results)
             await auto_filter(bot, query, k)
@@ -1629,7 +1632,7 @@ async def auto_filter(client, msg, spoll=False):
                 await asyncio.sleep(12)
                 await l.delete()    
                 if settings["spell_check"]:
-                    return await advantage_spell_chok(client, msg)
+                    return await advantage_spell_chok(msg)
                 else:
                     return
         else: 
