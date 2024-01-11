@@ -442,13 +442,16 @@ async def languages_cb_handler(client: Client, query: CallbackQuery):
     except:
         pass
     _, key = query.data.split("#")
+    print(key)
     # if BUTTONS.get(key+"1")!=None:
     #     search = BUTTONS.get(key+"1")
     # else:
     #     search = BUTTONS.get(key)
     #     BUTTONS[key+"1"] = search
     search = FRESH.get(key)
+    print(search)
     search = search.replace(' ', '_')
+    print(search)
     btn = []
     for i in range(0, len(LANGUAGES)-1, 2):
         btn.append([
@@ -483,6 +486,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         _, lang, key = query.data.split("#")
         curr_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
         search = FRESH.get(key)
+        print(f"fl => {search}")
         search = search.replace("_", " ")
         baal = lang in search
         if baal:
@@ -495,7 +499,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         try:
             if int(req) not in [query.message.reply_to_message.from_user.id, 0]:
                 return await query.answer(
-                    f"⚠️ ʜᴇʟʟᴏ{query.from_user.first_name},\nᴛʜɪꜱ ɪꜱ ɴᴏᴛ ʏᴏᴜʀ ᴍᴏᴠɪᴇ ʀᴇQᴜᴇꜱᴛ,\nʀᴇQᴜᴇꜱᴛ ʏᴏᴜʀ'ꜱ...",
+                    f"👊 ʜᴇʟʟᴏ{query.from_user.first_name},\nᴛʜɪꜱ ɪꜱ ɴᴏᴛ ʏᴏᴜʀ ᴍᴏᴠɪᴇ ʀᴇQᴜᴇꜱᴛ,\nʀᴇQᴜᴇꜱᴛ ʏᴏᴜʀ'ꜱ...",
                     show_alert=True,
                 )
         except:
@@ -1553,7 +1557,7 @@ async def auto_filter(client, msg, spoll=False):
                 await asyncio.sleep(12)
                 await l.delete()    
                 if settings["spell_check"]:
-                    return await advantage_spell_chok(msg)
+                    return await advantage_spell_chok(client, msg)
                 else:
                     return
         else: 
