@@ -144,7 +144,7 @@ PRIME_DOWNLOADERS = (lazydownloaders) if lazydownloaders else []
 
 # Adding Language Feature : 
 LANGUAGES = ["hindi", "hin", "english", "eng", "korean", "kor", "urdu", "urd","chinese","chin","tamil", "tam", "malayalam", "mal",  "telugu", "tel", "kannada", "kan"]
-MAX_B_TN = environ.get("MAX_B_TN", "5")
+MAX_B_TN = environ.get("MAX_B_TN", "8")
 MAX_BTN = is_enabled((environ.get('MAX_BTN', "True")), True)
 
 # Auto Delete For Group Message (Self Delete) #
