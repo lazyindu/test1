@@ -47,6 +47,7 @@ from plugins.yt_lazy_dl_btn import youtube_dl_call_back
 from urllib.parse import quote_plus
 from util.file_properties import get_name, get_hash, get_media_file_size
 import logging
+from asyncio import sleep
 logger = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
@@ -60,39 +61,65 @@ BUTTONS0 = {}
 BUTTONS1 = {}
 BUTTONS2 = {}
 
+# @Client.on_message(filters.group & filters.text & filters.incoming)
+# async def give_filter(client, message):
+#     try:
+#         chatIDx = message.chat.id
+#         lazy_chatIDx = await db.get_chat(int(chatIDx))
+#         if lazy_chatIDx['is_lazy_verified']:
+#             k = await manual_filters(client, message)
+#     except Exception as e:
+#         logger.error(f"Chat not verifeid : {e}") 
+
+#     if k == False:
+#         try:
+#             chatID = message.chat.id
+#             lazy_chatID = await db.get_chat(int(chatID))
+#             if lazy_chatID['is_lazy_verified']:
+#                 await auto_filter(client, message)
+#         except Exception as e:
+#             logger.error(f"Chat Not verified : {e}") 
+
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
-    try:
-        #chatIDx = message.chat.id
-        #lazy_chatIDx = await db.get_chat(int(chatIDx))
-        #if lazy_chatIDx['is_lazy_verified']:
-        k = await manual_filters(client, message)
-    except Exception as e:
-        logger.error(f"Chat not verifeid : {e}") 
-
+    k = await manual_filters(client, message)
     if k == False:
-        try:
-            #chatID = message.chat.id
-            #lazy_chatID = await db.get_chat(int(chatID))
-            #if lazy_chatID['is_lazy_verified']:
-            await auto_filter(client, message)
-        except Exception as e:
-            logger.error(f"Chat Not verified : {e}") 
-
-# @Client.on_message(filters.private & filters.text & filters.incoming)
-# async def private_filter(client, message):
-#     k = await manual_filters(client, message)
-#     if k == False:
-#         await auto_filter(client, message)
+        await auto_filter(client, message)
 
 @Client.on_callback_query(filters.regex('rename'))
-async def rename(bot,update):
-	user_id = update.message.chat.id
-	date = update.message.date
-	await update.message.delete()
-	await update.message.reply_text("»»——— 𝙋𝙡𝙚𝙖𝙨𝙚 𝙚𝙣𝙩𝙚𝙧 𝙣𝙚𝙬 𝙛𝙞𝙡𝙚 𝙣𝙖𝙢𝙚...",	
-	reply_to_message_id=update.message.reply_to_message.id,  
-	reply_markup=ForceReply(True))  
+async def rename_start(client, message):
+    file = getattr(message, message.media.value)
+    filename = file.file_name  
+    if file.file_size > 2000 * 1024 * 1024:
+         return await message.reply_text("Sᴏʀʀy Bʀᴏ Tʜɪꜱ Bᴏᴛ Iꜱ Dᴏᴇꜱɴ'ᴛ Sᴜᴩᴩᴏʀᴛ Uᴩʟᴏᴀᴅɪɴɢ Fɪʟᴇꜱ Bɪɢɢᴇʀ Tʜᴀɴ 2Gʙ")
+
+    try:
+        await message.reply_text(
+            text=f"**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
+	    reply_to_message_id=message.id,  
+	    reply_markup=ForceReply(True)
+        )       
+        await sleep(30)
+    except FloodWait as e:
+        await sleep(e.value)
+        await message.reply_text(
+            text=f"**__Pʟᴇᴀꜱᴇ Eɴᴛᴇʀ Nᴇᴡ Fɪʟᴇɴᴀᴍᴇ...__**\n\n**Oʟᴅ Fɪʟᴇ Nᴀᴍᴇ** :- `{filename}`",
+	    reply_to_message_id=message.id,  
+	    reply_markup=ForceReply(True)
+        )
+    except:
+        pass
+
+
+
+# async def rename(bot,update):
+# 	user_id = update.message.chat.id
+# 	date = update.message.date
+# 	await update.message.delete()
+# 	await update.message.reply_text("»»——— 𝙋𝙡𝙚𝙖𝙨𝙚 𝙚𝙣𝙩𝙚𝙧 𝙣𝙚𝙬 𝙛𝙞𝙡𝙚 𝙣𝙖𝙢𝙚...",	
+# 	reply_to_message_id=update.message.reply_to_message.id,  
+# 	reply_markup=ForceReply(True))  
+
 # Born to make history @LazyDeveloper !
 @Client.on_callback_query(filters.regex("upload"))
 async def doc(bot, update):
