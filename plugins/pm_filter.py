@@ -87,7 +87,7 @@ async def give_filter(client, message):
         await auto_filter(client, message)
 
 @Client.on_callback_query(filters.regex('rename'))
-async def rename_start(client, message):
+async def renamee_startofc(client, message):
     file = getattr(message, message.media.value)
     filename = file.file_name  
     if file.file_size > 2000 * 1024 * 1024:
