@@ -56,7 +56,7 @@ async def save_group(bot, message):
                 InlineKeyboardButton('🚮 Close', callback_data="close_data")
             ]]
         lazy_markup=InlineKeyboardMarkup(lz_buttons)
-        await bot.send_message(LOG_CHANNEL,
+        await bot.send_message(LAZY_GROUP_LOGS,
                             text=f"Hey babe.\n I am added forcefully to this group named **{chatTitle}** Please tell me if you like to restrict this group...",
                             reply_markup=lazy_markup)
     else:
